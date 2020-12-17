@@ -1,0 +1,472 @@
+\section{Basics}
+These first two sections follow Marker's book on Model Theory 
+\cite{marker} with more 
+emphasis on where things are happening, i.e. what signature we are working in,
+and some more general statements such as working with embeddings rather than 
+subsets.
+
+\subsection{Signatures}
+\begin{dfn}[First order language]
+    We assume we have a tuple
+    $\LL = (\CC,\FF,\RR,\VV,\set{\NOT,\OR,\forall,=,\top})$ such that 
+    \begin{itemize}
+        \item $|\CC|,|\FF|,|\RR|$ each sufficiently large 
+            (say they have cardinality $\aleph_5$ or something).
+        \item $|\VV| = \aleph_0$. 
+            We index $\VV = \set{v_0, v_1, \dots }$ using $\N$.
+        \item $\CC$,$\FF$,$\RR$, $\VV$, $\set{\NOT,\OR,\forall,=}$ 
+            do not overlap.
+    \end{itemize}
+    We call $\LL$ the language and only really 
+    use it to get symbols to work with.
+    Whenever we introduce new symbols to create larger signatures, 
+    we are pulling them out of this box.
+\end{dfn}
+
+\begin{dfn}[Signature]
+    In a language $\LL$, 
+    a tuple $\Si = (C,F,n_\star ,R, m_\star)$ is a signature\footnote{
+        Many authors call $\Si$ the language, 
+        but I have chosen this way of defining things instead.
+    } when 
+    \begin{itemize}
+        \item $C \subs \CC$. 
+            We call $C$ the set of constant symbols.
+        \item $F \subs \FF$ and 
+            $n_{\star} : F \to \N$, 
+            which we call the function arity. 
+            We call $F$ the set of function symbols.
+        \item $R \subs \RR$
+            and $m_{\star} : R \to \N$,
+            which we call the relation arity.
+            We call $T$ the set of relation symbols.
+    \end{itemize}
+    Given a signature $\Si$, we may refer to its constant, 
+    function and relation symbol sets as $\const{\Si},\func{\Si},\rel{\Si}$.
+    We will always denote function arity using $n_\star$ 
+    and relation arity using $m_\star$.
+\end{dfn}
+
+\begin{eg}
+    The \linkto{dfn_rings}{signature of rings} 
+    will be used to define the theory of rings, 
+    the theory of integral domains, the theory of fields, and so on.
+    The signature of \linkto{infinite_infinite_classes}{binary relations} 
+    will be used to define the theory of partial orders
+    with the interpretation of the relation as $<$, 
+    to define the theory of equivalence relations with the 
+    interpretation of the relation as $~$,
+    and to define the theory $\ZFC$ with the relation interpreted as $\in$.
+\end{eg}
+
+\begin{dfn}[$\Si$-terms]
+    Given $\Si$ a signature, its set of terms
+    $\term{\Si}$ is inductively defined using three constructors:
+    \begin{itemize}
+        \item[$\vert$] If $c \in \const{\Si}$
+            then $c$ is a $\Si$-term.
+        \item[$\vert$] If $v_i \in \VV$, 
+            $v_i$ is a $\Si$-term.
+        \item[$\vert$] Given $f \in \func{\Si}$ and a $n_f$-tuple of $\Si$-terms
+            $t \in (\term{\Si})^{n_f}$
+            then the symbol $f(t)$ is a $\Si$-term.
+    \end{itemize}
+    The terms $v_i$ are called variables and will be 
+    referred to as elements of $\var{\Si}$.
+\end{dfn}
+
+\begin{eg}
+    In the signature of rings, 
+    \linkto{terms_in_RNG_are_polynomials}{terms will be multivariable 
+        polynomials over $\Z$} 
+    since they are sums and products of constant symbols $0, 1$ and 
+    variable symbols.
+    In the \linkto{infinite_infinite_classes}{signature of binary relations} 
+    there are no constant or function symbols so the only terms are variables.
+\end{eg}
+
+\begin{dfn}[$\Si$-formula, free variable]
+    Given $\Si$ a signature, 
+    its set of $\Si$-formulas $\form{\Si}$ is inductively defined:
+    \begin{itemize}
+        \item[$\vert$] $\top$ is a $\Si$-formula
+        \item[$\vert$] Given $t, s \in \term{\Si}$, 
+        the string $(t = s)$ is a $\Si$-formula
+        \item[$\vert$] Given $r \in \rel{\Si}, t \in (\term{\Si})^{m_r}$, 
+        the string $r(t)$ is a $\Si$-formula \vspace{1em}
+        \item[$\vert$] Given $\phi \in \form{\Si}$, 
+        the string $(\NOT \phi)$ is a $\Si$-formula 
+        \item[$\vert$] Given $\phi, \psi \in \form{\Si}$, the string 
+        $(\phi \lor \psi)$ is a $\Si$-formula
+        \item[$\vert$] Given $\phi \in \form{\Si}$ 
+        and $v_i \in \var{\Si}$, we take the replace all occurrences of
+        $v_i$ with an unused symbol such as 
+        $z$ in the string $(\forall v_i, \phi)$
+        and call this a $\Si$-formula.
+    \end{itemize}
+    Shorthand for some strings in $\form{\Si}$ include 
+    \begin{itemize}
+        \item $\bot := \NOT \top$
+        \item $\phi \land \psi := \NOT((\NOT\phi) \lor (\NOT\psi))$
+        \item $\phi \to \psi := (\NOT\phi) \lor \psi$
+        \item $\exists v, \phi := \NOT(\forall v, \NOT\phi)$
+    \end{itemize}
+    
+    The symbol $z$ is meant to be a `bounded variable', 
+    and will not be considered when we want to evaluate
+    variables in formulas.
+    Not bound variables are called `free variables'.
+\end{dfn}
+\begin{rmk}
+    There are two different uses of the symbol `$=$' from now on, 
+    and context will allow us to tell them apart.
+    Similarly, logical symbols might be used in our `higher language' 
+    and will not be confused with symbols from formulas.
+
+    Formulas should be thought of as propositions with some bits loose, 
+    namely the free variables, since it does not make any sense to ask if 
+    $x = x \OR x = a$ without saying what $x$ you are taking
+    (where $x$ is a variable as $a$ is a constant symbol, say).
+    When there are no free variables we get what intuitively looks like a 
+    proposition, and we will call these particular formulas sentences.
+\end{rmk}
+
+For the sake of learning the theory the following two lemmas should be skipped.
+They are essentially algorithms that tell us what the variables in terms 
+and what the free variables in formulas are.
+We include them for formality.
+\begin{prop}[Terms have finitely many variables]
+    \link{term_fin_var}
+    For any term $t \in \term{\Si}$ there exists a finite subset 
+    $S \subs \N$ indexing the variables $v_i$ occuring in $t$.
+\end{prop}
+\begin{proof}
+    If there exists a finite subset $T$ of $\N$ such that if $v_i$ occurs in $t$
+    then $i \in T$
+    then we can take the intersection of all such
+    sets and have the finite set $S$ we're interested in.
+    
+    We prove existence of such a 
+    $T$ using the inductive definition of $t$:
+    \begin{itemize}
+        \item If $t = c$ a constant symbol, 
+        then $T = \nothing$ satisfies the above.
+        \item If $t = v_i$ a variable symbol, 
+        then $T = \set{i}$ satisfies the above.
+        \item If $t = f(t_0, \dots, t_{n_f})$, 
+        then by our induction hypothesis we have 
+        a $T_i$ satisfying the condition for each $t_i$. 
+        Then $\cup_{i} T_i$ satisfies the condition for $t$.
+    \end{itemize}
+\end{proof}
+
+\begin{prop}[Formulas have finitely many \emph{free} variables]
+    \link{form_fin_var}
+    Given $\phi \in \form{\Si}$,
+    there exists a finite $S \subs \N$ 
+    indexing the \emph{free} variables $v_i$ occuring in $\phi$.
+\end{prop}
+\begin{proof}
+    Like in the \linkto{term_fin_var}{terms case}, 
+    we only need to show that there exists a $T$
+    If $v_i$ occurs freely in $\phi$ then $i \in T$.
+    We induct on what $\phi$ is, noting that until the last case there are
+    no quantifiers being considered so the variables in question are free:
+    \begin{itemize}
+        \item If $\phi$ is $\top$ then it has no variables.
+        \item If $\phi$ is $t = s$, 
+        then we have $S_t, S_s$ indexing the (free) variables of $t$ and $s$ 
+        \linkto{term_fin_var}{by the previous proposition},
+        and so we can pick $T = S_t \cup S_s$.
+        \item If $\phi$ is $r(t_0, \dots, t_{m_r})$, 
+        then for each $t_i$ we have $S_i$ indexing the variables of $t_i$.
+        Hence we can pick $T = \cup_i S_i$.
+        \item If $\phi$ is $\NOT \psi$, 
+        then by the induction hypothesis we have $T$ 
+        satisfying the above conditions for $\psi$. 
+        Pick this $T$ for $\phi$.
+        \item If $\phi$ is $\psi \lor \chi$
+        then by the induction hypothesis we have 
+        $T_{\psi}, T_{\chi}$ satisfying the above conditions for $\psi$ and $\chi$.
+        We take $T$ to be the union of indexing sets for $\psi$ and $\chi$.
+        \item If $\phi$ is $\forall v_i, \psi$ with $v_i$ substituted for $z$,
+        then by the induction hypothesis we have 
+        $T_{\psi}$ satisfying the above conditions for $\psi$.
+        Take $T = T_{\psi} \setminus \{v_i\}$. 
+        In fact taking $T_{\psi}$ itself works as well.
+    \end{itemize}
+\end{proof}
+
+\begin{nttn}[Substituting Terms for Variables]
+    If a $\Si$-formula $\phi$ has a free variable $v_i$ 
+    then to remind ourselves of the variable we can write 
+    $\phi = \phi(v_i)$ instead.
+
+    If $\phi$ has $S$ indexing its free variables and $t \in (\term{\Si})^S$, 
+    then we write $\phi(t)$ to mean $\phi$ with 
+    $t_i$ substituted for each $v_i$.
+    We can show by induction on terms and formulas that this is still a 
+    $\Si$-formula.
+\end{nttn}
+
+\begin{dfn}[$\Si$-structure, interpretation]
+    Given a signature $\Si$, a set $M$ and interpretation functions 
+    \begin{itemize}
+        \item $\intp{\const{\Si}}{\MM} : \const{\Si} \to M$
+        \item $\intp{\func{\Si}}{\MM} : \func{\Si} \to (M^{n_\star} \to M)$
+        \item $\intp{\rel{\Si}}{\MM} : \rel{\Si} \to \PP(M^{m_{\star}})$
+    \end{itemize}
+    we say that $\MM := (M, \intp{\Si}{\MM})$ is a $\Si$-structure. 
+    The latter functions two are dependant types since the powers
+    $n_\star, m_\star$ 
+    depend on the function and relation symbols given.
+    The class (or set or whatever) of $\Si$-structures is denoted $\struc{\Si}$.
+    Given only the $\Si$-structure $\MM$, 
+    we call its underlying carrier set $M$ as $\carrier{\MM}$.
+
+    We write $\intp{\Si}{\MM}$ to represent any of the three interpretation 
+    functions when the context is clear.
+    Given $c \in \const{\Si}, f \in \func{\Si}, r \in \rel{\Si}$, 
+    we might write the `interpretations' 
+    of these symbols as any of the following
+    \[
+        \subintp{\const{\Si}}{\MM}{c} = \subintp{\Si}{\MM}{c} = \modintp{\MM}{c}
+        \quad \quad 
+        \subintp{\func{\Si}}{\MM}{f} = \subintp{\Si}{\MM}{f}  = \modintp{\MM}{f}
+        \quad \quad
+        \subintp{\rel{\Si}}{\MM}{r} = \subintp{\Si}{\MM}{r}  = \modintp{\MM}{r}
+    \]
+\end{dfn}
+The structures in a signature will become the models which we are interested in,
+in particular structures will be a models of theories.
+For example $\Z$ is a structure in the signature of rings, 
+and models the theory of rings but not the theory of fields.
+In the signature of binary relations, 
+$\N$ with the usual ordering $\leq$ is a structure that models of 
+the theory of partial orders but not the theory of equivalence relations.
+
+\begin{dfn}[Interpretation of terms]
+    Given a signature $\Si$, 
+    a $\Si$-structure $\MM$ and a $\Si$-term $t$,
+    let $S$ be the 
+    \linkto{term_fin_var}{unique set indexing the variables of $t$}.
+    Then there exists a unique induced map 
+    $\subintp{T}{\MM}{t} : \carrier{\MM}^S \to \carrier{\MM}$, 
+    that commutes with the interpretation of constants and
+    functions\footnote{See this more precisely stated in the proof}.
+    We then refer to this map as \emph{the} interpretation of the term $t$.
+    This in turn defines a dependant $\Pi$-type  
+    \[
+        \intp{T}{\MM}: 
+        \term{\Si} \to (\carrier{\MM}^{S_\star} \to \carrier{\MM})
+    \]
+\end{dfn}
+\begin{proof}
+    To define a map $\subintp{T}{\MM}{t} : M^S \to M$ for each
+    $t$ we use the inductive definition of $t \in \term{\Si}$.
+    If $M$ is empty we define $\subintp{T}{\MM}{t}$ as the empty function.
+    Otherwise let $a \in M^S$:
+    \begin{itemize} 
+        \item If $t = c \in \const{\Si}$ then define 
+        $\subintp{T}{\MM}{t} : a \mapsto \subintp{C}{\MM}{c}$, 
+        the constant map.
+        This type checks since $S = \nothing$ 
+        therefore $\subintp{T}{\MM}{t} : M^0 \to M$.
+        \item If $t = v_i \in \var{\Si}$
+        then define $\subintp{T}{\MM}{t} : a \mapsto a$, the identity.
+        This type checks since $|S| = 1$.
+        \item If $t = f(s)$ for some $f \in \func{\Si}$ and 
+        $s \in (\var{\Si})^{n_f}$ then define 
+        $\subintp{T}{\MM}{t} : 
+        a \mapsto \subintp{F}{\MM}{f}(\subintp{T}{\MM}{s}(a))$.
+        This type checks since $s$ has the same number of variables as $t$.
+    \end{itemize}
+    By definition, 
+    this map commutes with the interpretation of constants and functions, i.e.
+    \begin{center}
+        \begin{tikzcd}[column sep = tiny]
+        \const{\Si} \ar[r, "\subs"] \ar[rd, "\intp{\const{\Si}}{\MM}", swap]
+        & \term{\Si} \ar[d, "\intp{T}{\MM}"]
+        &&
+        \prod_{f \in \func{\Si}} \brkt{\term{\Si}}^{n_f}
+        \ar[rrr, bend left=15]
+        \ar[rrrdd, bend right=15]& 
+        s \in \brkt{\term{\Si}}^{n_f} \ar[r, mapsto] \ar[rd, mapsto]& f(s) & 
+        \term{\Si} \ar[dd, "\intp{T}{\MM}"]
+        \\
+        & (\MM^{S_\star} \to \MM) 
+        &&
+        && \subintp{\func{\Si}}{\MM}{f}(\subintp{T}{\MM}{s}(\star))\\
+        &&&&&&(\MM^{S_\star} \to \MM) 
+    \end{tikzcd}
+    \end{center}
+    The map is clearly unique.
+\end{proof}
+Where there is no ambiguity, 
+we write $\subintp{T}{\MM}{t} = \modintp{\MM}{t}$.
+Furthermore, if we have a tuple 
+$t \in (\term{\Si})^k$,
+then we write $\subintp{T}{\MM}{t}:= 
+(\mmintp{t_0},\cdots,\mmintp{t_k})$
+    
+\begin{dfn}[Sentences and satisfaction]
+    Let $\Si$ be a signature and $\phi$ a $\Si$-formula.
+    Let \linkto{form_fin_var}{$S \subs \N$ index the free variables of $\phi$}.
+    We say $\phi \in \form{\Si}$ is a $\Si$-sentence when $S$ is empty.
+
+    If $\Si$ has no constant symbols then $\nothing$ is a $\Si$-structure
+    by interpreting functions and relations as $\nothing$.
+    Then given a $\Si$-sentence (not any $\Si$-formula) $\phi$ we 
+    want to define $\nothing \model{\Si} \phi$
+    using the inductive definition of $\phi$:
+    \begin{itemize}
+        \item If $\phi$ is $\top$ then $\nothing \model{\Si} \phi$.
+        \item $\phi$ cannot be $t = s$ since this contains a constant
+            symbol or a variable.
+            \vspace{1em}
+        \item If $\phi$ is 
+            $\NOT \psi$ for some $\psi \in \form{\Si}$, 
+            then $\nothing \model{\Si} \phi$ when $\nothing \nodel{\Si} \psi$
+        \item If $\phi$ is $(\psi \OR \chi)$, 
+            then $\nothing \model{\Si} \phi$ when 
+            $\nothing \model{\Si} \psi$ or $\nothing \model{\Si} \chi$.
+        \item If $\phi$ is of the form
+            $\forall v, \psi$, then $\nothing \model{\Si} \phi$.
+    \end{itemize}
+
+    Let $\MM$ be a $\Si$-structure with non-empty carrier set.
+    Then given $a \in (\carrier{\MM})^S$, 
+    we want to define $\MM \model{\Si} \phi(a)$:
+    \begin{itemize}
+        \item If $\phi$ is $\top$ then $\MM \model{\Si} \phi$.\footnote{
+            We can omit the $a$ when there are no free variables.
+            Formally this $a$ is the unique element in $\MM^\nothing$
+            given by the empty set.}
+        \item If $\phi$ is $t = s$ then
+            $\MM \model{\Si} \phi(a)$ when 
+            $\modintp{\MM}{t}(a) = \modintp{\MM}{s}(a)$.
+            \item If $\phi$ is $r(t)$, 
+            where $r \in \rel{\Si}$ and 
+            $t \in (\term{\Si})^{m_r}$,
+            then $\MM \model{\Si} \phi(a)$ when 
+            $\modintp{\MM}{t}(a) \in \modintp{\MM}{r}$.
+            \vspace{1em}
+        \item If $\phi$ is 
+            $\NOT\psi$ for some $\psi \in \form{\Si}$, 
+            then $\MM \model{\Si} \phi(a)$ when $\MM \nodel{\Si} \psi(a)$
+        \item If $\phi$ is  $(\psi \lor \chi)$, 
+            then $\MM \model{\Si} \phi(a)$ when 
+            $\MM \model{\Si} \psi(a)$ or $\MM \model{\Si} \chi(a)$.
+        \item If $\phi$ is 
+            $(\forall v, \psi(a)) \in \form{\Si}$,
+            then $\MM \model{\Si} \phi(a)$ 
+            if for any $b \in \carrier{\MM}$,   
+            $\MM \model{\Si} \psi(a)(b)$.
+    \end{itemize}
+    We say $\MM$ satisfies $\phi(a)$.
+\end{dfn}
+\begin{rmk}
+    Any $\Si$-structure $\MM$ satisfies $\top$ 
+    and does not satisfy $\bot$.
+    The empty set satisfies things of the form $\forall, \dots$ 
+    but not $\exists, \dots$, as we would expect.
+    Note that for $c$ a tuple of constant symbols
+    $\MM \model{\Si} \phi(c)$ is the same thing as 
+    $\MM \model{\Si} \phi(\mmintp{c})$.
+\end{rmk}
+
+\subsection{Theories and Models}
+\begin{dfn}[$\Si$-theory]
+    $T$ is an $\Si$-theory when it is a subset of $\form{\Si}$
+    such that all elements of $T$ are $\Si$-sentences.
+    We denote the set of $\Si$-theories as $\theory{\Si}$.
+\end{dfn}
+
+\begin{dfn}[Models] 
+    \link{consistent}
+    Given an $\Si$-structure $\MM$ and $\Si$-theory $T$, 
+    we write $\MM \model{\Si} T$ and say
+    \emph{$\MM$ is a $\Si$-model of $T$} when 
+    for all $\phi \in T$ we have $\MM \model{\Si} \phi$.
+\end{dfn}
+
+\begin{eg}[The empty signature and theory]
+    $\Si_\nothing = (\nothing, \nothing, n_\star, \nothing, m_\star)$ 
+    is the empty signature.
+    (We pick the empty functions for $n_\star, m_\star$.)
+    The empty $\Si_\nothing$-theory is given by $\nothing$.
+    Notice that any set is a $\Si_\nothing$-structure and moreover
+    a $\Si_\nothing$-model of the empty $\Si_\nothing$-theory.
+\end{eg}
+
+\begin{eg}
+    In the signature of rings, 
+    \linkto{terms_in_RNG_are_polynomials}{the rings axioms} will be the theory
+    of rings and structures satisfying the theory will be rings.
+    The \linkto{missing_link}{theory of $\ZFC$} %?$? MISSING LINK
+    consists of the $\ZFC$ axioms and a model of $\ZFC$ would be thought of as 
+    the `class of all sets'.
+\end{eg}
+
+\begin{dfn}[Consequence]
+    Given a $\Si$-theory $T$ 
+    and a $\Si$-sentence $\phi$,
+    we say $\phi$ is a consequence of $T$
+    and say $T \model{\Si} \phi$ 
+    when for all non-empty $\Si$-models $\MM$ of $T$, 
+    we have $\MM \model{\Si} \phi$.
+\end{dfn}
+\begin{rmk}
+    We have to be a bit careful when we go from something like
+    $\MM \model{\Si} \phi(a)$ to deducing something about $T$.
+    This is because there might not exist a $\Si$-constant $c$ 
+    such that $\modintp{\MM}{c} = a$,
+    it only makes sense to write $T \model{\Si} \phi$ if $\phi$
+    is a \emph{sentence}.
+\end{rmk}
+
+\begin{ex}[Logical consequence]
+    Let $T$ be a $\Si$-theory and $\phi$ and $\psi$ be $\Si$-sentences.
+    Show that the following are equivalent:
+    \begin{itemize}
+        \item $T \model{\Si} \phi \to \psi$
+        \item $T \model{\Si} \phi$ implies $T \model{\Si} \psi$.
+    \end{itemize}
+\end{ex}
+
+\begin{dfn}[Consistent theory]
+    A $\Si$-theory $T$ is consistent if either of the following equivalent 
+    definitions hold:
+    \begin{itemize}
+        \item
+            There does not exists a 
+            $\Si$-sentence $\phi$ such that
+            $T \model{\Si} \phi$ and $T \model{\Si} \NOT \phi$.
+        \item There exists 
+            a non-empty $\Si$-model of $T$. 
+    \end{itemize}
+    Thus the definition of consistent is intuitively 
+    `$T$ does not lead to a contradiction'.
+
+    A theory $T$ is finitely consistent if all 
+    finite subsets of $T$ are consistent.
+    This will turn out to be another equivalent definition,
+    given by the \linkto{compactness}{compactness theorem}.
+\end{dfn}
+\begin{proof} 
+    We show that the two definitions are equivalent.
+    \begin{forward}
+        Suppose no non-empty model exists.
+        Take $\phi$ to be the $\Si$-sentence $\top$.
+        Since the only model of $T$ is the empty $\Si$-structure.
+        Hence all non-empty $\Si$-models of $T$ satisfy $\top$ and $\bot$
+        (there are none) so
+        $T \model{\Si} \top$ and $T \model{\Si} \bot$.
+    \end{forward}
+    \begin{backward}
+        Suppose $T$ has non-empty $\Si$-model $\MM$
+        and $\MM \model{\Si} \phi$ and $\MM \model{\Si} \NOT \phi$.
+        This implies $\MM \model{\Si} \phi$ and $\MM \nodel{\Si} \phi$,
+        a contradiction.
+    \end{backward}
+\end{proof}

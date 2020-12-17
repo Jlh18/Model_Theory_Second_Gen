@@ -1,0 +1,553 @@
+\section{Types}
+This section mainly follows material from Tent and Ziegler's book \cite{tent}.
+\subsection{Types on theories}
+\begin{dfn}[$F(\Si,n)$ and formulas consistent with a theory]
+    \link{dfn_types_on_theories}
+    Let ${v_1,\dots v_n}$ be variables,
+    $T$ be a $\Si$-theory.
+    Let $F(\Si,n)$ be the set of $\Si$-formulas with at most 
+    $v_1,\dots v_n$ as their free variables.
+    For any $c \in \const{\Si}^n$, $p \subs F(\Si,n)$
+    we write 
+    \[p(c) = \set{\phi(c) \st \phi \in p}\]
+    and if $\MM$ is a $\Si$-structure with $a \in {\MM}^n$ we write 
+    \[\MM \model{\Si} p(a)\]
+    to mean for every $\phi \in p$, $\MM \model{\Si} \phi(a)$.
+
+    We say $p \subs F(\Si,n)$ is consistent with $T$ if there exists a non-empty 
+    $\MM \model{\Si} T$ and $a \in {\MM}^n$
+    such that $\MM \modelsi p(a)$. 
+
+    We say $p \subs F(\Si,n)$ is finitely consistent with $T$ 
+    if for any finite subset $\De \subs p$, 
+    $\De$ is consistent with $T$.
+
+    We say $p$ is a maximal if for any $\phi \in F(\Si,n)$,
+    $\phi \in p$ or $\NOT \phi \in p$.
+\end{dfn}
+
+\begin{lem}[Equivalent definition of consistency]
+    \link{equiv_def_of_consistent_with_theory}
+    Let $T$ be a $\Si$-theory and $p$ be a subset of $F(\Si,n)$.
+    Let $c_1,\dots,c_n$ be new constant symbols and let $\Si(c)$ be 
+    the signature with these added constant symbols.
+    The following are equivalent:
+    \begin{itemize}
+        \item $T \cup p(c)$ is consistent in $\Si(c)$.
+            (Where $p(c)$ is the formulas of $p$ with the variables substituted 
+            by $c_1,\dots,c_n$.)
+        \item $p$ is consistent with $T$.
+    \end{itemize}
+\end{lem}
+\begin{proof}
+    \begin{forward}
+        Suppose we have a non-empty $\Si(c)$-structure 
+        $\MM \model{\Si(c)} T \cup p(c)$.
+        Then by taking the images of the interpretation of each $c_i$ in $\MM$
+        we obtain $a = \modintp{\MM}{c} \in {\MM}^n$ such that 
+        $\MM \model{\Si(c)} p(a)$.
+        \linkto{move_down_mod}{Moving this down to $\Si$} preserves 
+        satisfaction of $p(a)$  as elements of $p(a)$ are $\Si$-formulas
+        with values in $\MM$ (and $T$ for the same reason):
+        \[\MM \model{\Si} T \cup p(a)\]
+        and we have what we want.
+    \end{forward}
+
+    \begin{backward}
+        Suppose we have $\MM \model{\Si} T$ and $a \in {\MM}^n$
+        such that $\MM \modelsi p(a)$.
+        We can make $\MM$ a $\Si(c)$-structure such that 
+        everything from $\Si$ is interpreted in the same way 
+        and each constant symbol $c_i$ is interpreted as $a_i$.
+        Thus \linkto{move_up_mod}{$\MM \model{\Si(c)} T$} and for any 
+        $\phi(c) \in p(c)$,
+        \[\MM \model{\Si} \phi(a) \implies \MM \model{\Si(c)} \phi(a)
+        \implies \MM \model{\Si(c)} \phi(c)\]
+        as $c$ is interpreted as $a$.
+        Hence $\MM \model{\Si(c)} T \cup p(c)$ 
+        and $T \cup p(c)$ is consistent in $\Si(c)$.
+    \end{backward}
+\end{proof}
+
+\begin{lem}[Compactness for types]
+    \link{compactness_for_types}
+    Let $T$ be a $\Si$-theory and $p$ be a subset of $F(\Si,n)$.
+    Let $c_1,\dots,c_n$ be new constant symbols and let $\Si(c)$ be 
+    the signature with these added constant symbols.
+    The following are equivalent:
+    \begin{itemize}
+        \item $T \cup p(c)$ is consistent in $\Si(c)$.
+            (Where $p(c)$ is the formulas of $p$ with the variables substituted 
+            by $c_1,\dots,c_n$.)
+        \item $p$ is consistent with $T$.
+        \item $p$ is finitely consistent with $T$.
+    \end{itemize}
+\end{lem}
+\begin{proof}
+    We use \linkto{equiv_def_of_consistent_with_theory}{$1. \iff 2.$} 
+    to show $2. \iff 3.$
+
+    ($2. \iff 3.$) \begin{align*}
+        &p \text{ consistent with } T \\
+        &\iff T \cup p(c) \text{ consistent in } \Si(c) 
+        \quad \text{by (1. $\iff$ 2.)}\\
+        &\iff \text{for any finite } \De(c) \subs p(c), 
+        T \cup \De(c) \text{ consistent in } \Si(c) 
+        \quad \text{by \linkto{compactness}{compactness}}\\
+        &\iff \text{for any finite } \De \subs p, 
+        T \cup \De(c) \text{ consistent in } \Si(c) \\
+        &\iff \text{for any finite } \De \subs p, 
+        \De \text{ consistent with } T
+        \quad \text{by (1. $\iff$ 2.)}
+    \end{align*}
+\end{proof}
+
+\begin{dfn}[Types on a theory]
+    Let $T$ be a $\Si$-theory.
+    Any subset $p \subs F(\Si,n)$ that is consistent with $T$
+    is called an $n$-type on $T$.
+\end{dfn}
+
+\begin{dfn}[Stone space of a theory]
+    Let $T$ be a $\Si$-theory.
+    Let the stone space of $T$, 
+    $S_n(T)$ be the set of all maximal $n$-types on $T$.
+    (The signature of the $n$-types of the on $T$ is implicit, 
+    given by the signature of $T$.)
+    We give a topology on $S_n(T)$ by specifying an open basis;
+    $U \subs S_n(T)$ is an element of the basis when there exists 
+    $\phi \in F(\Si,n)$ such that 
+    \[U = [\phi]_T := \set{p \in S_n(T) \st \phi \in p}\]
+\end{dfn}
+
+\begin{prop}[Extending to maximal $n$-types (Zorn)]
+    \link{extend_to_maximal_type_zorn}
+    Any $n$-type can be extended to a maximal $n$-type.
+\end{prop}
+\begin{proof}
+    Let $T$ be a theory and $p$ be a $n$-type.
+    Order by inclusion the set
+    \[ 
+        Z = \set{q \in S_n(T) \st q \text{ is an } n\text{-type and }
+        p \subs q}
+    \]
+    This is non-empty as it contains $p$.
+    Let $p_0 \subs p_1 \subs \dots$ be a chain in $Z$.
+    Then $m = \bigcup_{i \in \N} p_i$ is finitely consistent with $T$
+    (by taking large enough $i$)
+    and so is consistent with $T$. 
+    By Zorn we have the existence of a maximal element $q$ in $Z$.
+    To show that $q$ is a maximal $n$-type let $\phi \in F(\Si,n)$. 
+    As $q$ is consistent with $T$ there exists a $\Si$-structure 
+    $\MM \model{\Si} T$ and $a \in {\MM}^n$ such that 
+    $\MM \model{\Si} q(a)$. 
+    In the case that $\MM \model{\Si} \phi(a)$
+    we have $q \cup \set{\phi}$ is consistent with $T$ and so by 
+    maximality $\phi \in q$.
+    In the other case $q \cup \set{\NOT \phi}$ is consistent and so
+    $\NOT \phi \in q$.
+\end{proof}
+
+\begin{prop}[Basic facts about the basis elements]
+    \link{basic_facts_basis_elems}
+    Let $T$ be a $\Si$-theory, $\phi, \psi \in F(\Si,n)$.
+    \begin{itemize}
+        \item $(\NOT \phi) \in p$ if and only if $p \notin [\psi]_T$.
+        \item $[\phi]_T = [\psi]_T$ if and only if $\phi$ and $\psi$ are 
+            equivalent modulo $T$.
+
+        The basis elements are closed under Boolean operations
+        \item $[\top]_T = S_n(T)$
+        \item $[\NOT \phi]_T = S_n(T) \setminus [\phi]_T$
+        \item $[\phi \OR \psi]_T = [\phi]_T \cup [\psi]_T$
+        \item $[\bot]_T = \nothing$
+        \item $[\phi \AND \psi]_T = [\phi]_T \cap [\psi]_T$
+    \end{itemize}
+\end{prop}
+\begin{proof}~
+    \begin{itemize}
+        \item Suppose $(\NOT \phi) \in p$.
+            Then if $p \in [\phi]_T$ then since $p$ is consistent with $T$
+            there exists a non-empty model $\MM$ and $a$ from 
+            $\MM$ such that
+            $\MM \modelsi \phi(a)$ and $\MM \nodel{\Si} \phi(a)$, 
+            a contradiction.
+            For the other direction, 
+            $p \notin [\psi]_T$ and so $ \psi \notin p$ and
+            by maximality $\NOT \phi \in p$.
+        \item \begin{forward}
+            Suppose for a contradiction
+            $T \nodel{\Si} \forall v, \brkt{\phi \iff \psi}$.
+            then \linkto{not_a_consequence}{there 
+            exists $\MM \model{\Si} T$} and $a \in {\MM}^n$ such that 
+            $\MM \modelsi \phi \AND \NOT \psi$ or 
+            $\MM \modelsi (\NOT \phi) \AND \psi$.
+            In the first case we have that $\set{\phi, \NOT \psi}$ 
+            is consistent with $T$ and so can be 
+            \linkto{extend_to_maximal_type_zorn}{extended
+            to a maximal $n$-type $p$}.
+            Thus $p \in [\phi]_T = [\psi]_T$ and $p \notin [\psi]_T$, 
+            a contradiction.
+            \end{forward}
+            \begin{backward}
+                Suppose $T \model{\Si} \forall v, \brkt{\phi \iff \psi}$.
+                Let $p \in [\phi]_T$.
+                It suffices to show that $p \in [\psi]_T$.
+                Since $p$ is consistent with $T$ there exists a $\Si$-structure
+                $\MM \model{\Si} T$ and $a \in {\MM}^n$ such that 
+                $\MM \model{\Si} p(a)$.
+                By assumption $\MM \model{\Si} \brkt{\phi \iff \psi}(a)$
+                and $p \in [\phi]_T$ so 
+                $\MM \model{\Si} \psi(a)$.
+                Suppose $p \notin \psi$, then $\NOT \psi \in p$ hence 
+                we have a contradiction.
+            \end{backward}
+        \item For any maximal $n$-type $p$,
+            either $\top$ or $\bot$ is in $p$ and in the latter case we have a 
+            contradiction as $p$ is consistent with $T$.
+        \item $[\NOT \phi]_T = S_n(T) \setminus [\phi]_T$ follows from the 
+            first point.
+        \item $p \in [\phi \OR \psi]_T$ if and only if 
+            $(\phi \OR \psi) \in p$. 
+            Suppose $\phi \notin p$ then by maximality 
+            $(\NOT \phi) \in p$ and so $p \in [\psi]_T$. 
+            In the other case $p \in [\phi]_T$.
+            For the other direction $p \in [\phi]_T \cup [\psi]_T$
+            implies $\phi \in p$ or $\psi \in p$.
+            In the first case we have $\MM \model{\Si} T$ such that 
+            $\MM \model{\Si} \phi$.
+            Then $\MM \model{\Si} \phi \OR \psi$ and so $(\phi \OR \psi) \in p$.
+    \end{itemize}
+    We omit the last two parts.
+\end{proof}
+
+\begin{prop}[Properties of the Stone space]
+    \link{properties_of_stone_space}
+    Let $T$ be a theory.
+    \begin{itemize}
+        \item Elements of the basis of $S_n(T)$ are clopen.
+        \item $S_n(T)$ is Hausdorff.
+        \item $S_n(T)$ is compact.
+    \end{itemize}
+\end{prop}
+\begin{proof}~
+\begin{itemize}
+    \item By maximality of each $p$ the complement of $U$ is also 
+        in the open basis:
+        \[  
+            \set{p \in S_n(T) \st \phi \notin p}
+            = \set{p \in S_n(T) \st (\NOT \phi) \in p}
+        \]
+        Hence each element of the basis is clopen.
+    \item Let $p,q \in S_n(T)$ and suppose $p \ne q$. 
+        By maximality and the fact that $\form{\Si}$ is non-empty we can assume
+        without loss of generality that there is $\phi \in p \setminus q$.
+        Again by maximality $(\NOT \phi) \in q$, 
+        and so $p \in [\phi], q \in [\NOT \phi]_T$.
+        These opens are disjoint:
+        if $r \in [\phi]_T \cap [\NOT \phi]_T$ then as 
+        $r$ is consistent with $T$, there exists a non-empty 
+        $\MM \model{\Si} T$ such that 
+        $\MM \model{\Si} \phi$ and $\MM \model{\Si}(\NOT \phi)$
+        a contradiction. 
+    \item Let $C$ be a collection of closed sets with finite intersection
+        property.
+        Then each closed set can be written as an intersection of
+        basis elements (a finite union of closed sets is still a basis element
+        since \linkto{basic_facts_basis_elems}{$[\phi]\cup[\psi]_T = 
+            [\phi \OR \psi]_T$}):
+        \[C = \set{\bigcap_{\phi \in \al}[\phi]_T \st \al \in I}\]
+        Let 
+        \[\Ga = \set{\phi \st \phi \in \al \in I} \quad 
+        \text{ and } \quad [\Ga]_T = \set{[\phi]_T \st \phi \in \al \in I}\]
+        Then the intersection any finite subset of $[\Ga]_T$ is non-empty as it
+        contains a finite intersection of elements in $C$.
+        Thus for any finite subset $\De \subs \Ga$ 
+        there exists $p \in S_n(T)$ such that $\De \subs p$,
+        and as $p$ is consistent with $T$ so is $\De$.
+        Hence $\Ga$ is finitely consistent with $T$ and by 
+        \linkto{compactness_for_types}{$\Ga$} is consistent with $T$.
+        \linkto{extend_to_maximal_type_zorn}{Extending $\Ga$ to a 
+        maximal $n$-type} $q$ gives us $\phi \in q$ for every $\phi \in \Ga$.
+        Hence for all $\al \in I$ and for all $\phi \in \al$, $p \in [\phi]_T$
+        and the intersection of $C$ is non-empty.
+\end{itemize}\end{proof}
+
+Stone space is meant to have a geometric interpretation as 
+\linkto{prime_spec_zariski_top}{$\spec(\MM[x_1,\dots,x_n])$}
+when $\MM$ is an algebraically closed field.
+We will this in a few results.
+
+\subsection{Types on structures}
+\begin{dfn}[Realisation]
+    Let $\MM$ be a $\Si$-structure and $A \subs {\MM}$.
+    %Let $v = (v_1, \dots, v_n)$ be a list of variables.
+    %Then the `set of $\Si(A)$-formulas in $n$ variables' is
+    %\[F(\Si(A),n) = \set{\phi \in \form{\Si(A)} \st
+    %\text{ its free variables are } v_1, \dots, v_n}\]
+    %We can also see this as 
+    %\[\set{\phi(v, b_\phi) \st \exists m \in \N, phi \in \form{\Si} 
+    %\text{ with free variables } v, w_1, \dots, w_m \text{ and }
+    %b_\phi \in A^m}\]
+    %Any subset of this - usually denoted as $p$ - is called an $n$-type
+    %on $\MM$ over $A$.
+    Let $p$ be a subset of $F(\Si(A),n)$
+    (we will often be considering the $n$-types on $\eldiag{\Si}{\MM}$,
+    a special case of this where $A = {\MM}$).
+    Let $\NN$ be a $\Si(A)$-structure.
+    \begin{itemize}
+        \item $p$ is realised in $\NN$ by $a \in {\NN}^n$ over $A$ if
+            \[\NN \model{\Si(A)} p(a)\]
+            We also just say $p$ is realised in $\NN$.
+            If $p$ is not realised in $\NN$
+            then we say $\NN$ omits $p$.
+        \item $p$ is finitely realised in $\NN$ 
+            over $A$ if for each finite subset $\De \subs p$ 
+            there exists $a \in {\NN}^n$
+            such that $\De$ is realised in $\MM$ by $a$.
+        %\item $p$ is maximal (`complete' in other sources) if it is 
+        %    finitely realised in $\NN$ over $A$ and for any $\phi \in F(\Si(A),n)$,
+        %    $\phi \in p$ or $\NOT \phi \in p$.
+    \end{itemize}
+\end{dfn}
+
+\begin{lem}[Finite realisation and embeddings]
+    \link{finite_realisation_and_embeddings}
+    Let $\MM$ be a non-empty 
+    $\Si$-structure, 
+    $A$ a subset of ${\MM}$ and $p$ a subset of $F(\Si(A),n)$.
+    Then the following are equivalent 
+    \begin{itemize}
+        \item $p$ is consistent with $\eldiag{\Si}{\MM}$ 
+            (i.e. it is an $n$-type over $\eldiag{\Si}{\MM}$).
+        \item There exists an elementary embedding $\MM \to \NN$ 
+            and a $b \in {\NN}^n$ such that $p$ 
+            is realised by $b$ in $\NN$.
+        \item There exists an elementary embedding $\MM \to \NN$ 
+            such that $p$ is finitely realised in $\NN$.
+        \item $p$ is finitely realised in $\MM$.
+    \end{itemize}
+    The elementary embeddings can be seen as both $\Si$-embeddings or 
+    $\Si(A)$-embeddings for any subset $A \subs \MM$.
+\end{lem}
+\begin{proof}
+    $(1. \implies 2.)$ If there exists a non-empty $\NN$ and a
+    $b \in {\NN}^n$ such that 
+    $\NN \model{\Si(\MM)} \eldiag{\Si}{\MM}$ and 
+    $\NN \model{\Si(\MM)} p(b)$.
+    Then since \linkto{elem_ext_equiv_eldiag_model}{models of the 
+    elementary diagram correspond to elementary extensions}, 
+    there exists an elementary $\Si(\MM)$-embedding $\MM \to \NN$ 
+    and $b \in {\NN}^n$ such that $p$ 
+    is realised by $b$ in $\NN$.
+    (This can be moved down to being a $\Si(A)$-embedding for any 
+    subset $A \subs \MM$.)
+
+    $(2. \implies 3.)$ Let $\De \subs p$ be finite.
+    Then for the same embedding into $\NN$ we can see that $\De$ 
+    is realised by $b$ in $\NN$.
+
+    $(3. \implies 4.)$ Let $\De \subs p$ be finite.
+    Then by assumption there exists an elementary $\Si(A)$-embedding 
+    $\io : \MM \to \NN$ and $b \in {\NN}^n$ 
+    such that  
+    $\NN \model{\Si(A)} \De(b)$.
+    Choose the constant symbols $c_1,\dots,c_m$ from $\Si(\MM)$ such that
+    $\modintp{\NN}{c_i} = b_i$ for each $i$.
+    We take $a = (\mmintp{c_1},\dots,\mmintp{c_n})$ to realise $\De$.
+    Note that since embeddings commute with interpretation of constants,
+    $\io(a) = \io(\mmintp{c}) = \nnintp{c} = b$ and since the 
+    embedding is elementary 
+    \[\NN \model{\Si(A)} \phi(b) 
+    \implies \NN \model{\Si(A)} \phi(\io(a)) 
+    \implies \MM \model{\Si(A) \phi(a)}\]
+
+%    $(1. \implies 4.)$ By \linkto{compactness_for_types}{compactness for types},
+%    $2.$ is equivalent to $p$ 
+%    being finitely consistent with the elementary diagram.
+%    We show that this is equivalent to $p$ being finitely realised on $\MM$.
+%
+%    \begin{forward}
+%        Let $\De \subs p$ be finite.
+%        Then by assumption there exists a non-empty 
+%        $\NN$ and a $b \in {\NN}^n$ 
+%        such that 
+%        $\NN \model{\Si(\MM)} \eldiag{\Si}{\MM}$ and 
+%        $\NN \model{\Si(\MM)} \De(b)$ 
+%        (we \linkto{move_down_mod}{move $\NN$ down to $\Si$}).
+%        Choose the constant symbols $c_1,\dots,c_m$ from $\Si(\MM)$ such that
+%        $\modintp{\NN}{c_i} = b_i$ for each $i$.
+%        We take $a = (\mmintp{c_1},\dots,\mmintp{c_n})$ to realise $\De$.
+%        \linkto{elem_ext_equiv_eldiag_model}{models of the 
+%        elementary diagram correspond to elementary extensions},
+%        we have $\io : \MM \to \NN$ an elementary embedding.
+%        Note that since embeddings commute with interpretation of constants,
+%        $\io(a) = \io(\mmintp{c}) = \nnintp{c} = b$ and since the 
+%        embedding is elementary 
+%        \[\NN \model{\Si(\MM)} \phi(b) 
+%        \implies \NN \model{\Si(\MM)} \phi(\io(a)) 
+%        \implies \MM \model{\Si(\MM) \phi(a)}\]
+%        (To be precise we can move this down to $\Si(A)(a)$ such that
+%        $\MM \model{\Si(A)(a)} \phi(a)$.)
+%    \end{forward}
+
+    ($4. \implies 1.$)
+        By \linkto{compactness_for_types}{compactness for types},
+        it suffices to show that $p$ 
+        is finitely consistent with the elementary diagram.
+        Let $\De \subs p$ be finite.
+        Then by assumption there is $a \in {\MM}^n$ such that 
+        $\MM \model{\Si(A)(a)} \De(a)$ and so $\MM \model{\Si(\MM)} \De(a)$.
+        Clearly $\MM$ is a model of its elementary diagram.
+        Hence we have satisfied the conditions for $2$.
+\end{proof}
+
+\begin{dfn}[Type of an element]
+    Let $\MM$ be a $\Si$-structure, 
+    $A \subs {\MM}$ and $a \in {\MM}^n$
+    Then 
+    \[\subintp{A,n}{\MM}{\tp}(a) := 
+    \set{\phi \in F(\Si(A),n) \st \MM \model{\Si(A)} \phi(a)}\]
+    is the type of $a$ in $\MM$ over $A$.
+    One can verify that this is a maximal $n$-type over $T$
+    if $\MM$ is a non-empty model of $T$.
+\end{dfn}
+
+\begin{prop}
+    \link{elems_of_stone_space_are_types_of_elements}
+    A type $p$ of a $\Si$-theory $T$ 
+    is realised by $a$ in an extension $\NN$ if and only if 
+    $p = \subintp{\nothing,n}{\NN}{\tp(a)}$.
+    Any element of the Stone space is the type of an element.
+\end{prop}
+\begin{proof}
+    If $p$ is realised by $a$ in $\NN$ then 
+    $\NN \model{\Si} p(a)$ hence $p \subs \subintp{\nothing,n}{\MM}{\tp}(a)$
+    and by maximality of $p$ they are equal.
+
+    Any element of the Stone space is realised in some 
+    $\Si$-structure due to consistency
+    hence it is the type of an element by the above.
+\end{proof}
+
+\begin{prop}[All maximal realised $n$-types are types of an element]
+    %? Where to put?
+    Let $\MM$ be a non-empty $\Si$-structure,
+    $A$ a subset of ${\MM}$ and $p$ a subset of $F(\Si(A),n)$.
+    Let $a \in {\MM}^n$.
+    Then \begin{itemize}
+        \item $p$ is a maximal $n$-type over $\eldiag{\Si}{\MM}$ 
+            that is realised by $a \in {\MM}^n$ 
+            if and only if $p = \subintp{A,n}{\MM}{\tp}(a)$.
+        \item If $\MM \subs \NN$ is an elementary embedding then
+            \[\subintp{A,n}{\MM}{\tp}(a) = \subintp{A,n}{\NN}{\tp}(a)\]
+    \end{itemize}
+\end{prop}
+\begin{proof}~\begin{itemize}
+    \item \begin{forward}
+        As $p$ is realised by $a$, 
+        $p \subs \subintp{A,n}{\MM}{\tp}(a)$.
+        By maximality of $p$ any formula in $\subintp{A,n}{\MM}{\tp}(a)$ 
+        is either in $p$
+        or its negation is in $p$.
+        If its negation is in $p \subs \subintp{A,n}{\MM}{\tp}(a)$ we have a
+        contradiction as this would imply $\MM \model{\Si(A)} \phi(a)$ and
+        $\MM \nodel{\Si(A)} \phi(a)$.
+    \end{forward}
+    \begin{backward}
+        If $p = \subintp{A,n}{\MM}{\tp}(a)$ 
+        then clearly $p$ is realised by $a$ and so it is consistent with 
+        $\eldiag{\Si}{\MM}$ thus it is an $n$-type over $\eldiag{\Si}{\MM}$.
+        For any $\phi \in F(\Si(A),n)$,
+        $\MM \model{\Si(A)} \phi(a)$ or $\MM \nodel{\Si(A)} \phi(a)$.
+        Hence $\phi$ or $\NOT \phi$ is in $p$ and so it is maximal.
+    \end{backward}
+    \item \[\phi \in \subintp{A,n}{\MM}{\tp}(a) \iff \MM \model{\Si(A)} \phi(a)
+        \iff \NN \model{\Si(A)} \phi(a) \iff 
+        \phi \in \subintp{A,n}{\NN}{\tp}(a)\]
+\end{itemize}\end{proof}
+
+\subsection{Quantifier free types}
+Quantifier free types become important when we start making 
+back and forth constructions.
+All the results carry through, 
+thus there isn't much to say until they are relevant.
+Thus this section is worth skipping for now.
+\begin{dfn}[$QFF(\Si,n)$ and formulas consistent with a theory]
+    We define $QFF(\Si,n)$ to be the subset of $F(\Si,n)$ 
+    of quantifier free formulas.
+
+    For subsets $p \subs QFF(\Si,n) \subs F(\Si,n)$ 
+    the definitions of consistency carry through and 
+    we can apply compactness for types on these subsets too.
+    The definition of maximality is the same but restricted to $QFF(\Si,n)$.
+
+    Let $T$ be a $\Si$-theory.
+    Any subset $p \subs QFF(\Si,n)$ that is consistent with $T$
+    is called a quantifier free $n$-type on $T$.
+    Note that any quantifier free $n$-type is an $n$-type.
+\end{dfn}
+
+\begin{dfn}[Quantifier free Stone space of a theory]
+    Let $T$ be a $\Si$-theory.
+    Let the stone space of $T$, 
+    $S_n^{\qf}(T)$ be the set of all maximal quantifier free $n$-types on $T$.
+    We give the same topology:
+    $U \subs S_n(T)$ is an element of the basis when there exists 
+    $\phi \in QFF(\Si,n)$ such that 
+    \[U = [\phi]_T^{\qf} := \set{p \in S_n^{\qf}(T) \st \phi \in p}\]
+\end{dfn}
+
+\begin{prop}[Extending to maximal quantifier free $n$-types]
+    Any quantifier free $n$-type on a theory 
+    can be extended to a maximal quantifier free 
+    $n$-type.
+\end{prop}
+\begin{proof}
+    Any quantifier free $n$-type is an $n$-type, 
+    hence \link{extend_to_maximal_type_zorn}{can be extended 
+        to a maximal $n$-type}.
+    The intersection of a maximal $n$-type with $QFF$ is a maximal 
+    quantifier free $n$-type. 
+    This intersection extends the quantifier free $n$-type and we are done.
+\end{proof}
+
+\begin{prop}[Properties of the Stone space]
+    Let $T$ be a $\Si$-theory, $\phi, \psi \in QFF(\Si,n)$.
+    Elementary properties:
+    \begin{itemize}
+        \item $(\NOT \phi) \in p$ if and only if $p \notin [\psi]_T^{\qf}$.
+        \item $[\phi]_T = [\psi]_T^{\qf}$ if and only if $\phi$ and $\psi$ are 
+            equivalent modulo $T$.
+        \item $[\top]_T^{\qf} = S_n^{\qf}(T)$
+        \item $[\NOT \phi]_T^{\qf} = S_n(T) \setminus [\phi]_T^{\qf}$
+        \item $[\phi \OR \psi]_T^{\qf} = [\phi]_T^{\qf} \cup [\psi]_T^{\qf}$
+        \item $[\bot]_T^{\qf} = \nothing$
+        \item $[\phi \AND \psi]_T^{\qf} = [\phi]_T^{\qf} \cap [\psi]_T^{\qf}$
+    \end{itemize}
+    Topological properties:
+    \begin{itemize}
+        \item Elements of the basis of $S_n^{\qf}(T)$ are clopen.
+        \item $S_n^{\qf}(T)$ is Hausdorff.
+        \item $S_n^{\qf}(T)$ is compact.
+    \end{itemize}
+\end{prop}
+\begin{proof}
+    The proofs of these are exactly the same as before, 
+    some of them can even be bypassed by using the previous results.
+\end{proof}
+
+\begin{dfn}[Quantifier free type of an element]
+    Let $\MM$ be a $\Si$-structure, 
+    $A \subs {\MM}$ and $a \in {\MM}^n$
+    Then 
+    \[\subintp{A,n}{\MM}{\qftp}(a) := 
+    \set{\phi \in QFF(\Si(A),n) \st \MM \model{\Si(A)} \phi(a)}\]
+    is the quantifier free type of $a$ in $\MM$ over $A$.
+    One can verify that this is a maximal quantifier free $n$-type over $T$
+    if $\MM$ is a non-empty model of $T$.
+    We will often drop parts of the subscripts and superscripts when it is
+    clear. 
+    In fact the $n$ can be deduced by the length of $a$ 
+    and serves only to explicitely spell things out.
+\end{dfn}

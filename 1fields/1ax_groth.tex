@@ -1,0 +1,355 @@
+\section{Ax-Grothendieck}
+This section studies the theories of fields in the language of rings,
+with particular focus on algebraically closed fields.
+\subsection{Language of Rings}
+We introduce rings and fields and construct the field of fractions
+of integral domains to see the models in action.
+
+\begin{dfn}[Signature of rings, theory of rings]
+    \link{dfn_rings}
+    We define 
+    $\Si_\RNG := (\set{0,1},\set{+,-,\cdot},n_\star,\nothing,m_\star)$ 
+    to be the signature of rings, 
+    where
+    $n_+ = n_\cdot = 2$, $n_- = 1$ and $m_\star$ is the empty function.
+
+    Using the obvious abbreviations
+    $x + (-y) = x - y, x \cdot y = xy$ and so on,
+    we define the theory of rings $\RNG$ as the set containing:
+    \begin{itemize}
+        \item[$\vert$] Assosiativity of addition: 
+            $\forall x \forall y \forall z, (x + y) + z = x + (y + z)$
+        \item[$\vert$] Identity for addition:
+            $\forall x, x + 0 = x$ 
+        \item[$\vert$] $\forall x, x - x = 0$ 
+        \item[$\vert$] Commutativity of addition: 
+            $\forall x \forall y, x + y = y + x$
+        \item[$\vert$] Assosiativity of multiplication: 
+        $\forall x \forall y \forall z, 
+        (x \cdot y) \cdot z = x \cdot (y \cdot z)$
+        \item[$\vert$] Identity for multiplication:
+        $\forall x, x \cdot 0 = x$ 
+        \item[$\vert$] Commutativity of multiplication: 
+        $\forall x \forall y, x \cdot y = y \cdot x$
+        \item[$\vert$] Distributivity:
+        $\forall x \forall y \forall z, x \cdot (y + z) = x\cdot y + x \cdot z$
+    \end{itemize}
+    Note that we don't have axioms for closure of functions 
+    and existence or uniqueness of inverses as
+    it is encoded by interpretation of 
+    $+, -, \cdot$ being well-defined.
+    Note that the theory of rings is universal.
+\end{dfn}
+
+\begin{dfn}[Theory of integral domains and fields]
+    We define the $\Si_\RNG$-theory of integral domains
+    \[\ID := \RNG \cup \set{0 \ne 1,
+    \forall x \forall y, xy = 0 \to (x = 0 \OR y = 0)}\]
+    and the $\Si_\RNG$-theory of fields
+    \[\FLD := \RNG \cup \set{\forall x, x = 0 \OR \exists y, xy = 1}\]
+    Note that the theory of integral domains is universal but the 
+    theory of fields is not.
+\end{dfn}
+
+\begin{prop}[Field of fractions]
+    \link{field_of_fractions}
+    Suppose $\AA \model{\Si_\RNG} \ID$.
+    Then there exists an $\Si_\RNG$-embedding $\io : \AA \to \BB$
+    such that $\BB \model{\Si_\RNG} \FLD$.
+    We call $\BB$ the field of fractions.
+\end{prop}
+\begin{proof}
+    We construct $X = \set{(x,y) \in {{\AA}}^2 \st y \ne 0}$ and
+    and equivalence relation $(x,y) \sim (v, w) \iff xw = yv$. 
+    (Use $\AA \model{\Si_\RNG} \ID$ 
+    to show that this is an equivalence relation.)
+    Let ${\BB} = X / \sim$ with $\pi : X \to \BB$ as the quotient map. 
+    Denote $\pi(x,y) := \frac{x}{y}$, 
+    interpret $\modintp{\BB}{0} = \frac{\modintp{\AA}{0}}{\modintp{\AA}{1}}$ 
+    and $\modintp{\BB}{1} = \frac{\modintp{\AA}{1}}{\modintp{\AA}{1}}$.
+    Interpret $+$ and $\cdot$ as standard fraction addition and multiplication
+    and use $\AA \model{\Si_\RNG} \ID$ to check that these are well defined.
+
+    Check that $\BB$ is an $\Si_\RNG$ structure and that 
+    $\BB \model{\Si_\RNG} \FLD$.
+    Define $\io : {\AA} \to {\BB} := a \mapsto \frac{a}{1}$
+    and show that this well defined and injective.
+    Check that $\io$ is a $\Si_\RNG$-morphism
+    and note that since there are no relation symobls in $\Si_\RNG$
+    it is also an embedding.
+\end{proof}
+
+\begin{prop}[Universal property of field of fractions]
+    \link{uni_prop_field_of_fractions}
+    Suppose $A \model{\Si_\RNG} \ID$ and $K$ its field of fractions.
+    Then if $L \model{\Si_\RNG} \FLD$ and there exists a
+    $\Si_\RNG$-embedding $\io_L : A \to L$, 
+    then there exists a unique $\Si_\RNG$-embedding $K \to L$
+    that commutes with the other embeddings:
+    \begin{cd}
+        A \ar[r] \ar[dr] & K \ar[d, dashed]\\
+        & L
+    \end{cd}
+\end{prop}
+\begin{proof}
+    Define the map $\io : K \to L$ sending 
+    $\frac{a}{b} \mapsto \frac{\io_L (a)}{\io_L(b)}$.
+    Check that this is well-defined and a $\Si_\RNG$-morphism.
+    It is injective because $\io_L$ is injective:
+    \[\frac{\io_L(a)}{\io_L(b)} = 0 \implies \io_L(a) = 0
+    \implies a = 0\]
+    Thus it is an embedding.
+
+    It is unique: suppose $\phi : K \to L$ is a $\Si_\RNG$-embedding
+    that commutes with the diagram.
+    Then for any $a \in K$, 
+    $\phi(\frac{a}{1}) = \io_L(a) = \io (\frac{a}{1})$.
+    Since both $\phi, \io$ are embeddings
+    they commute with taking the inverse for $a \ne 0$:
+    $\phi(\frac{1}{a}) = \io (\frac{1}{a})$.
+    Since any element of $K$ can be written as $\frac{a}{b}$,
+    we have shown that $\phi = \io$.
+\end{proof}
+
+\subsection{Algebraically closed fields}
+\begin{dfn}[Theory of algebraically closed fields]
+    We define the $\Si_\RNG$ theory of algebraically closed fields
+    \[
+        \ACF := 
+        \FLD \cup \set{\bigforall{i = 0}{n - 1} a \exists x, \;
+        x^n + \sum_{i = 0}^{n-1} a_i x^i = 0
+        \st n \in \N_{>0}, a \in {\var{\Si_\RNG}^{n-1}}}
+        \]
+    Unlike the theories $\RNG,\ID,\FLD$ 
+    this theory is countably infinite.
+\end{dfn}
+
+\begin{prop}
+    $\ACF$ is not complete.
+\end{prop}
+\begin{proof}
+    Take the $\Si_\RNG$-formula $\forall x, x + x = 0$.
+    This is satisfied by the 
+    \linkto{algebraic_closure_of_fields}{algebraic closure} 
+    of $\F_2$ but not by that of $\F_3$,
+    since field embeddings preserve characteristic. 
+\end{proof}
+
+\begin{dfn}[Algebraically closed fields of characteristic $p$]
+    For $p \in \Z_{>0}$ prime define 
+    \[\phi_p := \forall x, \sum_{i = 1}^{p} x = 0\]
+    and let $\ACF_p := \ACF \cup \set{\phi_p}$.
+    Furthermore, let
+    \[\ACF[0] := \ACF \cup \set{\NOT \phi_p \st p \in \Z_{>0} \text{ prime}}\]
+\end{dfn}
+
+An important fact about algebraically closed fields of characteristic $p$:
+\begin{prop}[Transcendence degree and characteristic
+    determine algebraically closed fields of characteristic $p$ 
+    up to isomorphism]
+    \link{trans_deg_and_char_determine_ACF_p}
+    If $K_0,K_1$ are fields with same characteristic and 
+    transcendence degree over their minimal subfield ($\zmo{}$ or $\Q$)
+    then they are (non-canonically) isomorphic.
+\end{prop}
+\begin{proof}
+    \linkto{appendix_trans_deg_and_char_determine_ACF_p}{See appendix}.
+\end{proof}
+
+\begin{nttn}
+    If $K \model{\Si_\RNG} ACF[p]$, write $\tdeg(K)$ to mean the 
+    transcendence degree over its minimal subfield ($\zmo{}$ or $\Q$).
+\end{nttn}
+
+\begin{lem}[Cardinality of algebraically closed fields]
+    \link{card_of_alg_closed_fields}
+    If $L$ is an algebraically closed field then it has cardinality
+    $\aleph_0 + \tdeg(L)$.
+\end{lem}
+\begin{proof}
+    Let $S$ be a transcendence basis and call the minimal subfield $K$.
+    Since $L$ is algebraically closed it splits the seperable polynomials
+    $x^n - 1$ for each $n$. 
+    Hence $L$ is infinite.
+    Also $S \subs L$ and so $\aleph_0 + \tdeg(L) \leq \abs{L}$.
+    For the other direction note that
+    \[M = \bigcup_{f \in I}\set{a \in M \st f = \linkto{min_poly}{\min(a,K)}}\]
+    where $I \subs K(S)[x]$ 
+    is the set of monic and irreducible polynomials over $K(S)$.
+    Thus 
+    \begin{align*}
+        \abs{M} &\leq \abs{I} \times \aleph_0 
+        \leq \abs{K(S)[x]} \times \aleph_0\\
+        &\leq \abs{K(S)} \times \aleph_0 
+        \leq \abs{K[S]}\times \abs{K[S]} \times \aleph_0\\
+        &= \abs{K[S]} \times \aleph_0 
+        \leq \abs{\bigcup_{n \in \N} (K\cup S)^n} \times \aleph_0\\
+        &= \abs{\bigcup_{n \in \N} K \cup S} \times \aleph_0
+        = \abs{K \cup S} \times \aleph_0\\
+        &= \abs{S} \times \aleph_0
+    \end{align*}
+    Noting that $K = \Q$ or $\F_p$ and so is at most countable.
+    By Schröder–Bernstein we have $\aleph_0 + \tdeg(L) = \abs{L}$.
+\end{proof}
+
+\begin{prop}
+    \link{ACF_ka_categorical_and_complete}
+    $\ACF_p$ is $\ka$-categorical for uncountable $\ka$, consistent 
+    and complete.
+    %it is also decidable.?
+\end{prop}
+\begin{proof}
+    Suppose $K,L \model{\Si_\RNG} \ACF_p$ and $\abs{K} = \abs{L} = \ka$.
+    Then \linkto{card_of_alg_closed_fields}{
+        $\tdeg(K) + \aleph_0 = \abs{K} = \ka$}
+    and so $\tdeg(K) = \ka$ (as $\ka$ is uncountable).
+    Similarly $\tdeg(L) = \ka$ and so $\tdeg(K) = \tdeg(L)$.
+    Thus \linkto{trans_deg_and_char_determine_ACF_p}{
+        $K$ and $L$ are isomorphic}.
+    
+    $\ACF_p$ is consistent due to the
+    \linkto{algebraic_closure_of_fields}{existence of the algebraic closures}
+    for any characteristic,
+    \linkto{card_of_alg_closed_fields}{it is not finitely modelled}
+    and is $\aleph_1$-categorical with 
+    $\const{\Si_\RNG} + \aleph_0 \leq \aleph_1$,
+    hence it is complete by \linkto{vaught_test}{Vaught's test}.
+    %It is decidable because
+    %it is recursively axiomatized and complete.?
+\end{proof}
+
+\subsection{Ax-Grothendieck}
+
+\begin{prop}[Lefschetz principle]
+    \link{lefschetz}
+    Let $\phi$ be a $\Si_\RNG$-sentence.
+    Then the following are equivalent:
+    \begin{enumerate}
+        \item There exists a $\Si_\RNG$-model of $\ACF_0$ 
+        that satisfies $\phi$.
+        (If you like $\C \model{\Si_\RNG} \phi$.)
+        \item $\ACF_0 \model{\Si_\RNG} \phi$
+        \item There exists $n \in \N$ such that for any prime $p$
+        greater than $n$,
+        $\ACF_p \model{\Si_\RNG} \phi$
+        \item There exists $n \in \N$ such that for any prime $p$
+        greater than $n$ there exists a non-empty $\Si_\RNG$-model
+        of $\ACF_p$ that satisfies $\phi$.
+    \end{enumerate}
+\end{prop}
+\begin{proof}~
+    \begin{itemize}
+        \item[${}$]$1. \implies 2.$ If $\C \model{\Si_\RNG} \phi$ then since
+        $\ACF_0$ is complete 
+        $\ACF_0 \model{\Si_\RNG} \phi$ or $\ACF_0 \model{\Si_\RNG} \NOT \phi$.
+        In the latter case we obtain a contradiction.
+        \item[${}$]$2. \implies 3.$ Suppose $\ACF[0] \model{\Si_\RNG} \phi$
+        then since \linkto{proofs_are_finite}{`proofs are finite'}
+        there exists a finite subset $\De$ of $\ACF[0]$ such that
+        $\De \model{\Si_\RNG} \phi$.
+        Let $n$ be maximum of all $q \in \N$ such that 
+        $\NOT \phi_q \in \De$.
+        By uniqueness of characteristic, 
+        if $p$ is prime and greater than $n$ and $q$ is prime such that 
+        $\NOT \phi_q \in \De$ then
+        $\ACF_p \model{\Si_\RNG} \NOT \phi_q$.
+        Thus if $\MM$ is a $\Si_\RNG$-model of $\ACF_p$ then 
+        $\MM \model{\Si_\RNG} \De$ and so $\MM \model{\Si_\RNG} \phi$.
+        Hence for all primes $p$ greater than $n$,
+        $\ACF_p \model{\Si_\RNG} \phi$.
+        \item[${}$]$3. \implies 4.$ $\ACF_p$ is consistent thus there exists a 
+        non-empty $\Si_\RNG$-model of $\ACF_p$. 
+        Our hypothesis implies it satisfies $\phi$.
+        \item[${}$]$4. \implies 1.$ Let $n \in \N$ such that for any prime $p$
+        greater than $n$ there exists a non-empty $\Si_\RNG$-model of $\ACF_p$
+        that satisfies $\phi$.
+        Then because $\ACF_p$ is complete $\ACF_p \model{\Si_\RNG} \phi$.
+        Suppose for a contradiction $\ACF_0 \nodel{\Si_\RNG} \phi$.
+        Then by completeness $\ACF_0 \model{\Si_\RNG} \NOT \phi$.
+        Hence by the above we obtain there exists $m$ such that 
+        for all $p$ greater than $m$, 
+        $\ACF_p \model{\Si_\RNG} \NOT \phi$.
+        Then since there are infinitely many primes, 
+        take $p$ greater than both $m$ and $n$,
+        then $\ACF_p$ is inconsistent, a contradiction.
+        Hence $\ACF_0 \model{\Si_\RNG} \phi$
+        and in particular $\C \model{\Si_\RNG} \phi$. 
+    \end{itemize}
+\end{proof}
+
+\begin{lem}[Ax-Grothendieck for algebraic closures of finite fields]
+    \link{algebraic_closure_ax_groth}
+    If $\Om$ is an algebraic closure of a finite field
+    then any injective polynomial map over $\Om$ is surjective.
+\end{lem}
+\begin{proof}
+    \linkto{appendix_algebraic_closure_ax_groth}{See appendix.}
+\end{proof}
+
+\begin{lem}[Construction of Ax-Grothendieck formula]
+    \link{construction_of_ax_grothendieck_formula}
+    There exists a $\Si_\RNG$-sentence $\Phi_{n,d}$ such that 
+    for any field $K$, $K \model{\Si} \Phi_{n,d}$ if and only if
+    for all $d,n \in \N$ any injective polynomial map $f : K^n \to K^n$
+    of degree less than or equal to $d$ is surjective.
+\end{lem}
+\begin{proof}
+    We first need to be able to express polynomials in $n$ varibles 
+    of degree less than or equal to $d$ in an elementary way.
+    We first note that for any $n,d \in \N$ there exists a finite set $S$
+    and powers $r_{s,j}\in \N$ (for each $(s,j) \in S \times \set{1, \dots, n}$).
+    such that any polynomial $f \in K[x_1, \dots, x_n]$ can be written as
+    \[\sum_{s \in S} \la_s \prod_{j=1}^n x_j^{r_{s,j}}\]
+    for some $\la_s \in K$.
+    Now we have a way of quantifying over all such polynomials,
+    which is by quantifying over all the coefficients.
+    We define $\Phi_{n,d}$:
+    \begin{align*}
+        \Phi_{n,d}:= \bigforall{i = 1}{n} \bigforall{s \in S}{} \la_{s,i},
+        &\sqbrkt{\bigforall{j = 1}{n}x_j \bigforall{j = 1}{n}y_j,
+        \bigand{i = 1}{n} \brkt{
+            \sum_{s \in S}\la_{s,i}\prod_{j = 1}^{n} x_j^{r_{s,j}} = 
+            \sum_{s \in S}\la_{s,i}\prod_{j = 1}^{n} y_j^{r_{s,j}}
+         }
+         \longrightarrow \bigand{i = 1}{n} x_i = y_i}\\
+         &\longrightarrow \bigforall{j = 1}{n} x_j, \bigexists{i = 1}{n} z_i,
+         \bigand{i=1}{n}\brkt{z_i = \sum_{s \in S} 
+         \la_{s,i}\prod_{j = 1}^{n} x_j^{r_{s,j}}
+         }
+    \end{align*}
+    At first it quantifies over all of the coefficients of all the $f_i$.
+    The following part says that if the polynomial map is injective then 
+    it is surjective.
+    Thus $K \model{\Si} \Phi_{n,d}$ if and only if
+    for all $d,n \in \N$ any injective polynomial map $f : K^n \to K^n$
+    of degree less than or equal to $d$ is surjective.
+\end{proof}
+
+\begin{prop}[Ax-Grothendieck]
+    If $K$ is an algebraically closed field of characterstic $0$
+    then any injective polynomial map over $K$ is surjective.
+    In particular injective polynomial maps over $\C$ are surjective.
+\end{prop}
+\begin{proof}
+    We show an equivalent statement:
+    for any $n, d \in \N$, any injective polynomial map $f : K^n \to K^n$ 
+    of degree less than or equal to $d$ is surjective.
+    This is true if and only if $K \model{\Si_\RNG} \Phi_{n,d}$
+    \linkto{construction_of_ax_grothendieck_formula}{(by construction of
+    the A-G formula)}
+    which is true if and only if 
+    for all $p$ prime greater than some natural number there exists 
+    an algebraically closed field of characteristic $p$ that satisfies 
+    $\Phi_{n,d}$, by \linkto{lefschetz}{the Lefschetz principle}.
+    Indeed, take the natural $0$ and let $p$ be a prime greater than $0$.
+    Take $\Om$ an algebraic closure of $\F_p$, 
+    which indeed models $\ACF_p$.
+    $\Om \model{\Si_\RNG} \Phi_{n,d}$ if and only if 
+    for any $n, d \in \N$, any injective polynomial map $f : \Om^n \to \Om^n$ 
+    of degree less than or equal to $d$ is surjective  
+    \linkto{construction_of_ax_grothendieck_formula}{
+       (by construction of the A-G formula)}.
+    The final statement is true due to \linkto{algebraic_closure_ax_groth}{
+        A-G for algebraic closures of finite fields.}
+\end{proof}
+

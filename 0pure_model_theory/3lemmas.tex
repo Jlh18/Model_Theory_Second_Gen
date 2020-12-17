@@ -1,0 +1,1297 @@
+\subsection{The category of structures}
+\begin{dfn}[$\Si$-morphism, $\Si$-embedding, $\Si$-isomorphism]
+    \link{partial_morph_dfn}
+    Given $\Si$ a signature, 
+    $\MM, \NN$ both $\Si$-structures, $A \subs \carrier{\MM}$
+    and $\io : A \to \carrier{\NN}$,
+    we call $\io$ a partial $\Si$-morphism from $\MM$ to $\NN$ when 
+    \begin{itemize}
+        \item For all $c \in C$ (such that $\mmintp{c} \in A$), 
+        \[\io(\mmintp{c}) = \modintp{\NN}{c}\]
+        \item For all $f \in F$ and all $a \in M^{n_f}$
+        (such that $\mmintp{f}(a) \in A$), 
+        \[\io \circ \mmintp{f}(a) = \modintp{\NN}{f} \circ \io(a)\]
+        \item For all $r \in R$, for all $a \in M^{m_r} \cap A^{m_r}$,
+        \[a \in \mmintp{r} \implies \io (a) \in \modintp{\NN}{r}\]
+    \end{itemize}
+    If in addition for relations we have
+    \[a \in \mmintp{r} \limplies \io (a) \in \modintp{\NN}{r} \quad 
+    \text{and} \quad \io \text { is injective,} \]
+    then $\io$ is called a partial $\Si$-embedding 
+    (the word extension is often used interchangably with embedding). 
+
+    In the case that $A = \carrier{\MM}$
+    we write $\io : \MM \to \NN$ and call $\io$ a 
+    $\Si$-morphism;
+    in this case if it is both an embedding and a bijection then we say 
+    $\MM$ and $\NN$ are $\Si$-isomorphic and write $\MM \iso_\Si \NN$.
+\end{dfn}
+The notion of morphisms here will be the same as 
+morphisms in the algebraic setting.
+For example in the signature of monoids (groups), 
+preserving interpretation of constant symbols 
+says the identity is sent to the identity 
+and preserving interpretation of function symbols
+says the multiplication is preserved.
+
+\begin{dfn}[Elementary Embedding]
+    A partial $\Si$-embedding $\io : A \to \NN$ (for $A \subs \MM$)
+    is elementary if for any $\Si$-formula $\phi$
+    with variables indexed by $S$
+    and $a \in A^S$,
+    \[
+        \MM \model{\Si} \phi(a) \quad \iff \quad \NN \model{\Si} \phi(\io(a))
+    \]
+\end{dfn}
+
+The following is exactly what we expect - that terms are well behaved 
+with respect to morphisms.
+\begin{lem}[$\Si$-morphisms commute with interpretation of terms]
+    \link{morph_comm_term_intp}
+    Given a $\Si$-morphism $\io : \MM \to \NN$, 
+    we have that for any $\Si$-term $t$ with variables indexed by $S$ and 
+    $a \in \MM^S$,
+    \[\io(\mmintp{t}(a)) = \nnintp{t}(\io(a))\]
+\end{lem}
+\begin{proof}
+    We case on what $t$ is:
+    \begin{itemize}
+        \item If $t = c \in \const{\Si}$ then 
+            \[
+                \io(\mmintp{t}(a)) = \io(\mmintp{c}) = 
+                \nnintp{c} = \nnintp{t}(\io(a))
+            \]
+        \item If $t = v \in \var{\Si}$ then 
+            \[
+                \io(\mmintp{t}(a)) =
+                \io(\mmintp{v}(a)) = \io(a) = 
+                \nnintp{v}(\io(a)) = \nnintp{t}(\io(a))
+            \]
+        \item If $t = f(s)$ then
+            \[
+                \io(\mmintp{t}(a)) = \io \circ \mmintp{f}(\mmintp{s}(a)) = 
+                \nnintp{f} \circ \io(\mmintp{s}(a)) = 
+                \nnintp{f} \circ \nnintp{s}(\io(a)) =
+                \nnintp{t}(\io(a))
+            \]
+            Using the induciton hypothesis in the penultimate step.
+    \end{itemize}
+\end{proof}
+
+It is worth knowing that the set of $\Si$-structures form a category:
+\begin{dfn}[The category of $\Si$-structures]
+    \link{category_of_structures}
+    Given a signature $\Si$, 
+    we denote the category of $\Si$-structures 
+    $(\struc{\Si}, \mor{\star}{\star}{}, \circ)$
+    as $\Mod{\Si}$,
+    where \[\mor{\MM}{\NN}{} = 
+    \set{\io : {\MM} \to {\NN} \st 
+    \io \text{ is a } \Si\text{-morphisms}}\]
+    
+    Clearly for any $\MM$, 
+    the identity exists and is a $\Si$-morphism.
+    We don't check associativity of $\circ$,
+    but do prove that composition of morphisms are morphisms.
+    Furthermore, composition of embeddings are embeddings
+    and composition of elementary embeddings are elementary.
+    Thus we could also define morphisms between objects to be embeddings
+    or elementary embeddings and obtain a subcategory.
+\end{dfn}
+\begin{proof}
+    Let $\io_1 : \MM_0 \to \MM_1$ and 
+    $\io_2 : \MM_1 \to \MM_2$ be $\Si$-morphisms.
+    We show that the composition is a $\Si$-morphism:
+    \begin{itemize}
+        \item If $c \in \const{\Si}$ then 
+            \[
+                \io_1 \circ \io_0 (\modintp{\MM_0}{c}) = 
+                \io_1 (\modintp{\MM_1}{c}) = \modintp{\MM_2}{c}
+            \]
+        \item If $f \in \func{\Si}$ and 
+            $a \in {\MM_0}^{n_f}$ then
+            \[
+                \io_1 \circ \io_0 \circ \modintp{\MM_0}{f}(a) = 
+                \io_1 \circ \modintp{\MM_1}{f} \circ \io_0 (a) = 
+                \modintp{\MM_2}{f} \circ \io_1 \circ \io_0 (a)
+            \]
+        \item If $r \in \rel{\Si}$ and 
+            $a \in {\MM_0}^{m_f}$ then
+            \[
+                a \in \modintp{\MM_0}{r} \implies \io_1 (a) \in \modintp{\MM_1}{r} 
+                \implies \io_2 \circ \io_1 (a) \in \modintp{\MM_2}{r}
+            \]
+    \end{itemize}
+    To show that embeddings compose to be embeddings we note that 
+    the composition of injective functions is injective 
+    and if $r \in \rel{\Si}$ and 
+    $a \in {\MM_0}^{m_f}$ then
+    \[
+        a \in \modintp{\MM_0}{r} \iff \io_1 (a) \in \modintp{\MM_1}{r} 
+        \iff \io_2 \circ \io_1 (a) \in \modintp{\MM_2}{r}
+    \]
+    To show that composition of elementary embeddings are elementary,
+    let $\phi \in \form{\Si}$ and $a$ in ${\MM_0}$ be chosen suitably.
+    Then
+    \[
+        \MM_0 \modelsi \phi(a) \iff \MM_1 \modelsi \phi(\io_1 (a))
+        \iff \modelsi \phi(\io_2 \circ \io_1 (a))
+    \]
+\end{proof}
+
+\begin{eg}
+    Given the category of structures from the 
+    \linkto{dfn_rings}{signature of rings}, 
+    we can take the subcategory whose objects are models 
+    of the theory of rings (namely rings), 
+    hence producing the category of rings.
+    Similarly taking the subcategory whose objects are models of the 
+    theory of fields (namely fields) produces the category of fields.
+\end{eg}
+
+\begin{dfn}[Atomic Formula]
+    Given $\Si$ a signature, 
+    its set of atomic $\Si$-formulas is inductively defined
+    \begin{itemize}
+        \item[$\vert$] Given $t, s \in \term{\Si}$, 
+        the string $(t = s)$ is an atomic $\Si$-formula.
+        \item[$\vert$] Given $r \in \rel{\Si}, t \in (\term{\Si})^{m_r}$, 
+        the string $r(t)$ is an atomic $\Si$-formula.
+    \end{itemize}
+    This is just the subset of $\form{\Si}$ 
+    where the formulas are not built inductively.
+\end{dfn}
+
+\begin{dfn}[Quantifier Free Formula]
+    The set of quantifier free $\Si$-formulas is defined inductively:
+    \begin{itemize}
+        \item[$\vert$] Given $\phi$ an atomic $\Si$-formula,
+            $\phi$ is a quantifier free $\Si$-formula.
+        \item[$\vert$] Given $\phi$ a quantifier free $\Si$-formula, 
+        the string $\NOT \phi$ is a quantifier free $\Si$-formula. 
+        \item[$\vert$] Given $\phi, \psi$ both quantifier free $\Si$-formulas, 
+        the string $\phi \lor \psi$ is a quantifier free $\Si$-formula.
+    \end{itemize}
+    Notice quantifier free $\Si$-formulas are indeed $\Si$-formulas
+\end{dfn}
+
+%?
+\begin{prop}[Embeddings Preserve Satisfaction of Quantifier Free Formulas]
+    \link{emb_preserve_sat_of_quan_free}
+    Given $\io : \MM \to \NN$ a $\Si$-embedding and
+    $\phi$ a $\Si$-formula with variables indexed by $S$,
+    and $a \in \MM^S$,
+    \begin{enumerate}
+        \item If $\phi$ is $\top$ then it is satisfied by both.
+        \item If $\phi$ is $t = s$ then 
+            $\MM \model{\Si} \phi(a)  \iff \NN \model{\Si} \phi(\io(a))$.
+        \item If $\phi$ is $r(s)$ then 
+            $\MM \model{\Si} \phi(a)  \iff \NN \model{\Si} \phi(\io(a))$.
+        \item If $\phi$ is $\NOT \chi$ and 
+            $\MM \model{\Si} \chi(a)  \iff \NN \model{\Si} \chi(\io(a))$
+            then \[\MM \model{\Si} \phi(a)  \iff \NN \model{\Si} \phi(\io(a))\]
+        \item If $\phi$ is $\chi_0 \OR \chi_1$ and 
+            $\MM \model{\Si} \chi_i (a)  \iff \NN \model{\Si} \chi_i (\io(a))$
+            then \[\MM \model{\Si} \phi(a)  \iff \NN \model{\Si} \phi(\io(a))\]
+    \end{enumerate}
+    Thus from the above we can immediately conclude by induction
+    that if $\phi$ is a quantifier free $\Si$-formula, 
+    \[\MM \model{\Si} \phi(a)  \iff \NN \model{\Si} \phi(\io(a))\]
+    However, our result is stronger than this since we didn't
+    assume the formula to be quantifier free.
+\end{prop}
+\begin{proof}~
+    \begin{enumerate}
+        \item Trivial.
+        \item If $\phi$ is $t = s$ then
+            \begin{align*}
+                \MM \model{\Si} \phi(a) 
+                & \iff \mmintp{t}(a) = \mmintp{s}(a)\\
+                & \iff \io(\mmintp{t}(a)) = \io(\mmintp{s}(a)) 
+                & \text{by injectivity} \\
+                & \iff \nnintp{t}(\io(a)) = \nnintp{s}(\io(a)) 
+                & \text{\linkto{morph_comm_term_intp}{
+                    morphisms commute with}} \\
+                & \iff \NN \model{\Si} \phi(\io(a))
+                & \text{\linkto{morph_comm_term_intp}{interpretation of terms}}
+            \end{align*}
+        \item If $\phi$ is $r(s)$ then
+            \begin{align*}
+                \MM \model{\Si} \phi(a) 
+                & \iff a \in \mmintp{r}& \\
+                & \iff \io(a) \in \nnintp{r}
+                & \text{embeddings property}\\
+                & \iff \NN \model{\Si} \phi(\io(a))
+            \end{align*}
+        \item If $\phi$ is $\NOT \chi$ and 
+            $\MM \model{\Si} \chi(a)  \iff \NN \model{\Si} \chi(\io(a))$ then
+            \[
+                \MM \model{\Si} \phi(a) 
+                \iff \MM \nodel{\Si} \chi(a) 
+                \iff \NN \nodel{\Si} \chi(\io(a))
+                \iff \NN \model{\Si} \phi(\io(a))
+            \]
+        \item If $\phi$ is $\chi_0 \OR \chi_1$ and
+            $\MM \model{\Si} \chi_i (a)  \iff \NN \model{\Si} \chi_i (\io(a))$
+            \[
+                \MM \model{\Si} \phi(a)
+                \iff \MM \model{\Si} \chi_0(a) 
+                \text{ or } \MM \model{\Si} \chi_1(a)
+                \iff \NN \model{\Si} \chi_0(\io(a)) 
+                \text{ or } \NN \model{\Si} \chi_1(\io(a))
+                \iff \NN \model{\Si} \phi(\io(a))
+            \]
+    \end{enumerate}
+\end{proof}
+
+\begin{dfn}[Universal Formula, Universal Sentence]
+    \link{universal_formula_def}
+    The set of universal $\Si$-formulas
+    is defined with two constructors:
+    \begin{itemize}
+        \item[$\vert$] If $\phi$ is a quantifier free $\Si$-formula 
+        then it is a universal $\Si$-formula.
+        \item[$\vert$] If $\phi$ is a universal $\Si$-formula then
+        $\forall v, \phi(v)$ is a universal $\Si$-formula.
+    \end{itemize}
+    In other words universal $\Si$-formulas are formulas that start with 
+    a bunch of `for alls' followed by a quantifier free formula.
+    Universal $\Si$-sentences are $\Si$-formulas with no free variables
+    which we denote by $\unisen{\Si}$.
+\end{dfn}
+
+\begin{prop}[Embeddings preserve satisfaction of universal formulas downwards]
+    \link{emb_preserve_sat_of_forall_down}
+    Given $\io : \MM \to \NN$ a $\Si$-embedding and
+    $\phi$ a universal $\Si$-formula with 
+    variables indexed by $S$ ($\chi$ is quantifier free).
+    For any $a \in \MM^S$
+    Then 
+    \[
+        \NN \modelsi \phi(\io(a)) \quad \implies \quad
+        \MM \model{\Si} \phi(a)
+    \]
+    By taking the contrapositive we can show that embeddings
+    preserve satisfaction of `existential' $\Si$-formulas upwards.
+\end{prop}
+\begin{proof}
+    We induct on $\phi$:
+    \begin{itemize}
+        \item If $\phi$ is a quantifier free then since 
+        \linkto{emb_preserve_sat_of_quan_free}{embeddings preserve 
+        satisfaction of quantifier free formulas}, 
+        $\NN \modelsi \phi(\io(a)) \implies
+        \MM \model{\Si} \phi(a)$.
+        \item If $\phi$ is $\forall v_i, \psi$ with $S$ indexing the variables
+        of $\psi$. 
+        Let $T := S \setminus \set{i}$
+        Assuming the inductive hypothesis: 
+        for any $a \in {\MM}^T$ and 
+        $b \in {\MM}$,
+        \[\NN \modelsi \psi(\io(a),\io(b)) \quad \implies \quad
+        \MM \model{\Si} \psi(a,b)\]
+        Then since $T$ indexes the variables of $\phi$ it is clear that
+        for any $a \in {\MM}^T$
+        \begin{align*}
+            &\quad \NN \modelsi \phi(\io(a))\\
+            &\implies \forall b \in {\MM}, 
+            \NN \modelsi \psi(\io(a),\io(b)) \\
+            &\implies \forall b \in {\MM}, 
+            \MM \modelsi \psi(\io(a),\io(b)) & \text{by the induction}\\
+            &\implies \MM \model{\Si} \phi(a)
+        \end{align*}
+    \end{itemize}
+\end{proof}
+
+\begin{prop}[Isomorphisms are Elementary]
+    \link{iso_imp_elem_equiv}
+    If two $\Si$-structures $\MM$ and $\NN$ 
+    are $\Si$-isomorphic then the isomorphism is elementary.
+\end{prop}
+\begin{proof}
+    Let $\io : \MM \to \NN$ be a $\Si$-isomorphism.
+    We case on what $\phi$ is:
+    \begin{itemize}
+        \item If $\phi$ is quantifier free, 
+            then each case is follows from applying
+            \linkto{emb_preserve_sat_of_quan_free}{
+                embeddings preserve satisfaction of quantifier free formulas.}
+        \item If $\phi$ is $\forall v, \chi(v)$ then
+            \begin{forward}
+                Let $b \in \const{\NN}$ then
+                $\io^{-1}(b) \in \const{\MM}$ is well defined by surjectivity.
+                Hence $\MM \modelsi \chi(\io^{-1}(b),a)$ and so
+                $\NN \modelsi \chi(b,\iota(a))$ by the induction hypothesis.
+                Hence $\NN \model{\Si} \phi(\io(a))$
+            \end{forward}
+            \begin{backward}
+                This follows from applying 
+                \linkto{emb_preserve_sat_of_forall_down}{
+                    embeddings preserve satisfaction of 
+                    universal formulas downwards.}
+            \end{backward}
+    \end{itemize}
+\end{proof}
+
+\subsection{Vaught's Completeness Test}
+Read ahead to the statement of \linkto{vaught_test}{Vaught's Completeness Test}.
+We aim to prove it in this section.
+
+\begin{dfn}[Finitely modelled, infinitely modelled]
+    A $\Si$-theory $T$ 
+    is finitely modelled when
+    there exists a $\Si$-model of $T$ 
+    with finite carrier set.
+
+    A $\Si$-theory $T$ 
+    is finitely modelled when
+    there exists a $\Si$-model of $T$ 
+    with infinite carrier set.
+\end{dfn}
+Finitely modelled is \emph{not} the same as finitely consistent.
+
+\begin{prop}[Infinite Modelled Theories Have Arbitrary Large Models]
+    \link{inf_mod_theory_has_inf_mod}
+    Given $\Si$ a signature, 
+    $T$ a $\Si$-theory that is infinitely modelled,
+    and a cardinal $\ka$ such that $|\const{\Si}| + \aleph_0 \leq \ka$, 
+    there exists $\MM$ a $\Si$-model of $T$ such that 
+    $\ka = |{\MM}|$.
+\end{prop}
+\begin{proof}
+    Enrich only the signature's constant symbols to create $\Si(*)$ 
+    a signature such that 
+    $\const{\Si(*)} = \const{\Si} \cup \set{c_\al \st \al \in \ka}$.
+    Let $T(*) = T \cup \set{c_\al \neq c_\be \st \al,\be \in \ka \AND \al \ne \be}$
+    be a $\Si(*)$-theory.
+    
+    Using \linkto{compactness}{the compactness theorem}, 
+    it suffices to show that $T(*)$ is finitely consistent.
+    Take a finite subset of $T(*)$. 
+    This is the union of a finite subset $\De_T \subs T$, 
+    and a finite subset of 
+    $\De_{\ka} \subs 
+    \set{c_\al \neq c_\be \st \al,\be \in \ka \AND \al \ne \be}$.
+    Let $\MM$ be the $\Si$-model of $T$ with infinite cardinality.
+    We want to make 
+    $\MM$ a ${\Si(*)}$-model of $\De_T \cup \De_\ka$ 
+    by interpreting the new symbols of $\set{c_\al \st \al \in \ka}$
+    in a sensible way.
+    
+    Since $\De_\ka$ is finite, 
+    we can find a finite subset $I \subset \ka$ 
+    that indexes the constant symbols appearing in $\De_\ka$. 
+    Since $\MM$ is infinite and $I$ is finite,
+    we can find distinct elements of $\MM$
+    to interpret the elements of
+    $\set{c_\al \st \al \in I}$. 
+    Interpret the rest of the new constant symbols however,
+    for example let them all be sent to the same element,
+    then $\MM \model{\Si*} \De_T \cup \De_\ka$.
+    Hence $T*$ is consistent.
+    
+    Using 
+    \linkto{compactness}{the third equivalence of $T(*)$ being consistent},
+    there exists
+    $\MM$ a $\Si(*)$-model of $T(*)$ with $|{\MM}|\leq \ka$.
+    If $|{\MM}| < \ka$ 
+    then there would be $c_\al, c_\be$ that are interpreted as equal,
+    hence $\MM \model{\Si(*)} c_\al = c_\be$ and $\MM \nodel{\Si(*)} c_\al = c_\be$, 
+    a contradiction.
+    Thus $|{\MM}| = \ka$.
+    \linkto{move_down_mod}{Move $\MM$ down a signature}
+    to make it a $\Si$-model of $T$.
+    This doesn't change the cardinality of $\MM$,
+    so we have a $\Si$-model of $T$ with cardinality $\ka$.
+\end{proof}
+
+\begin{dfn}[Complete]
+    A $\Si$-theory $T$ is complete when 
+    for any $\Si$-formula $\phi$, 
+    $T \model{\Si} \phi$ or 
+    $T \model{\Si} \NOT \phi$.
+\end{dfn}
+Note that if we have completeness and compactness,
+then for any $\Si$-sentence $\phi$,
+\emph{either} $T \model{\Si} \phi$ or 
+$T \model{\Si} \NOT \phi$.
+
+\begin{prop}[Not a consequence is consistent]
+    \link{not_consequence}
+    Let $T$ be a $\Si$-theory
+    and $\phi$ is a $\Si$-sentence
+    then $T \nodel{\Si} \phi$
+    if and only if $T \cup \set{ \NOT \phi}$ is consistent.
+    Furthermore, $T \nodel{\Si} \NOT \phi$
+    if and only if $T \cup \set{ \phi}$ is consistent.
+\end{prop}
+\begin{proof}
+    For the first statement:
+    \begin{forward}
+        Unfolding $T \nodel{\Si} \phi$,
+        we have that there exists a non-empty $\Si$-model $\MM$ of $T$ 
+        such that $\MM \nodel{\Si} \phi$.
+        Hence $\MM \modelsi \NOT \phi$ and we are done.
+    \end{forward}
+    The backward proof is straightward.
+
+    For the second statement, 
+    apply the first to $\NOT \phi$ and obtain 
+    $T \nodel{\Si} \NOT \phi$
+    if and only if $T \cup \set{\NOT \NOT \phi}$ is consistent.
+    Note that for any non-empty $\Si$-structure $\MM$, 
+    $\MM \model{\Si} \NOT \NOT \phi$ 
+    if and only if $\MM \model{\Si} \phi$.
+    This completes the proof.
+\end{proof}
+
+\begin{prop}[Vaught's Completeness Test]
+    \link{vaught_test}
+    Suppose that $\Si$-theory $T$ is consistent, 
+    not finitely modelled, and $\ka$-categorical 
+    for some cardinal satisfying 
+    $|\const{\Si}| + \aleph_0 \leq \ka$.
+    Then $T$ is complete.
+\end{prop}
+\begin{proof}
+    Suppose not: If $T$ is not complete then there exists
+    $\Si$-formula $\phi$ such that $T \nodel{\Si} \phi$ and 
+    $T \nodel{\Si} \NOT \phi$.
+    These imply $T \cup \set{\NOT \phi}$
+    and $T \cup \set{\phi}$ are respectively consistent by the 
+    \linkto{not_consequence}{previous proposition.}
+    Let $\MM_\NOT$ and $\MM$ be models of  
+    $T \cup \set{\NOT \phi}$ and $T \cup \set{\phi}$
+    respectively.
+    Then each are models of $T$ so they are infinite
+    and so $T \cup \set{\NOT \phi}$ and $T \cup \set{\phi}$
+    are infinitely modelled.
+
+    Since we have $\ka$ such that $|\const{\Si}| + \aleph_0 \leq \ka$, 
+    \linkto{inf_mod_theory_has_inf_mod}{
+        there exists $\NN_\NOT, \NN$} respectively $\Si$-models of 
+        $T \cup \set{\NOT \phi}$ and $T \cup \set{\phi}$
+        such that 
+        $\ka = |{\NN_\NOT}| = |{\NN}|$.
+    Since $T$ is $\ka$-categorical
+    $\NN$ and $\NN_\NOT$ are isomorphic
+    \linkto{iso_imp_elem_equiv}{
+        by an elementary $\Si$-embedding.}
+    As $\phi$ has no free variables this implies that
+    $\NN \model{\Si} \phi $ and $\NN \model{\Si} \NOT \phi$.
+    $\NN$ is non-empty so this is a contradiction.
+\end{proof}
+
+\subsection{Elementary embeddings and diagrams of models}
+\begin{prop}[Tarski-Vaught Elementary Embedding Test]
+    \link{tarski_vaught}
+    Let $\io : \MM \to \NN$ be a $\Si$-embedding, 
+    then the following are equivalent:
+    \begin{enumerate}
+        \item $\io$ is elementary 
+        \item For any 
+            $\phi \in \form{\Si}$ with free variables indexed by $S$,
+            any $i \in S$ 
+            and any $a \in ({\MM})^{S \setminus \set{i}}$,
+            \[\forall b \in {\MM}, \NN \model{\Si} \phi(\io(a),\io(b)) 
+            \quad \implies \quad 
+            \forall c \in {\NN}, \NN \model{\Si} \phi(\io(a),c),\]
+            which we call the Tarski-Vaught condition.
+            Note that if $i \in S$ then 
+            $a$ `fills in' all but one of the free variables of $\phi$, 
+            leaving only one free variable for substitution.
+            ($S$ can be empty, but then this doesn't say very much.)
+        \item For any 
+            $\phi \in \form{\Si}$ with free variables indexed by $S$,
+            any $i \in S$ 
+            and any $a \in ({\MM})^{S \setminus \set{i}}$,
+            \[\exists c \in {\NN}, \NN \model{\Si} \phi(\io(a),c)
+            \quad \implies \quad
+            \exists b \in {\MM}, \NN \model{\Si} \phi(\io(a),\io(b))\]
+            This is essentially the contrapositive of the previous statement,
+            and is included because it is more commonly 
+            version of the statement.
+    \end{enumerate}
+\end{prop}
+\begin{proof}
+    We only show the first two statements are equivalent and
+    leave the third as an exercise.
+    \begin{forward}
+        First show that $\MM \model{\Si} \forall v, \phi(a,v)$.
+        Let $b \in {\MM}$, 
+        then by assumption $\NN \model{\Si} \phi(\io(a),\io(b))$,
+        which is implies $\MM \model{\Si} \phi(a,b)$
+        as $\io$ is an elementary embedding.
+        Thus we indeed have $\MM \model{\Si} \forall v, \phi(a,v)$
+        which in turn implies $\NN \model{\Si} \forall v, \phi(\io(a),v)$
+        and we are done.
+    \end{forward}
+
+    \begin{backward}
+        We case on what $\phi$ is, 
+        though most of the work was already done before.
+        \begin{itemize}
+            \item If $\phi$ is quantifier free, 
+            then each case follows from applying
+            \linkto{emb_preserve_sat_of_quan_free}{
+                embeddings preserve satisfaction of quantifier free formulas.}
+
+            \item The backwards implication follows from applying 
+                \linkto{emb_preserve_sat_of_forall_down}{
+                embeddings preserve satisfaction of universal formulas 
+                downwards.}
+
+                For the forwards implication 
+                we use the Tarski-Vaught condition
+                (so far $\io$ just needed to be a $\Si$-embedding)
+\begin{align*}
+    \MM \model{\Si} \forall v, \psi (a,v) &
+        \implies \forall b \in {\MM}, \MM \model{\Si} \psi(a,b)\\
+        &\implies \forall b \in {\MM}, 
+            \NN \model{\Si} \psi(\io(a),\io(b))
+            & \text{ by the induction hypothesis}\\
+        &\implies \forall c \in {\NN}, \NN \model{\Si} \psi(\io(a),c)
+            & \text{ by the Tarski-Vaught condition}\\
+        &\implies \NN \model{\Si} \phi
+\end{align*}
+        \end{itemize}
+    \end{backward}
+\end{proof}
+
+\begin{prop}[Moving Morphisms Down Signatures]
+    \link{move_down_morph}
+    Suppose $\Si \leq \Si(*)$.
+    If $\io : \MM \to \NN$ is a $\Si(*)$-morphism then 
+    \begin{enumerate}
+        \item $\io$ can be made into a $\Si$-morphism.
+        \item If $\io$ is an embedding then it remains an embedding.
+        \item If $\io$ is an elementary embedding then it remains elementary. 
+    \end{enumerate}
+\end{prop}
+\begin{proof}
+    \begin{enumerate}
+        \item \linkto{move_down_mod}{
+                Move $\MM$ and $\NN$ down to being $\Si$ structures
+                (by picking $T(*) = T = \nothing$).}
+            We show that the same set morphism 
+            $\io : {\MM} \to {\NN}$
+            is a $\Si$-morphism.
+            \begin{itemize}
+                \item If $c \in \const{\Si}$ then since moving structures down
+                    signatures preserves interpretation on the lower signature,
+                    and since $\io$ is a $\Si(*)$ embedding,
+                    \[
+                        \io(\subintp{\Si}{\MM}{c}) 
+                        = \io(\subintp{\Si(*)}{\MM}{c})
+                        = \subintp{\Si(*)}{\NN}{c}
+                        = \subintp{\Si}{\NN}{c}
+                    \]
+                \item If $f \in \func{\Si}$ and $a \in ({\MM})^{n_f}$ 
+                    then similarly
+                    \[
+                        \io \circ \subintp{\Si}{\MM}{f}(a)
+                        = \io \circ \subintp{\Si(*)}{\MM}{f}(a)
+                        = \subintp{\Si(*)}{\NN}{f}(\io(a))
+                        = \subintp{\Si}{\NN}{f}(\io(a))
+                    \]
+                \item If $r \in \rel{\Si}$ and $a \in ({\MM})^{m_r}$
+                    then 
+                    \[
+                        a \in \subintp{\Si}{\MM}{r}(a)
+                        = \subintp{\Si(*)}{\MM}{r}
+                        \implies \io(a)  \in \subintp{\Si(*)}{\NN}{r}
+                        = \subintp{\Si}{\NN}{r}
+                    \]
+            \end{itemize}
+        \item If we also have that it is an embedding in $\Si(*)$, 
+            then injectivity is preserved as it is a property of set morphisms. 
+            Given $r \in \rel{\Si}$ and $a \in ({\MM})^{m_r}$,
+            \[
+                \io(a)  \in \subintp{\Si}{\NN}{r}
+                = \subintp{\Si(*)}{\NN}{r}
+                \implies 
+                a \in \subintp{\Si(*)}{\MM}{r}(a)
+                = \subintp{\Si}{\MM}{r}
+            \]
+        \item If we also have that $\io$ is elementary in $\Si(*)$ 
+            then we use the \linkto{tarski_vaught}{Tarski-Vaught Test}:
+            let $\phi \in \form{\Si}$ have free variables indexed by $S$,
+            let $i \in S$ 
+            and let $a \in ({\MM})^{S \setminus \set{i}}$.
+            Then due to the construction in
+            \linkto{move_down_mod}{moving $\MM$ and $\NN$ down a signature} 
+            we have that for any $b \in {\NN}$, 
+            \[\NN \model{\Si} \phi (\io(a),\io(b)) 
+            \iff \NN \model{\Si(*)} \phi (\io(a),\io(b))\]
+            and similarly for $\MM$.
+            Hence 
+            \begin{align*}
+                &\forall b \in {\NN}, 
+                \NN \model{\Si} \phi(\io(a),\io(b)) \\
+                \implies &\forall b \in {\NN}, 
+                \NN \model{\Si(*)} \phi(\io(a),\io(b)) \\
+                \implies &\forall c \in {\MM}, 
+                \MM \model{\Si(*)} \phi(a,c) 
+                & \text{$\io$ is elementary in $\Si(*)$}\\
+                \implies &\forall c \in {\MM}, \MM \model{\Si} \phi(a,c)
+            \end{align*}
+            Hence $\io$ is elementary in $\Si$.
+    \end{enumerate}
+\end{proof}
+
+\begin{nttn}
+    Let $A$ be a set and $\Si$ be a signature,
+    enriching only the constant symbols of $\Si$ we can create a signature 
+    $\Si(A)$ such that 
+    \[\const{\Si(A)} := 
+        \const{\Si} \cup \set{c_a \st a \in A}\]
+    In the case that $A = {\MM}$ for some model $\MM$ then we write
+    $\Si(\MM) := \Si(A)$.
+\end{nttn}
+
+\begin{dfn}[$\Si(\MM)$, Diagram and the Elementary Diagram of a Structure]
+    Let $\MM$ be a $\Si$-structure,
+    we move $\MM$ up to the signature $\Si(\MM)$
+    by interpreting each new constant symbol $c_a$ as $a$.
+    ($\MM$ satisfies the conditions of our lemma for
+    \linkto{move_up_sig}{moving models up signatures} 
+    by choosing $T = \nothing$).
+    Thus we may treat $\MM$ as a $\Si(\MM)$ structure.
+    We define the atomic diagram of $\MM$ over $\Si$:
+    \begin{itemize}
+        \item[$\vert$] If $\phi$ is an atomic
+        $\Si(\MM)$-sentence such that $\MM \model{\Si(\MM)} \phi$,
+        then $\phi \in \atdiag{\Si}{\MM}$.
+        \item[$\vert$] If $\phi \in \atdiag{\Si}{\MM}$ then 
+        $\NOT \phi \in \atdiag{\Si}{\MM}$.
+    \end{itemize}
+    We define the elementary diagram of $\MM$ over $\Si$:
+    \begin{itemize}
+        \item[$\vert$] If $\phi \in \form{\Si(\MM)}$ and 
+        $\phi$ is a $\Si(\MM)$-sentence and $\MM \model{\Si(\MM)} \phi$,
+        then $\phi \in \eldiag{\Si}{\MM}$.
+    \end{itemize}
+\end{dfn}
+
+\begin{prop}[Models of the elementary diagram
+        correspond to elementary extensions]
+    \link{elem_ext_equiv_eldiag_model}
+    Given $\MM$ a $\Si$-structure and 
+    $\NN$ a $\Si(\MM)$-structure such that
+    $\NN \model{\Si(\MM)} \atdiag{\Si}{\MM}$,
+    we can make $\NN$ into a $\Si$-structure and find
+    a $\Si$-embedding from $\MM$ to $\NN$.
+    Furthermore
+    $\NN \model{\Si(\MM)} \eldiag{\Si}{\MM}$ then 
+    the embedding is elementary.
+
+    Conversely, given an elementary $\Si$-embedding from 
+    $\MM$ into a $\Si$-structure $\NN$, 
+    we can move $\NN$ up to being a $\Si(\MM)$ structure such that 
+    $\NN \model{\Si(\MM)} \eldiag{\Si}{\MM}$.
+    Note that we don't show the converse for the atomic case.%%%
+\end{prop}
+\begin{proof}
+    \begin{forward}
+        Suppose $\NN \model{\Si(\MM)} \atdiag{\Si}{\MM}$.
+        Firstly we work in $\Si(\MM)$ to define the embedding:
+        \linkto{move_up_sig}{move $\MM$ up a signature}
+        by taking the same interpretation as used in the 
+        definition of $\Si(\MM)$: 
+        \[\intp{\Si(\MM)}{\MM} : c_a \mapsto a\]
+        and preserving the same interpretation for symbols of $\Si$.
+        This makes $\intp{\const{\Si(\MM)}}{\MM}$ surjective.
+        Thus we write elements of ${\MM}$ as 
+        $\subintp{\Si(\MM)}{\MM}{c}$, 
+        for some $c \in \const{\Si(\MM)}$
+        
+        Next we define the $\Si(\MM)$-morphism 
+        $\io : \MM \to \NN$ such that 
+        $\io : \subintp{\Si(\MM)}{\MM}{c} \to \subintp{\Si(\MM)}{\NN}{c}$.
+        To check that $\io$ is well defined, 
+        take $c,d \in \const{\Si(\MM)}$ such that 
+        $\subintp{\Si(\MM)}{\MM}{c} = \subintp{\Si(\MM)}{\MM}{d}$.
+        \begin{align*}
+            &\implies \MM \model{\Si(\MM)} c = d \\
+            &\implies c = d \in \atdiag{\Si}{\MM} \\
+            &\implies \NN \model{\Si(\MM)} c = d \\
+            &\implies \subintp{\Si(\MM)}{\NN}{c} = \subintp{\Si(\MM)}{\NN}{d}
+        \end{align*}
+        Thus $\io$ is well defined.
+        In fact doing `not' gives us injectivity in the same way:
+        Take $c,d \in \const{\Si(\MM)}$ such that 
+        $\subintp{\Si(\MM)}{\MM}{c} \ne \subintp{\Si(\MM)}{\MM}{d}$.
+        \begin{align*}
+            &\implies \MM \model{\Si(\MM)} c \ne d \\
+            &\implies c \ne d \in \atdiag{\Si}{\MM} \\
+            &\implies \NN \model{\Si(\MM)} c \ne d \\
+            &\implies \subintp{\Si(\MM)}{\NN}{c} \ne \subintp{\Si(\MM)}{\NN}{d}
+        \end{align*}
+        Thus $\io$ is injective.
+        To check that $\io$ is a $\Si(\MM)$-morphism, 
+        we check interpretation of functions and relations.
+        Let $f \in \func{\Si(\MM)} = \func{\Si}$ and 
+        $c \in (\const{\Si(\MM)})^{n_f}$.
+        $\intp{\const{\Si(\MM)}}{\MM}$ is surjective thus we can find 
+        $d \in \const{\Si{\MM}}$ such that $\MM \model{\Si(\MM)} f(c) = d$.
+        Hence $f(c) = d \in \atdiag{\Si}{\MM}$.
+        Hence $\NN \model{\Si(\MM)} f(c) = d$.
+        \begin{align*}
+            \io \circ \subintp{\Si(\MM)}{\MM}{f}(\subintp{\Si(\MM)}{\MM}{c}) 
+            &= \io(\subintp{\Si(\MM)}{\MM}{d}) \\
+            &= \subintp{\Si(\MM)}{\NN}{d}\\
+            &= \subintp{\Si(\MM)}{\NN}{f}(\subintp{\Si(\MM)}{\NN}{c})\\
+            &= \subintp{\Si(\MM)}{\NN}{f} \circ \io(\subintp{\Si(\MM)}{\MM}{c})
+        \end{align*}
+        Let $r \in \rel{\Si(\MM)} = \rel{\Si}$ and 
+        $c \in (\const{\Si(\MM)})^{m_r}$.
+        \begin{align*}
+            \subintp{\Si(\MM)}{\MM}{c}\in \subintp{\Si(\MM)}{\MM}{r} 
+            &\implies \MM \model{\Si(\MM)} r(c)\\
+            &\implies r(c) \in \atdiag{\Si}{\MM}\\
+            &\implies \NN \model{\Si(\MM)} r(c) \\
+            &\implies \io(\subintp{\Si(\MM)}{\MM}{c}) = 
+            \subintp{\Si(\MM)}{\NN}{c} \in \subintp{\Si(\NN)}{\NN}{r} 
+        \end{align*}
+        To show that $\io$ is an embedding it remains to show 
+        the backward implication for relations.
+        Let $r \in \rel{\Si(\MM)} = \rel{\Si}$ and 
+        $c \in (\const{\Si(\MM)})^{m_r}$.
+        \begin{align*}
+            \subintp{\Si(\MM)}{\MM}{c} \notin \subintp{\Si(\MM)}{\MM}{r} 
+            &\implies \MM \nodel{\Si(\MM)} r(c)\\
+            &\implies \NOT r(c) \in \atdiag{\Si}{\MM}\\
+            &\implies \NN \nodel{\Si(\MM)} r(c) \\
+            &\implies \io(\subintp{\Si(\MM)}{\MM}{c}) = 
+            \subintp{\Si(\MM)}{\NN}{c} \notin \subintp{\Si(\NN)}{\NN}{r} 
+        \end{align*}
+        Assume furthermore that $\NN \model{\Si(\MM)} \eldiag{\Si}{\MM}$.
+        We show that this embedding is elementary.
+        Let $\phi$ be a $\Si(\MM)$-formula
+        with variables indexed by $S$
+        and $a \in ({\MM})^S$.
+        Let $c \in (\const{\Si})^S$ be such that 
+        $\subintp{\Si(\MM)}{\MM}{c} = a$.
+        \begin{align*}
+            \MM \model{\Si(\MM)} \phi(a) 
+                &\implies \phi(c) \in \eldiag{\Si}{\MM}\\
+                &\implies \NN \model{\Si(\MM)} \phi(c)\\
+                &\implies \NN \model{\Si(\MM)} \phi(\io(a))
+        \end{align*}
+        Similarly,
+        \begin{align*}
+            \MM \nodel{\Si(\MM)} \phi(a) &\implies \phi(c) 
+                \notin \eldiag{\Si}{\MM}\\
+            &\implies \NN \nodel{\Si(\MM)} \phi(c)\\
+            &\implies \NN \nodel{\Si(\MM)} \phi(\io(a))
+        \end{align*}
+        Hence $\io$ is an elementary embedding.
+        \linkto{move_down_morph}{Moving $\io : \MM \to \NN$ 
+        down} to being a $\Si$-morphism of $\Si$-structures
+        completes the proof.
+    \end{forward}
+    \begin{backward}
+        Sketch: Suppose $\io : \MM \to \NN$ is an elementary embedding.
+        Make both $\MM$ and $\NN$ $\Si(\MM)$-structures by 
+        $\intp{\Si(\MM)}{\MM}: c_a \to a$ and 
+        $\intp{\Si(\MM)}{\NN}: c_a \to \io(a)$,
+        where $a \in {\MM}$.
+        Show that $\io$ is still an elementary embedding
+        when moved up to $\Si(\MM)$.
+        Then for any $\phi \in \eldiag{\Si}{\MM}$,
+        $\MM \model{\Si(\MM)} \phi$ and so by the embedding being elementary
+        $\NN \model{\Si(\MM)} \phi$.
+        Hence $\NN \model{\Si(\MM)} \eldiag{\Si}{\MM}$.
+    \end{backward}
+\end{proof}
+
+\subsection{Universal axiomatization}
+\begin{dfn}[Axiomatization]
+    A $\Si$-theory $A$ is an axiomatization of a 
+    $\Si$-theory $T$ if for all $\Si$-structures $\MM$,
+    \[\MM \model{\Si} T \iff \MM \model{\Si} A\]
+\end{dfn}
+
+\begin{dfn}[Universal Theory, Universal Axiomatization]
+    If $A$ is a subset of 
+    \linkto{universal_formula_def}{$\unisen{\Si}$} 
+    then it is called a universal theory.
+    
+    A $\Si$-theory $A$ is a universal axiomatization of a 
+    $\Si$-theory $T$ if it is a universal theory that is an 
+    axiomatization of $T$.
+\end{dfn}
+
+\begin{lem}[Lemma on constants]
+    \link{lemma_on_const}
+    Suppose $\const{\Si} \subs \const{\Si(*)}$, 
+    $T \in \theory{\Si}$, $\phi \in \form{\Si}$
+    with variables indexed by $S$.
+    Suppose there exists a list of constant symbols not from $\Si$, 
+    i.e. $c \in (\const{\Si(*)}\setminus \const{\Si})^S$ 
+    such that $T \model{\Si(*)} \phi(c)$.
+    Then \[
+        T \model{\Si} \forall v, \phi(v)
+    \]
+\end{lem}
+\begin{proof}
+    We prove the contrapositive.
+    Suppose $T \nodel{\Si} \forall v, \phi(v)$
+    then there exists $\MM$ a $\Si$-model of $T$
+    such that $\MM \nodel{\Si} \forall v, \phi(v)$.
+    Thus there exists $a \in \MM^S$ 
+    such that $\MM \nodel{\Si} \phi(a)$.
+
+    Let $b$ be the element of ${\MM}$.
+    We \linkto{move_up_mod}{move $\MM$ up a signature} 
+    by extending the interpretation 
+    to the new constant symbols.
+    Suppose $d \in \const{\Si(*)} \setminus \const{\Si}$,
+    \[
+        \subintp{\Si(\MM)}{\MM}{d} = 
+        \begin{cases}
+            a_i &, \text{ if } \exists i \in S, d = c_i,\\
+            b &, \text{ otherwise} 
+        \end{cases}
+    \]
+    Then $\MM$ is a $\Si(*)$-model of $T$ such that 
+    $\MM \nodel{\Si(*)} \phi(a)$, 
+    which by construction is equivalent to 
+    $\MM \nodel{\Si(*)} \phi(c)$.
+\end{proof}
+
+\begin{nttn}{Universal consequences of $T$}
+    Let $T$ be a $\Si$-theory, then 
+    \[T_\forall := \set{\phi \in \unisen{\Si} \st T \modelsi \phi}\]
+    is called the set of universal consequences of $T$.
+\end{nttn}
+
+\begin{prop}[Universal axiomatizations make substructures models]
+    \link{universal_axiomatizations_make_subs_mods}
+    $T$ a $\Si$-theory has a universal axiomatization if and only if
+    for any $\Si$-model $\NN$ of $T$ and any $\Si$-embedding $\MM \to \NN$,
+    $\MM$ is a $\Si$-model of $T$.
+\end{prop}
+\begin{proof}
+    \begin{forward}
+        Suppose $A$ is a universal axiomatization of $T$,
+        $\NN$ is a $\Si$-model of $T$ and $\MM \to \NN$ is a 
+        $\Si$-embedding.
+        $\NN \model{\Si} T$ if and only if $\NN \model{\Si} A$
+        by definition of $A$.
+        $\NN \model{\Si} A$ if and only if $\MM \model{\Si} A$
+        since \linkto{emb_preserve_sat_of_quan_free}{
+            embeddings preserve the satisfaction of quantifier free formulas}
+        Finally $\MM \model{Si} A$ if and only if $\MM \model{\Si} T$
+        by definition of $A$.
+    \end{forward}
+
+    \begin{backward}
+        We show that $T_\forall$ is a universal axiomatization of $T$.
+        Let $\MM \model{\Si} T$ and let $\phi \in T_\forall$.
+        Then by definition of $T_\forall$, $T \model{\Si} \phi$.
+        Hence $\MM \model{\Si} \phi$ and any $\Si$-model of $T$ is
+        a $\Si$-model of $T_\forall$.
+
+        Suppose $\MM \modelsi T_\forall$.
+        We first show that $T \cup \atdiag{\Si}{\MM}$ is consistent.
+        By the \linkto{compactness}{compactness theorem} 
+        it suffices to show that for any subset 
+        $\De$ of $\atdiag{\Si}{\MM}$,
+        $T \cup \De$ is consistent.
+        Write $\De  = \set{\psi_1, \dots, \psi_n}$.
+        Let $\psi = \bigwedge_{1 \leq i \leq n} \psi_i$.
+        We can find $S$ that indexes the constant symbols in 
+        $\const{\Si(\MM)} \setminus \const{\Si}$ that appear in $\psi$ 
+        (in the same way as we made indexing sets of the variables).
+        Then we can create $\phi \in \form{\Si}$ 
+        with variables indexed by $S$ such that 
+        $\phi(c) = \psi$, 
+        where $c$ is a list of constant symbols in 
+        $\const{\Si(\MM)} \setminus \const{\Si}$ indexed by $S$.
+        Since $\De \subs \atdiag{\Si}{\MM}$ we have
+        $\forall i, \MM \model{\Si} \psi_i$.
+        Hence $\MM \modelsi \phi(c)$.
+        We can then show that $\MM \modelsi \exists v,  \phi(v)$ and so
+        $\MM \nodel{\Si} \forall v,  \NOT \phi(v)$.
+
+        Since each $\psi_i$ is from the the atomic diagram of $\MM$ 
+        they are all quantifier free.
+        Thus $\phi$ is a quantifier free $\Si$-formula and 
+        $\forall v,  \NOT \phi(v) \in \unisen{\Si}$.
+        Hence $T \nodel{\Si} \forall v, \NOT \phi(v)$ 
+        by the definition of $T_\forall$.
+        By \linkto{lemma_on_const}{the lemma on constants}
+        this implies that $T \nodel{\Si(\MM)} \NOT \phi(a)$.
+        Hence \linkto{not_a_consequence}{
+            there exists a non-empty $\Si(\MM)$-model of $T \cup \phi(a)$} 
+        Then it follows that this is also a $\Si(\MM)$-model of $T \cup \De$.
+        Thus $T \cup \De$ is consistent so
+        $T \cup \atdiag{\Si}{\MM}$ is consistent.
+
+        Thus there exists a non-empty $\Si$-model $\NN$ of 
+        $T \cup \atdiag{\Si}{\MM}$.
+        This is a model of $\atdiag{\Si}{\MM}$ thus by 
+        \linkto{elem_ext_equiv_eldiag_model}{there 
+        is a $\Si(\MM)$-embedding $\MM \to \NN$}
+        there is a $\Si(\MM)$-embedding $\MM \to \NN$.
+        We \linkto{move_down_morph}{make this a $\Si$-embedding}, 
+        hence using the theorem's hypothesis $\MM$ is a $\Si$-model of $T$.
+    \end{backward}
+\end{proof}
+
+The following result has doesn't come up at all until much later,
+but is included here as another demonstration of the lemma on constants in use.
+It appears as an exercise in the second chapter of Marker's book \cite{marker}.
+
+\begin{cor}[Amalgamation]
+    \link{amalgamation}
+    Let $\AA$, $\MM$ and $\NN$ be $\Si$-structures,
+    and suppose we have \linkto{partial_morph_dfn}{partial} 
+    elementary $\Si$-embeddings
+    $\io_\MM : A \to \MM$ and 
+    $\io_\NN : A \to \NN$, for $\nothing \ne A \subs \AA$.
+    Then there exists a common elementary extension $\LL$ of $\MM$ and $\NN$
+    such that the following commutes:
+    \begin{cd}
+        \MM \ar[r] &\LL \\
+        A \ar[u, "\io_\MM"] \ar[r, "\io_\NN"] &\NN \ar[u]
+    \end{cd}
+    $\LL$ is the `amalgamation' of $\MM$ and $\NN$.
+\end{cor}
+\begin{proof}
+    We show first that the theory $\eldiag{\Si}{\MM} \cup \eldiag{\Si}{\NN}$
+    is consistent as a $\Si(\MM,\NN)$-theory, where $\const{\Si(\MM,\NN)}$ is 
+    defined to be 
+    \[
+        \set{c_a \st a \in A} \cup 
+        \set{c_a \st a \in \MM \setminus \io_\MM(A)}
+        \cup \set{c_a \st a \in \NN \setminus \io_\NN(A)}
+    \]
+    where terms and formulas from $\Si(A), \Si(\MM), \Si(\NN)$ 
+    are interpreted in the natural way: 
+    the constants $c_{\io_\MM(a)} \mapsto c_a$ (similarly for $\NN$).
+    For the rest of the proof we identify 
+    $\const{\Si(\MM)}$ with
+    $\const{\Si(A)} \cup \set{c_a \st a \in \MM \setminus \io_\MM(A)}$
+    (similarly with $\NN$). 
+
+    By the \linkto{compactness}{compactness theorem} it suffices to show that 
+    for any finite subset $\De \subs \eldiag{\Si}{\NN}$,
+    $\eldiag{\Si}{\MM} \cup \De$ is consistent.
+    Let $\phi$ be the $\Si(\MM)$-formula and $a \in \NN^\star$ be such 
+    that \footnote{Take out all the finitely many constants appearing from 
+        $\NN \setminus \io_{\NN}(A)$ in 
+        $\De$ and make them into a tuple $a$, 
+        replacing them with free variables.
+        What remains is a finite set of $\Si(A)$-formulas, 
+        which are naturally also $\Si(\MM)$-formulas. 
+        We take the `and' of all of them to be $\phi$.}
+    \[\phi(a) = \bigand{\psi \in \De}{} \psi\]
+    $\phi(a)$ is naturally a $\Si(\MM,\NN)$-sentence such that 
+    $\NN \model{\Si(\MM,\NN)} \phi(a)$.
+    
+    Suppose for a contradiction $\eldiag{\Si}{\MM} \cup \De$ is inconsistent.
+    Then any $\Si(\MM,\NN)$-model of 
+    $\eldiag{\Si}{\MM}$ is not a model of $\De$,
+    which implies it does not satisfy $\phi(a)$.
+    Hence
+    \[\eldiag{\Si}{\MM} \model{\Si(\MM,\NN)} \NOT \phi(a)\]
+    By the \linkto{lemma_on_const}{lemma on constants} applied to 
+    $\Si(\MM) \leq \Si(\MM,\NN)$, $\eldiag{\Si}{\MM}$ and 
+    $a \in \const{\Si(\MM,\NN)} \setminus \const{\Si(\MM)}$ we have
+    \[\eldiag{\Si}{\MM} \model{\Si(\MM)} \forall v, \NOT \phi(v)\]
+    Noting that $\MM$ is a $\Si$-model of its elementary diagram, 
+    and \linkto{move_down_mod}{moving $\MM$} down a signature we have that 
+    \[
+        \MM \model{\Si(\MM)} \forall v, \NOT \phi(v) \implies 
+        \MM \model{\Si(A)} \forall v, \NOT \phi(v) \implies 
+    \]
+    Since $A \to \MM$ and $A \to \NN$ are partial elementary $\Si$-embeddings
+    (and thus naturally $\Si(A)$-embeddings) 
+    we have that 
+    $\AA \model{\Si(A)} \forall v, \NOT \phi(v)$ and so 
+    $\NN \model{\Si(A)} \forall v, \NOT \phi(v)$.
+    \linkto{move_up_mod}{Move this up} 
+    to $\Si(\MM,\NN)$ we have a contradiction, by choosing 
+    $v$ to be $a$:
+    $\NN \model{\Si(\MM,\NN)} \NOT \phi(a)$, 
+    but we remarked before that $\NN \model{\Si(\MM,\NN)} \phi(a)$.
+
+    Hence $\eldiag{\Si}{\MM} \cup \eldiag{\Si}{\NN}$
+    is consistent as a $\Si(\MM,\NN)$-theory. 
+    Let $\LL$ be a $\Si(\MM,\NN)$-model of this
+    (and naturally a $\Si(\MM)$ or a $\Si(\NN)$ structure).
+    Then \linkto{elem_ext_equiv_eldiag_model}{there exist elementary 
+    $\Si(\MM)$ and $\Si(\NN)$-extensions}
+    $\la_\MM : \MM \to \LL$ and $\la_\NN : \NN \to \LL$ such that 
+    $\la_\MM(\subintp{\Si(\MM)}{\MM}{c_m}) = \subintp{\Si(\MM)}{\LL}{c_m}$ 
+    for each constant symbol $c_m$ for $m \in \MM \setminus \io_\MM(A)$ 
+    and 
+    $\la_\MM(\subintp{\Si(\MM)}{\MM}{c_a}) = \subintp{\Si(\MM)}{\LL}{c_a}$ 
+    for each constant symbol $c_a$ for $a \in A$
+    (similarly with $\NN$).
+
+    Naturally, we can move everything down to $\Si(A)$.
+    Thus for any $a \in A$
+    \[
+        \la_\MM \circ \io_\MM(a) = \la_\MM (\subintp{\Si(A)}{\MM}{c_a})
+        = \la_\MM (\subintp{\Si(\MM)}{\MM}{c_a}) = 
+        \subintp{\Si(\MM)}{\LL}{c_a} = \subintp{\Si(A)}{\LL}{c_a}
+    \]
+    By symmetry we have 
+    $\la_\MM \circ \io_\MM(a) = \subintp{\Si(A)}{\LL}{c_a} =
+    \la_\NN \circ \io_\NN(a)$.
+\end{proof}
+
+\subsection{The L\"{o}wenheim-Skolem Theorems}
+The results in this subsection aren't used until much later.%? when?
+It is worth skipping for now, 
+but the material can be covered with the foundations made so far.
+
+\begin{prop}[Upward L\"{o}wenheim-Skolem Theorem]
+    \link{upwards_lowenheim_skolem}
+    If $\MM$ is an infinite $\Si$-structure 
+    and $\ka$ a cardinal such that 
+    $|{\MM}|+ |\const{\Si}| \leq \ka$,
+    there exists a $\Si$-structure $\NN$ with cardinality 
+    $\ka$ as well as an elementary 
+    $\Si$-embedding from $\MM$ to $\NN$.
+\end{prop}
+\begin{proof}
+    \linkto{move_up_sig}{Make $\MM$ a $\Si(\MM)$ 
+    structure as in the definition of $\Si(\MM)$},
+    then clearly $\MM \model{\Si(\MM)} \eldiag{\Si}{\MM}$.
+    Thus $\eldiag{\Si}{\MM}$ is a 
+    $\Si(\MM)$-theory with an infinite model $\MM$,
+    \linkto{inf_mod_theory_has_inf_mod}{
+        hence there exists a $\Si(\MM)$-structure $\NN$ of cardinality $\ka$} 
+    such that $\NN \model{\Si(\MM)} \eldiag{\Si}{\MM}$.
+    \linkto{elem_ext_equiv_eldiag_model}{Hence}
+    we can make $\NN$ a $\Si$-structure and find a 
+    $\Si$-embedding from $\MM$ to $\NN$.
+\end{proof}
+
+\begin{dfn}[Skolem Functions]
+    We say that a $\Si$-theory $T$ 
+    \emph{has built in Skolem functions} when for any $\Si$-formula $\phi$
+    that is not a sentence, 
+    with free variables indexed by $S$,
+    there exists $f \in \func{\Si}$ such that $n_f = k$ and 
+    \[T \model{\Si} \bigforall{i \in S}{} w_i, 
+        \brkt{\exists v, \phi(v,w) \to \phi(f(w),w)},\]
+    Note that $w$ can be length $0$, 
+    in which case $f$ has arity $0$ 
+    and so would be interpreted as a constant map.
+    We would have 
+    \[T \model{\Si}  
+        \exists v, \phi(v) \to \phi(f)\]
+\end{dfn}
+
+\begin{prop}[Skolemization]
+    \link{skolemization}
+    Let $T(0)$ be a $\Si(0)$-theory, 
+    then there exists $T$ a $\Si$ theory such that
+    \begin{enumerate}
+        \item $|\func{\Si}| = |\func{\Si(0)}| + \aleph_0$
+        \item $\func{\Si(0)} \subs \func{\Si}$, 
+            and they share the same constant and relation symbols
+        \item $T(0) \subs T$
+        \item $T$ has built in Skolem functions
+        \item All models of $T(0)$ can be moved up to being models of $T$ 
+            with interpretations agreeing on $\Si$.
+    \end{enumerate} 
+    We call $T$ the Skolemization of $T(0)$.
+\end{prop}
+\begin{proof}
+    Similarly to the \linkto{make_wit}{Witness Property proof}, 
+    we define $\Si(i), T(i)$ for each $i \in \N$.
+    Suppose by induction that we have $T(i) \in \theory{\Si}$, 
+    such that 
+    \begin{enumerate}
+        \item $|\func{\Si(i)}| = |\func{\Si(0)}| + \aleph_0$
+        \item $\func{\Si(0)} \subs \func{\Si(i)}$
+            and they share the same constant and relation symbols
+        \item $T(0) \subs T(i)$
+        \item All models of $T(0)$ can be moved up to being models of $T(i)$
+            with interpretations agreeing on $\Si$
+    \end{enumerate} 
+    Then define $\Si(i+1)$ such that only the function symbols are enriched:
+    \[
+        \func{\Si(i+1)} := \func{\Si(i)} \cup 
+        \set{f_{\phi} \st \phi \in \form{\Si(i)} 
+        \text{ and $\phi$ is not a sentence}}
+    \]
+    extending the arity $n_\star$ to by having 
+    $n_{f_\phi} = |S| - 1$, where $S$ is indexes the free variables of $\phi$.
+    There are countably infinite $\Si(i)$-formulas, 
+    thus $|\func{\Si(i)}| = |\func{\Si(0)}| + \aleph_0$.
+
+    Define $\Psi : \form{\Si(i)} \to \form{\Si(i+1)}$ mapping 
+    \[
+        \phi \mapsto \forall w, (\exists v, \phi(v,w)) \to (\phi(f_\phi (w),w)),
+    \] 
+    where $w$ is a list of variables of the suitable length. 
+    We then define 
+    \[
+        T(i+1) := T(i) \cup \Psi(\form{\Si(i)})
+    \]
+    which is a $\Si(i+1)$-theory because the image of $\Psi$ has only 
+    $\Si$-sentences.
+    Note that $T(0) \subs T(i) \subs T(i+1)$.
+
+    Let $\MM(0)$ be a $\Si(0)$-model of $T(0)$, 
+    then we have $\MM(i)$ a $\Si(i)$-model of $T(i)$ 
+    with the same carrier set and same
+    interpretation on $\Si(0)$ as $\MM(0)$.
+    Let $\MM(i+1)$ have the same carrier set as $\MM(0)$.
+    To extend interpretation to $\Si(i+1)$,
+    we first deal with the case where ${\MM(i)}$ is empty by simply
+    interpreting all new function symbols as the empty function.
+    Otherwise we have a $c \in {\MM(0)}$. 
+    For $f_\phi \in \Psi(\form{\Si(i)})$ define
+    \begin{align*}
+        \modintp{\MM(i+1)}{f_\phi} : 
+        {\MM(i+1)}^{n_{f_\phi}} &\to {\MM(i+1)}\\
+        a &\mapsto \begin{cases}
+            b &, \text{ if } \exists b \in {\MM}, 
+            \MM(i) \model{\Si(i)} \phi(b,a)\\
+            c &, \text{ otherwise}
+        \end{cases}\\
+    \end{align*}
+    Then by construction, 
+    $\MM(i+1) \model{\Si(i+1)} \Psi(\form{\Si(i)})$.
+    By checking the conditions on \linkto{move_up_sig}{
+        moving $\MM(i)$ up to $\MM(i+1)$},
+    we can also conclude
+    $\MM(i+1) \model{\Si(i+1)} T(i)$.
+    Hence $\MM(i+1) \model{\Si(i+1)} T(i+1)$.
+    
+    Let $\Si(*)$ 
+    be the signature such that its constants and relations agree with $\Si(0)$
+    and $\func{\Si(*)} = \bigcup_{i \in \N} \func{\Si(i)}$.
+    Then 
+    \[
+        |\func{\Si(*)}| = |\bigcup_{i \in \N} \func{\Si(i)}| = 
+        \aleph_0 \times (\aleph_0 + \func{\Si(0)}) = 
+        \aleph_0 + \func{\Si(0)}
+    \]
+
+    Let $T(*) = \bigcup_{i \in \N} T(i)$.
+    We show that $T(*)$ has built in Skolem functions.
+    Let $\phi$ be a $\Si(*)$-formula that is not a $\Si$-sentence.
+    Then $\phi \in \form{\Si(i)}$ for some $i \in \N$. 
+    Thus $\Psi(\phi) \in T(i+1) \subs T(*)$,
+    hence 
+    \[T(*) \model{\Si(*)} \forall w, (\exists v, \phi(v,w)) 
+    \to (\phi(f_\phi (w),w))\]
+    Thus $T(*)$ has built in Skolem functions.
+    
+    If $\MM \model{\Si} T$ then let ${\MM(*)} = {\MM}$ 
+    and define the interpretation such that for all $i \in \N$, 
+    and $f \in T(i)$, 
+    $\subintp{\Si(*)}{\MM(*)}{f} = \subintp{\Si(i)}{\MM(i)}{f}$.
+    Since all interpretations agree upon intersection this is well-defined.
+    To show that $\MM(*)$ is a $\Si(*)$-model of $T(*)$,
+    let $\phi$ be in $T(*)$; 
+    there is some $i \in \N$ such that $\phi \in T(i)$.
+    Using our lifted $\MM(i)$ from before we have 
+    $\MM(i) \model{\Si(i)} \phi$.
+    By checking the conditions on \linkto{move_up_sig}{
+        moving $\MM(i)$ up to $\MM(*)$},
+    we can also conclude
+    $\MM(*) \model{\Si(*)} \phi$
+    (by taking the $\Si(*)$ theory $\set{\phi}$).
+    Hence
+    $\MM(*) \model{\Si(*)} T(*)$.
+\end{proof}
+
+\begin{dfn}[Theory of a Structure]
+    We define the theory of a $\Si$-structure $\MM$ to be
+    \[\Theory_{\MM} := \set{\phi \in \form{\Si} \st 
+    \phi \text{ is a $\Si$-sentence and } \MM \model{\Si} \phi}\]
+\end{dfn}
+
+\begin{prop}[Downward L\"{o}wenheim-Skolem Theorem]
+    Let $\NN$ be a $\Si(0)$-structure and $M(0) \subs {\NN}$.
+    Then there exists a $\Si(0)$-structure $\MM$ such that 
+    \begin{itemize}
+        \item $M(0) \subs {\MM} \subs {\NN}$
+        \item $|{\MM}| \leq |M(0)| + |\func{\Si(0)}| + \aleph_0$
+        \item The inclusion $\subs : \MM \to \NN$ is an elementary embedding.
+    \end{itemize}
+\end{prop}
+\begin{proof}
+    We first take the \linkto{skolemization}{Skolemization} 
+    of $\Theory_{\NN}$ and call the new signature and theories 
+    $\Si$ and $T$.
+    Since $\NN \model{\Si(0)} \Theory_{\NN}$, 
+    we can move it up to being a $\Si$-structure so that 
+    $\NN \model{\Si} T$.
+
+    We want to create the carrier set of $\MM$,
+    it has to be big enough so that interpreted functions are closed on $\MM$.
+    Given $M(i)$ such that $|M(i)| \leq |M(0)| + |\func{\Si}| + \aleph_0$, 
+    we inductively define $M(i+1)$:
+    \[
+        M(i+1) := M(i) \cup \set{\subintp{\Si}{\NN}{f}(a) 
+        \st f \in \func{\Si} \AND a \in {M(i)}^{n_f}}
+    \]
+    Then \begin{align*}
+        |M(i+1)| &\leq |M(i)| + |\func{\Si}| \times |M(i)^{n_f}|\\
+        &\leq |M(i)| + |\func{\Si}| \times (|M(i)| + \aleph_0)\\
+        &\leq |M(0)| + |\func{\Si}| + \aleph_0 + |\func{\Si}| 
+        \times (|M(0)| + |\func{\Si}| + \aleph_0)\\
+        &\leq |M(0)| + |\func{\Si}| + \aleph_0
+    \end{align*}
+    Then ${\MM} := \bigcup_{i} M(i)$ and 
+    $|{\MM}| \leq |M(i)| \times \aleph_0 =
+    |M(0)| + |\func{\Si}| + \aleph_0 
+    \leq |M(0)| + |\func{\Si(0)}| + \aleph_0$.
+
+    We first interpret function symbols, 
+    which will give us a way to interpret constant symbols. 
+    For $f \in \func{\Si}$ and $a \in ({\MM})^{n_f}$,
+    define $\subintp{\Si}{\MM}{f}(a) = \subintp{\Si}{\NN}{f}(a)$.
+    This is well-defined as there exists 
+    $i \in \N$ such that $a \in (M(i))^{n_f}$,
+    \[\subintp{\Si}{\MM}{f}(a) \in M(i+1) \subs {\MM}\]
+    Then to interpret constant symbols,
+    we consider for each $c \in \const{\Si}$ the formula $v = c$.
+    Since $T$ has built in Skolem functions and $\NN \model{\Si} T$, 
+    there exists $f$ with arity $n_f = 0$ such
+    $\NN \model{\Si} (\exists v, v = c) \to f = c$.
+    Since $\NN \model{\Si} \exists v, v = c$, 
+    we have $\subintp{\Si}{\NN}{f} = \subintp{\Si}{\NN}{c}$.
+    Since $\subintp{\Si}{\NN}{f} = \subintp{\Si}{\MM}{f} : 
+        ({\MM})^0 \to {\MM}$ 
+    we can define $\subintp{\Si}{\MM}{c} = \subintp{\Si}{\NN}{c} = 
+        \subintp{\Si}{\NN}{f} = \subintp{\Si}{\MM}{f} \in {\MM}$.
+    
+    Lastly define the interpretation of relations as 
+    $\subintp{\Si}{\MM}{r} = ({\MM})^{m_r} \cap \subintp{\Si}{\NN}{r}$.
+
+    By construction the inclusion $\subs$ is a $\Si$-embedding. 
+    We check that it is elementary using the third equivalent condition in the
+    \link{tarski_vaught}{Tarski Vaught Test}:
+    let $\phi \in \form{\Si}$ with free variables indexed by $S$,
+    $i \in S$ and
+    $a \in ({\MM})^{S \setminus \set{i}}$.
+    Suppose $\exists c \in {\NN}, \NN \model{\Si} \phi(a,c)$.
+    $T$ has built in Skolem functions,
+    and $\NN \model{\Si} T$. 
+    Hence there exists $f \in \func{\Si}$ such that
+    \[
+        \NN \model{\Si} (\exists v, \phi(a,v)) \to \phi(a,f(a)) 
+    \]
+    We can deduce $\NN \model{\Si} \phi(a,f(a))$.
+    Noting that $\subintp{\Si}{\MM}{f}(a) = \subintp{\Si}{\NN}{f}(a)$ 
+    completes the Tarski Vaught Test. 
+    Hence $\subs$ is an elementary $\Si$-embedding.
+    
+    We \linkto{move_down_morph}{move $\subs : \MM \to \NN$ down a signature} 
+    since by 
+    \linkto{skolemization}{Skolemization} we have 
+    $\Si(0) \leq \Si$.
+    Then $\subs : \MM \to \NN$ is an elementary $\Si$-embedding.
+\end{proof}
