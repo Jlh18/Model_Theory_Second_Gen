@@ -14,7 +14,7 @@ This section mainly follows material from Tent and Ziegler's book \cite{tent}.
     \[\MM \model{\Si} p(a)\]
     to mean for every $\phi \in p$, $\MM \model{\Si} \phi(a)$.
 
-    We say $p \subs F(\Si,n)$ is consistent with $T$ if there exists a non-empty 
+    We say $p \subs F(\Si,n)$ is consistent with $T$ if there exists 
     $\MM \model{\Si} T$ and $a \in {\MM}^n$
     such that $\MM \modelsi p(a)$. 
 
@@ -41,7 +41,7 @@ This section mainly follows material from Tent and Ziegler's book \cite{tent}.
 \end{lem}
 \begin{proof}
     \begin{forward}
-        Suppose we have a non-empty $\Si(c)$-structure 
+        Suppose we have a $\Si(c)$-structure 
         $\MM \model{\Si(c)} T \cup p(c)$.
         Then by taking the images of the interpretation of each $c_i$ in $\MM$
         we obtain $a = \modintp{\MM}{c} \in {\MM}^n$ such that 
@@ -168,7 +168,7 @@ This section mainly follows material from Tent and Ziegler's book \cite{tent}.
     \begin{itemize}
         \item Suppose $(\NOT \phi) \in p$.
             Then if $p \in [\phi]_T$ then since $p$ is consistent with $T$
-            there exists a non-empty model $\MM$ and $a$ from 
+            there exists a model $\MM$ and $a$ from 
             $\MM$ such that
             $\MM \modelsi \phi(a)$ and $\MM \nodel{\Si} \phi(a)$, 
             a contradiction.
@@ -246,7 +246,7 @@ This section mainly follows material from Tent and Ziegler's book \cite{tent}.
         and so $p \in [\phi], q \in [\NOT \phi]_T$.
         These opens are disjoint:
         if $r \in [\phi]_T \cap [\NOT \phi]_T$ then as 
-        $r$ is consistent with $T$, there exists a non-empty 
+        $r$ is consistent with $T$, there exists 
         $\MM \model{\Si} T$ such that 
         $\MM \model{\Si} \phi$ and $\MM \model{\Si}(\NOT \phi)$
         a contradiction. 
@@ -313,8 +313,7 @@ We will this in a few results.
 
 \begin{lem}[Finite realisation and embeddings]
     \link{finite_realisation_and_embeddings}
-    Let $\MM$ be a non-empty 
-    $\Si$-structure, 
+    Let $\MM$ be a $\Si$-structure, 
     $A$ a subset of ${\MM}$ and $p$ a subset of $F(\Si(A),n)$.
     Then the following are equivalent 
     \begin{itemize}
@@ -331,7 +330,7 @@ We will this in a few results.
     $\Si(A)$-embeddings for any subset $A \subs \MM$.
 \end{lem}
 \begin{proof}
-    $(1. \implies 2.)$ If there exists a non-empty $\NN$ and a
+    $(1. \implies 2.)$ If there exists $\NN$ and a
     $b \in {\NN}^n$ such that 
     $\NN \model{\Si(\MM)} \eldiag{\Si}{\MM}$ and 
     $\NN \model{\Si(\MM)} p(b)$.
@@ -369,7 +368,7 @@ We will this in a few results.
 %
 %    \begin{forward}
 %        Let $\De \subs p$ be finite.
-%        Then by assumption there exists a non-empty 
+%        Then by assumption there exists
 %        $\NN$ and a $b \in {\NN}^n$ 
 %        such that 
 %        $\NN \model{\Si(\MM)} \eldiag{\Si}{\MM}$ and 
@@ -403,14 +402,14 @@ We will this in a few results.
 \end{proof}
 
 \begin{dfn}[Type of an element]
-    Let $\MM$ be a $\Si$-structure, 
+    Let $\MM$ be a $\Si$-structure containing
     $A \subs {\MM}$ and $a \in {\MM}^n$
     Then 
     \[\subintp{A,n}{\MM}{\tp}(a) := 
     \set{\phi \in F(\Si(A),n) \st \MM \model{\Si(A)} \phi(a)}\]
     is the type of $a$ in $\MM$ over $A$.
-    One can verify that this is a maximal $n$-type over $T$
-    if $\MM$ is a non-empty model of $T$.
+    One can verify that this is a maximal $n$-type on $T$
+    if $\MM$ is a model of $T$.
 \end{dfn}
 
 \begin{prop}
@@ -432,11 +431,11 @@ We will this in a few results.
 
 \begin{prop}[All maximal realised $n$-types are types of an element]
     %? Where to put?
-    Let $\MM$ be a non-empty $\Si$-structure,
+    Let $\MM$ be a $\Si$-structure,
     $A$ a subset of ${\MM}$ and $p$ a subset of $F(\Si(A),n)$.
     Let $a \in {\MM}^n$.
     Then \begin{itemize}
-        \item $p$ is a maximal $n$-type over $\eldiag{\Si}{\MM}$ 
+        \item $p$ is a maximal $n$-type on $\eldiag{\Si}{\MM}$ 
             that is realised by $a \in {\MM}^n$ 
             if and only if $p = \subintp{A,n}{\MM}{\tp}(a)$.
         \item If $\MM \subs \NN$ is an elementary embedding then
@@ -544,8 +543,8 @@ Thus this section is worth skipping for now.
     \[\subintp{A,n}{\MM}{\qftp}(a) := 
     \set{\phi \in QFF(\Si(A),n) \st \MM \model{\Si(A)} \phi(a)}\]
     is the quantifier free type of $a$ in $\MM$ over $A$.
-    One can verify that this is a maximal quantifier free $n$-type over $T$
-    if $\MM$ is a non-empty model of $T$.
+    One can verify that this is a maximal quantifier free $n$-type on $T$
+    if $\MM$ is a model of $T$.
     We will often drop parts of the subscripts and superscripts when it is
     clear. 
     In fact the $n$ can be deduced by the length of $a$ 

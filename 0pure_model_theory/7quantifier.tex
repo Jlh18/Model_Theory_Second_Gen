@@ -130,8 +130,7 @@ Written whilst following section on algebraically closed fields.
 
         Suppose for a contradiction 
         $T \cup \set{\psi(d) \st \psi \in \Ga} \nodel{\Si(*)} \phi(d)$.
-        Then \linkto{not_a_consequence}{
-            there exists a non-empty model}
+        Then there exists a model
         $\MM$ of $T \cup \set{\psi(d) \st \psi \in \Ga}$ such that 
         $\MM \nodel{\Si} \phi(d)$.
 
@@ -163,7 +162,7 @@ Written whilst following section on algebraically closed fields.
         However each $\De \subs \atdiag{\Si(*)}{\MM}$ and so
         $\MM \model{\Si(*)} \bigand{\psi(d) \in \De}{}\psi(v)$, 
         a contradiction.
-        Thus there exists a non-empty model
+        Thus there exists a model
         \[\NN \model{\Si(*)(\MM)} T \cup 
             \atdiag{\Si(*)}{\MM} \cup \set{\phi(d)}\]
         Since $\NN \model{\Si(*)(\MM)} \atdiag{\Si(*)}{\MM}$ there exists a 
@@ -517,7 +516,7 @@ which should be looked at first.
     \link{quant_elim_for_types}
     Let $T$ be a $\Si$-theory.
     $T$ has quantifier elimination if and only if for any $n \in \N$,
-    any two non-empty $\Si$-models of $T$ and any $a \in \MM^n, b \in \NN^n$,
+    any two $\Si$-models of $T$ and any $a \in \MM^n, b \in \NN^n$,
     if \[\subintp{\nothing}{\MM}{\qftp}(a) = 
     \subintp{\nothing}{\NN}{\qftp}(b)\]
     then \[\subintp{\nothing}{\MM}{\tp}(a) = 
@@ -611,13 +610,6 @@ which should be looked at first.
     Hence $\NN \modelsi \forall v, \psi(a,\al)$.
     The other direction is similar.
 \end{proof}
-
-\begin{dfn}[Elementary equivalence]
-    Let $\MM$, $\NN$ be $\Si$-structures.
-    They are elementarily equivalent if for any $\Si$-sentence $\phi$,
-    $\MM \model{\Si} \phi$ if and only if $\NN \model{\Si} \phi$.
-    We write $\MM \equiv_\Si \NN$.
-\end{dfn}
 
 \begin{cor}[Back and forth implies elementary equivalence]
     \link{back_and_forth_implies_elem_equiv}
@@ -779,35 +771,6 @@ which should be looked at first.
         This is satisfied as
         \linkto{back_and_forth_gives_quantifier_elimination_lem}{any 
         two models of $T$ are back and forth equivalent}.
-    \end{backward}
-\end{proof}
-
-\begin{lem}[Equivalent definition of completeness]
-    \link{equiv_def_completeness_0}
-    Let $T$ be a $\Si$-theory.
-    $T$ is complete if and only if all non-empty models of 
-    $T$ are elementarily equivalent.\footnote{Similarly to before, 
-        `non-empty' is redundant in the backwards direction.}
-\end{lem}
-\begin{proof}
-    \begin{forward}
-        Any two non-models of $T$ will satisfy the formulas of $T$, 
-        which is a maximal set of $\Si$-sentences.
-        Since we are assuming that they are non-empty we have that 
-        $T$ is consistent
-        hence for any formula either it or its negation is in $T$.
-        Hence they satisfy the same formulas.    
-    \end{forward}
-    
-    \begin{backward}
-        If $\phi$ is a $\Si$-sentence then suppose for a contradiction 
-        \[T \nodel{\Si} \phi \text{ and } T \nodel{\Si} \NOT \phi\]
-        Then \linkto{not_a_consequence}{there exist 
-            non-empty models of $T$} 
-        such that $\MM \nodel{\Si} \phi$ and $\NN \nodel{\Si} \NOT \phi$.
-        By assumption they are elementarily equivalent and so 
-        $\MM \model{\Si} \NOT \phi$ implies $\NN \model{\Si} \NOT \phi$,
-        a contradiction.
     \end{backward}
 \end{proof}
 

@@ -85,26 +85,43 @@ subsets.
     there are no constant or function symbols so the only terms are variables.
 \end{eg}
 
+\begin{dfn}[Atomic formula, quantifier free formula]
+    Given $\Si$ a signature, 
+    its set of atomic $\Si$-formulas is defined as
+    \begin{itemize}
+        \item[$\vert$] $\top$ is an atomic $\Si$-formula
+        \item[$\vert$] Given $t, s \in \term{\Si}$, 
+        the string $(t = s)$ is an atomic $\Si$-formula.
+        \item[$\vert$] Given $r \in \rel{\Si}, t \in (\term{\Si})^{m_r}$, 
+        the string $r(t)$ is an atomic $\Si$-formula.
+    \end{itemize}
+    This will be the $\Si$-formulas that are not built `inductively'.
+
+    The set of quantifier free $\Si$-formulas is defined inductively:
+    \begin{itemize}
+        \item[$\vert$] Given $\phi$ an atomic $\Si$-formula,
+            $\phi$ is a quantifier free $\Si$-formula.
+        \item[$\vert$] Given $\phi$ a quantifier free $\Si$-formula, 
+        the string $\NOT \phi$ is a quantifier free $\Si$-formula. 
+        \item[$\vert$] Given $\phi, \psi$ both quantifier free $\Si$-formulas, 
+        the string $\phi \lor \psi$ is a quantifier free $\Si$-formula.
+    \end{itemize}
+    Notice quantifier free $\Si$-formulas are indeed $\Si$-formulas
+\end{dfn}
+
 \begin{dfn}[$\Si$-formula, free variable]
     Given $\Si$ a signature, 
     its set of $\Si$-formulas $\form{\Si}$ is inductively defined:
     \begin{itemize}
-        \item[$\vert$] $\top$ is a $\Si$-formula
-        \item[$\vert$] Given $t, s \in \term{\Si}$, 
-        the string $(t = s)$ is a $\Si$-formula
-        \item[$\vert$] Given $r \in \rel{\Si}, t \in (\term{\Si})^{m_r}$, 
-        the string $r(t)$ is a $\Si$-formula \vspace{1em}
-        \item[$\vert$] Given $\phi \in \form{\Si}$, 
-        the string $(\NOT \phi)$ is a $\Si$-formula 
-        \item[$\vert$] Given $\phi, \psi \in \form{\Si}$, the string 
-        $(\phi \lor \psi)$ is a $\Si$-formula
+        \item[$\vert$] Given $\phi$ a quantifier free $\Si$-formula,
+        $\phi$ is a $\Si$-formula.
         \item[$\vert$] Given $\phi \in \form{\Si}$ 
         and $v_i \in \var{\Si}$, we take the replace all occurrences of
         $v_i$ with an unused symbol such as 
         $z$ in the string $(\forall v_i, \phi)$
         and call this a $\Si$-formula.
     \end{itemize}
-    Shorthand for some strings in $\form{\Si}$ include 
+    Shorthand for some $\Si$-formulas include 
     \begin{itemize}
         \item $\bot := \NOT \top$
         \item $\phi \land \psi := \NOT((\NOT\phi) \lor (\NOT\psi))$
@@ -383,7 +400,6 @@ then we write $\subintp{T}{\MM}{t}:=
 \end{dfn}
 
 \begin{dfn}[Models] 
-    \link{consistent}
     Given an $\Si$-structure $\MM$ and $\Si$-theory $T$, 
     we write $\MM \model{\Si} T$ and say
     \emph{$\MM$ is a $\Si$-model of $T$} when 
@@ -413,7 +429,7 @@ then we write $\subintp{T}{\MM}{t}:=
     and a $\Si$-sentence $\phi$,
     we say $\phi$ is a consequence of $T$
     and say $T \model{\Si} \phi$ 
-    when for all non-empty $\Si$-models $\MM$ of $T$, 
+    when for all $\Si$-models $\MM$ of $T$, 
     we have $\MM \model{\Si} \phi$.
 \end{dfn}
 \begin{rmk}
@@ -423,6 +439,11 @@ then we write $\subintp{T}{\MM}{t}:=
     such that $\modintp{\MM}{c} = a$,
     it only makes sense to write $T \model{\Si} \phi$ if $\phi$
     is a \emph{sentence}.
+
+    We have included the empty structure in this definition,
+    often this will not make a difference since the signature 
+    could have constant symbols or the theory $T$ could have an `existential' 
+    sentence in it.
 \end{rmk}
 
 \begin{ex}[Logical consequence]
@@ -435,6 +456,7 @@ then we write $\subintp{T}{\MM}{t}:=
 \end{ex}
 
 \begin{dfn}[Consistent theory]
+    \link{consistent}
     A $\Si$-theory $T$ is consistent if either of the following equivalent 
     definitions hold:
     \begin{itemize}
@@ -443,7 +465,7 @@ then we write $\subintp{T}{\MM}{t}:=
             $\Si$-sentence $\phi$ such that
             $T \model{\Si} \phi$ and $T \model{\Si} \NOT \phi$.
         \item There exists 
-            a non-empty $\Si$-model of $T$. 
+            a $\Si$-model of $T$. 
     \end{itemize}
     Thus the definition of consistent is intuitively 
     `$T$ does not lead to a contradiction'.
@@ -456,15 +478,14 @@ then we write $\subintp{T}{\MM}{t}:=
 \begin{proof} 
     We show that the two definitions are equivalent.
     \begin{forward}
-        Suppose no non-empty model exists.
+        Suppose no model exists.
         Take $\phi$ to be the $\Si$-sentence $\top$.
-        Since the only model of $T$ is the empty $\Si$-structure.
-        Hence all non-empty $\Si$-models of $T$ satisfy $\top$ and $\bot$
+        Hence all $\Si$-models of $T$ satisfy $\top$ and $\bot$
         (there are none) so
         $T \model{\Si} \top$ and $T \model{\Si} \bot$.
     \end{forward}
     \begin{backward}
-        Suppose $T$ has non-empty $\Si$-model $\MM$
+        Suppose $T$ has a $\Si$-model $\MM$
         and $\MM \model{\Si} \phi$ and $\MM \model{\Si} \NOT \phi$.
         This implies $\MM \model{\Si} \phi$ and $\MM \nodel{\Si} \phi$,
         a contradiction.

@@ -14,9 +14,9 @@ constructing Stone spaces.
     and the quotient $F(\Si,n) / T$.
     We make $F(\Si,n) / T$ into a Boolean algebra by 
     interpreting $0$ as $\pi(\bot)$, $1$ as $\pi(\top)$, 
-    $\pi(\phi) \cap \pi(\psi)$ as $\pi(\phi \AND \psi)$,
-    $\pi(\phi) \cup \pi(\psi)$ as $\pi(\phi \OR \psi)$,
-    $\NEG \pi(\phi)$ as $\pi(\NOT \phi)$ and 
+    $\pi(\phi) \sqcap \pi(\psi)$ as $\pi(\phi \AND \psi)$,
+    $\pi(\phi) \sqcup \pi(\psi)$ as $\pi(\phi \OR \psi)$,
+    $- \pi(\phi)$ as $\pi(\NOT \phi)$ and 
     $\pi(\phi) \leq \pi(\psi)$ as 
     \[\set{(\pi(\phi),\pi(\psi)) \st T \model{\Si} \forall v, (\phi \to \psi)}\]
     One can verify that these are well-defined and satisfy the axioms of 
@@ -86,7 +86,7 @@ constructing Stone spaces.
             \linkto{technical_lem_max_subs_pullback}{$\phi,\psi \in p$} and so
             $\phi \AND \psi \in p$ thus by definition of the Boolean algebra 
             $F(\Si,n) / T$, 
-            \[\pi(\phi) \cap \pi(\psi) = \pi(\phi \AND \psi) \in \pi(p)\]
+            \[\pi(\phi) \sqcap \pi(\psi) = \pi(\phi \AND \psi) \in \pi(p)\]
         \item If $\pi(\phi) \in \pi(p)$ and $\pi(\phi) \leq \pi(\psi)$ then 
             \linkto{technical_lem_max_subs_pullback}{$\phi \in p$} 
             and by definition of $\leq$,
@@ -100,8 +100,8 @@ constructing Stone spaces.
     The image $\pi(p)$ is an ultrafilter by the 
     \linkto{negation_is_in_ultrafilter}{equivalent definition}:
     if $\pi(\phi) \in F(\Si,n) / T$ then either 
-    $\phi \in p$ or $\NEG \phi \in p$ by maximality of $p$, 
-    hence $\pi(\phi) \in \pi(p)$ or $\pi(\NEG \phi) \in \pi(p)$.
+    $\phi \in p$ or $\NOT \phi \in p$ by maximality of $p$, 
+    hence $\pi(\phi) \in \pi(p)$ or $\pi(\NOT \phi) \in \pi(p)$.
     Thus we have $\pi$ is a map into \[
     \set{\FF \in S(F(\Si,n) / T) \st \pi^{-1}(\FF) \text{ consistent with } T}\]
 
@@ -113,7 +113,7 @@ constructing Stone spaces.
     Then its preimage is an $n$-type.
     If its preimage is a maximal $n$-type then we have surjectivity.
     Indeed since $\FF$ is an ultrafilter if $\phi \in F(\Si,n)$ then 
-    $\pi(\phi) \in \FF$ or $\pi(\NOT \phi) = \NEG \pi(\phi) \in \FF$,
+    $\pi(\phi) \in \FF$ or $\pi(\NOT \phi) = - \pi(\phi) \in \FF$,
     hence $\phi \in \pi^{-1}(\FF)$ or $\NOT \phi \in \pi^{-1}(\FF)$.
 
     To show that the map is continuous in both directions,
@@ -124,8 +124,8 @@ constructing Stone spaces.
     $\pi : S_n(T) \to X$ is a bijection we have that
     \[\pi([\phi]_T) = \set{\FF \in X \st \phi \in \pi^{-1}(\FF)} =
     \set{\FF \in F(\Si,n) / T \st \pi(\phi) \in \FF \text{ and } \FF \in X} = 
-    [\pi(\phi)] \cap X\]
-    and similarly $\pi^{-1}([\pi(\phi)] \cap X) = [\phi]_T$.
+    [\pi(\phi)] \sqcap X\]
+    and similarly $\pi^{-1}([\pi(\phi)] \sqcap X) = [\phi]_T$.
     Hence there is a correspondence between clopen sets.
 \end{proof}
 

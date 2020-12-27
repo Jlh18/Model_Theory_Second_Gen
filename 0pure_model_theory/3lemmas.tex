@@ -1,4 +1,4 @@
-\subsection{The category of structures}
+\subsection{The Category of Structures}
 \begin{dfn}[$\Si$-morphism, $\Si$-embedding, $\Si$-isomorphism]
     \link{partial_morph_dfn}
     Given $\Si$ a signature, 
@@ -21,10 +21,7 @@
     (the word extension is often used interchangably with embedding). 
 
     In the case that $A = \carrier{\MM}$
-    we write $\io : \MM \to \NN$ and call $\io$ a 
-    $\Si$-morphism;
-    in this case if it is both an embedding and a bijection then we say 
-    $\MM$ and $\NN$ are $\Si$-isomorphic and write $\MM \iso_\Si \NN$.
+    we write $\io : \MM \to \NN$ and call $\io$ a $\Si$-morphism.
 \end{dfn}
 The notion of morphisms here will be the same as 
 morphisms in the algebraic setting.
@@ -82,21 +79,19 @@ It is worth knowing that the set of $\Si$-structures form a category:
 \begin{dfn}[The category of $\Si$-structures]
     \link{category_of_structures}
     Given a signature $\Si$, 
-    we denote the category of $\Si$-structures 
-    $(\struc{\Si}, \mor{\star}{\star}{}, \circ)$
-    as $\Mod{\Si}$,
-    where \[\mor{\MM}{\NN}{} = 
-    \set{\io : {\MM} \to {\NN} \st 
-    \io \text{ is a } \Si\text{-morphisms}}\]
+    we have $\Mod{\Si}$ - a category where objects are $\Si$-structures 
+    and morphisms are $\Si$-morphisms.
     
     Clearly for any $\MM$, 
     the identity exists and is a $\Si$-morphism.
-    We don't check associativity of $\circ$,
-    but do prove that composition of morphisms are morphisms.
+    We show that composition of morphisms are morphisms.
     Furthermore, composition of embeddings are embeddings
     and composition of elementary embeddings are elementary.
     Thus we could also define morphisms between objects to be embeddings
     or elementary embeddings and obtain a subcategory.
+
+    Hence we inherit a notion of isomorphism of $\Si$-structures
+    from category theory.
 \end{dfn}
 \begin{proof}
     Let $\io_1 : \MM_0 \to \MM_1$ and 
@@ -135,7 +130,7 @@ It is worth knowing that the set of $\Si$-structures form a category:
     Then
     \[
         \MM_0 \modelsi \phi(a) \iff \MM_1 \modelsi \phi(\io_1 (a))
-        \iff \modelsi \phi(\io_2 \circ \io_1 (a))
+        \iff \MM_2 \modelsi \phi(\io_2 \circ \io_1 (a))
     \]
 \end{proof}
 
@@ -149,33 +144,6 @@ It is worth knowing that the set of $\Si$-structures form a category:
     theory of fields (namely fields) produces the category of fields.
 \end{eg}
 
-\begin{dfn}[Atomic Formula]
-    Given $\Si$ a signature, 
-    its set of atomic $\Si$-formulas is inductively defined
-    \begin{itemize}
-        \item[$\vert$] Given $t, s \in \term{\Si}$, 
-        the string $(t = s)$ is an atomic $\Si$-formula.
-        \item[$\vert$] Given $r \in \rel{\Si}, t \in (\term{\Si})^{m_r}$, 
-        the string $r(t)$ is an atomic $\Si$-formula.
-    \end{itemize}
-    This is just the subset of $\form{\Si}$ 
-    where the formulas are not built inductively.
-\end{dfn}
-
-\begin{dfn}[Quantifier Free Formula]
-    The set of quantifier free $\Si$-formulas is defined inductively:
-    \begin{itemize}
-        \item[$\vert$] Given $\phi$ an atomic $\Si$-formula,
-            $\phi$ is a quantifier free $\Si$-formula.
-        \item[$\vert$] Given $\phi$ a quantifier free $\Si$-formula, 
-        the string $\NOT \phi$ is a quantifier free $\Si$-formula. 
-        \item[$\vert$] Given $\phi, \psi$ both quantifier free $\Si$-formulas, 
-        the string $\phi \lor \psi$ is a quantifier free $\Si$-formula.
-    \end{itemize}
-    Notice quantifier free $\Si$-formulas are indeed $\Si$-formulas
-\end{dfn}
-
-%?
 \begin{prop}[Embeddings Preserve Satisfaction of Quantifier Free Formulas]
     \link{emb_preserve_sat_of_quan_free}
     Given $\io : \MM \to \NN$ a $\Si$-embedding and
@@ -197,7 +165,7 @@ It is worth knowing that the set of $\Si$-structures form a category:
     Thus from the above we can immediately conclude by induction
     that if $\phi$ is a quantifier free $\Si$-formula, 
     \[\MM \model{\Si} \phi(a)  \iff \NN \model{\Si} \phi(\io(a))\]
-    However, our result is stronger than this since we didn't
+    Note that our original result is stronger than this since we didn't
     assume the formula to be quantifier free.
 \end{prop}
 \begin{proof}~
@@ -246,8 +214,8 @@ It is worth knowing that the set of $\Si$-structures form a category:
 
 \begin{dfn}[Universal Formula, Universal Sentence]
     \link{universal_formula_def}
-    The set of universal $\Si$-formulas
-    is defined with two constructors:
+    A $\Si$-formula is universal if it can be 
+    built inductively by the following two constructors:
     \begin{itemize}
         \item[$\vert$] If $\phi$ is a quantifier free $\Si$-formula 
         then it is a universal $\Si$-formula.
@@ -256,8 +224,6 @@ It is worth knowing that the set of $\Si$-structures form a category:
     \end{itemize}
     In other words universal $\Si$-formulas are formulas that start with 
     a bunch of `for alls' followed by a quantifier free formula.
-    Universal $\Si$-sentences are $\Si$-formulas with no free variables
-    which we denote by $\unisen{\Si}$.
 \end{dfn}
 
 \begin{prop}[Embeddings preserve satisfaction of universal formulas downwards]
@@ -266,7 +232,6 @@ It is worth knowing that the set of $\Si$-structures form a category:
     $\phi$ a universal $\Si$-formula with 
     variables indexed by $S$ ($\chi$ is quantifier free).
     For any $a \in \MM^S$
-    Then 
     \[
         \NN \modelsi \phi(\io(a)) \quad \implies \quad
         \MM \model{\Si} \phi(a)
@@ -290,8 +255,7 @@ It is worth knowing that the set of $\Si$-structures form a category:
         $b \in {\MM}$,
         \[\NN \modelsi \psi(\io(a),\io(b)) \quad \implies \quad
         \MM \model{\Si} \psi(a,b)\]
-        Then since $T$ indexes the variables of $\phi$ it is clear that
-        for any $a \in {\MM}^T$
+        Then for any $a \in {\MM}^T$
         \begin{align*}
             &\quad \NN \modelsi \phi(\io(a))\\
             &\implies \forall b \in {\MM}, 
@@ -322,13 +286,10 @@ It is worth knowing that the set of $\Si$-structures form a category:
                 $\io^{-1}(b) \in \const{\MM}$ is well defined by surjectivity.
                 Hence $\MM \modelsi \chi(\io^{-1}(b),a)$ and so
                 $\NN \modelsi \chi(b,\iota(a))$ by the induction hypothesis.
-                Hence $\NN \model{\Si} \phi(\io(a))$
+                Hence $\NN \model{\Si} \phi(\io(a))$.
             \end{forward}
             \begin{backward}
-                This follows from applying 
-                \linkto{emb_preserve_sat_of_forall_down}{
-                    embeddings preserve satisfaction of 
-                    universal formulas downwards.}
+                The same.
             \end{backward}
     \end{itemize}
 \end{proof}
@@ -405,12 +366,42 @@ Finitely modelled is \emph{not} the same as finitely consistent.
     so we have a $\Si$-model of $T$ with cardinality $\ka$.
 \end{proof}
 
-\begin{dfn}[Complete]
-    A $\Si$-theory $T$ is complete when 
-    for any $\Si$-formula $\phi$, 
-    $T \model{\Si} \phi$ or 
-    $T \model{\Si} \NOT \phi$.
+\begin{dfn}[Elementary equivalence]
+    Let $\MM$, $\NN$ be $\Si$-structures.
+    They are elementarily equivalent if for any $\Si$-sentence $\phi$,
+    $\MM \model{\Si} \phi$ if and only if $\NN \model{\Si} \phi$.
+    We write $\MM \equiv_\Si \NN$.
 \end{dfn}
+
+\begin{dfn}[Complete]
+    \link{equiv_def_completeness_0}
+    A $\Si$-theory $T$ is complete when either of the following equivalent 
+    definitions hold:
+    \begin{itemize}
+        \item For any $\Si$-sentence $\phi$, 
+            $T \model{\Si} \phi$ or 
+            $T \model{\Si} \NOT \phi$.
+        \item All models of $T$ are elementarily equivalent.
+    \end{itemize}
+\end{dfn}
+\begin{proof}
+    \begin{forward}
+        Let $\MM$ and $\NN$ be models of $T$
+        and $\phi$ be a $\Si$-sentence.
+        If $\phi \in T$ then both satisfy $\phi$.
+        Otherwise $\NOT \phi \in T$ and neither satisfy $\phi$.
+    \end{forward}
+    
+    \begin{backward}
+        If $\phi$ is a $\Si$-sentence then suppose for a contradiction 
+        \[T \nodel{\Si} \phi \text{ and } T \nodel{\Si} \NOT \phi\]
+        Then there exist models of $T$
+        such that $\MM \nodel{\Si} \phi$ and $\NN \nodel{\Si} \NOT \phi$.
+        By assumption they are elementarily equivalent and so 
+        $\MM \model{\Si} \NOT \phi$ implies $\NN \model{\Si} \NOT \phi$,
+        a contradiction.
+    \end{backward}
+\end{proof}
 Note that if we have completeness and compactness,
 then for any $\Si$-sentence $\phi$,
 \emph{either} $T \model{\Si} \phi$ or 
@@ -423,13 +414,13 @@ $T \model{\Si} \NOT \phi$.
     then $T \nodel{\Si} \phi$
     if and only if $T \cup \set{ \NOT \phi}$ is consistent.
     Furthermore, $T \nodel{\Si} \NOT \phi$
-    if and only if $T \cup \set{ \phi}$ is consistent.
+    if and only if $T \cup \set{\phi}$ is consistent.
 \end{prop}
 \begin{proof}
     For the first statement:
     \begin{forward}
         Unfolding $T \nodel{\Si} \phi$,
-        we have that there exists a non-empty $\Si$-model $\MM$ of $T$ 
+        we have that there exists a $\Si$-model $\MM$ of $T$ 
         such that $\MM \nodel{\Si} \phi$.
         Hence $\MM \modelsi \NOT \phi$ and we are done.
     \end{forward}
@@ -439,7 +430,7 @@ $T \model{\Si} \NOT \phi$.
     apply the first to $\NOT \phi$ and obtain 
     $T \nodel{\Si} \NOT \phi$
     if and only if $T \cup \set{\NOT \NOT \phi}$ is consistent.
-    Note that for any non-empty $\Si$-structure $\MM$, 
+    Note that for any $\Si$-structure $\MM$, 
     $\MM \model{\Si} \NOT \NOT \phi$ 
     if and only if $\MM \model{\Si} \phi$.
     This completes the proof.
@@ -478,8 +469,8 @@ $T \model{\Si} \NOT \phi$.
     \linkto{iso_imp_elem_equiv}{
         by an elementary $\Si$-embedding.}
     As $\phi$ has no free variables this implies that
-    $\NN \model{\Si} \phi $ and $\NN \model{\Si} \NOT \phi$.
-    $\NN$ is non-empty so this is a contradiction.
+    $\NN \model{\Si} \phi$ and $\NN \model{\Si} \NOT \phi$, 
+    a contradiction.
 \end{proof}
 
 \subsection{Elementary embeddings and diagrams of models}
@@ -923,13 +914,12 @@ $T \model{\Si} \NOT \phi$.
         by the definition of $T_\forall$.
         By \linkto{lemma_on_const}{the lemma on constants}
         this implies that $T \nodel{\Si(\MM)} \NOT \phi(a)$.
-        Hence \linkto{not_a_consequence}{
-            there exists a non-empty $\Si(\MM)$-model of $T \cup \phi(a)$} 
+        Hence there exists a $\Si(\MM)$-model of $T \cup \phi(a)$.
         Then it follows that this is also a $\Si(\MM)$-model of $T \cup \De$.
         Thus $T \cup \De$ is consistent so
         $T \cup \atdiag{\Si}{\MM}$ is consistent.
 
-        Thus there exists a non-empty $\Si$-model $\NN$ of 
+        Thus there exists a $\Si$-model $\NN$ of 
         $T \cup \atdiag{\Si}{\MM}$.
         This is a model of $\atdiag{\Si}{\MM}$ thus by 
         \linkto{elem_ext_equiv_eldiag_model}{there 
