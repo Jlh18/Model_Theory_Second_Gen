@@ -42,12 +42,12 @@ It follows the lecture notes by Prof. C. Ward Henson \cite{henson}.
             independent.
         \item $U$ spans $V$ if and only if there exists a subset of 
             $U$ that is a basis of $V$. 
+        \item Any independent subset $U$ is contained in a basis.
         \item $U$ is a basis of $V$ if and only if $U$ 
             is a maximally independent subset of $V$
-            if and only if $U$ is a minimally spanning subset of $V$, 
-            i.e. for any independent $W \subs V$, $U \not\subset W$;
-            for any spanning $W \subs V$, $W \not\subset U$.
-        \item Any independent subset $U$ is contained in a basis.
+            if and only if $U$ is a minimally spanning subset of $V$.
+            (i.e. for any independent $W \subs V$, $U \not\subset W$;
+            for any spanning $W \subs V$, $W \not\subset U$)
     \end{enumerate}
 \end{prop}
 \begin{proof}~
@@ -83,15 +83,23 @@ It follows the lecture notes by Prof. C. Ward Henson \cite{henson}.
         \item The backward direction follows from the fact that 
         $\cl$ is a morphism of ordered sets.
 
-        \begin{forward}(Zorn)
-            Suppose $U$ spans $V$ and consider 
-            \[\set{W \subs U \st W \text{ is independent}}\]
-            This set is non-empty since the empty set is independent.
-            Let $C$ be a chain in the set. 
-            Then $\bigcup C$ is a subset of $U$.
-            It is independent because every finite subset of it is independent
-            by part $3$.
-        \end{forward}
+        We prove the forward direction and part $4$ at once with a lemma:
+        Suppose $U_i \subs U$ and $U_i$ is independent whilst 
+        $U$ spans $V$. Consider 
+        \[
+            \set{W \subs U \st U_i \subs W \text{ and } 
+            W \text{ is independent}}
+        \]
+        This set is non-empty since it contains $U_i$.
+        Let $C$ be a chain in the set. 
+        Then $\bigcup C$ is a subset of $U$.
+        It is independent because every finite subset of it is independent
+        by part $3$.
+
+        Noting that $\nothing \subs U$ is independent we have $3$.
+
+        \item Apply the above lemma with $V$ which is spanning.
+
         \item We show that $U$ is basis of $V$ if and only if it is a 
             maximally independent subset of $V$.
 
@@ -143,29 +151,28 @@ It follows the lecture notes by Prof. C. Ward Henson \cite{henson}.
                 and $U \setminus \set{a}$ spans $V$
                 which contradicts the minimality of $U$.
             \end{backward}
-        \item (Zorn) Consider 
-            $\set{V \subs X \st U \subs V \text{ and } V \text{ independent}}$.
-            This is non-empty as it contains $U$.
-            The union of any chain in it independent if and only if 
-            every finite subset of it is independent if and only if each 
-            set in it is independent by part $3$.
     \end{enumerate}
 \end{proof}
 
-\begin{lem}[Support]
+\begin{lem}[Support of an element]
     \link{support_pregeometry}
     Let $(X,\cl)$ be a pregeometry and let $U$ be a basis of $V \subs X$.
-    Then for any $a \in \cl(V)$ there exists a minimal finite subset $F \subs U$
-    such that $a \in \cl(F)$, 
-    i.e. if $a \in \cl(G)$ for some $G \subs V$ then $F \subs G$.
-    We call $F$ the support of $a$ in the basis $U$.
+    Then for any $a \in \cl(V)$ there exists a unique finite subset $F \subs U$
+    - the `support' of $a$ in basis $U$ - such that 
+    \begin{itemize}
+        \item It spans $a$: $a \in \cl(F)$
+        \item It is minimal: 
+        if $a \in \cl(G)$ for some $G \subs V$ then $F \subs G$
+    \end{itemize}
 \end{lem}
 \begin{proof}
     Since $\cl$ has finite character we have that there exists a finite subset 
     of $U$ containing $a$ in its closure, 
     and by well ordering of the naturals (and choice) we can take one such 
     subset $F$ with minimal cardinality.
-    Let $G$ be another subset containing $a$ in its closure.
+
+    For minimality (which gives uniqueness),
+    let $G$ be another subset containing $a$ in its closure.
     Suppose for a contradiction there exists $b \in F \setminus G$.
     Then $a \in \cl(G) \subs \cl(U \setminus \set{b})$.
     Hence 
@@ -234,7 +241,7 @@ It follows the lecture notes by Prof. C. Ward Henson \cite{henson}.
     Hence 
     \[
         \abs{V}  = \abs{\bigcup_{a \in U} F_a} 
-        \linkto{infinite_union_of_finite}{\leq \abs{U}}
+        \leq \abs{U}
     \]
     Thus we are done.
 

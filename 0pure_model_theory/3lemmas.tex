@@ -296,22 +296,19 @@ It is worth knowing that the set of $\Si$-structures form a category:
 
 \subsection{Vaught's Completeness Test}
 Read ahead to the statement of \linkto{vaught_test}{Vaught's Completeness Test}.
-We aim to prove it in this section.
 
 \begin{dfn}[Finitely modelled, infinitely modelled]
     A $\Si$-theory $T$ 
     is finitely modelled when
     there exists a $\Si$-model of $T$ 
     with finite carrier set.
-
-    A $\Si$-theory $T$ 
-    is finitely modelled when
+    It is infinitely modelled when
     there exists a $\Si$-model of $T$ 
     with infinite carrier set.
 \end{dfn}
 Finitely modelled is \emph{not} the same as finitely consistent.
 
-\begin{prop}[Infinite Modelled Theories Have Arbitrary Large Models]
+\begin{prop}[Infinitely modelled theories have arbitrary large models]
     \link{inf_mod_theory_has_inf_mod}
     Given $\Si$ a signature, 
     $T$ a $\Si$-theory that is infinitely modelled,
@@ -349,7 +346,7 @@ Finitely modelled is \emph{not} the same as finitely consistent.
     Interpret the rest of the new constant symbols however,
     for example let them all be sent to the same element,
     then $\MM \model{\Si*} \De_T \cup \De_\ka$.
-    Hence $T*$ is consistent.
+    Thus $T(*)$ is finitely consistent hence consistent.
     
     Using 
     \linkto{compactness}{the third equivalence of $T(*)$ being consistent},
@@ -373,41 +370,7 @@ Finitely modelled is \emph{not} the same as finitely consistent.
     We write $\MM \equiv_\Si \NN$.
 \end{dfn}
 
-\begin{dfn}[Complete]
-    \link{equiv_def_completeness_0}
-    A $\Si$-theory $T$ is complete when either of the following equivalent 
-    definitions hold:
-    \begin{itemize}
-        \item For any $\Si$-sentence $\phi$, 
-            $T \model{\Si} \phi$ or 
-            $T \model{\Si} \NOT \phi$.
-        \item All models of $T$ are elementarily equivalent.
-    \end{itemize}
-\end{dfn}
-\begin{proof}
-    \begin{forward}
-        Let $\MM$ and $\NN$ be models of $T$
-        and $\phi$ be a $\Si$-sentence.
-        If $\phi \in T$ then both satisfy $\phi$.
-        Otherwise $\NOT \phi \in T$ and neither satisfy $\phi$.
-    \end{forward}
-    
-    \begin{backward}
-        If $\phi$ is a $\Si$-sentence then suppose for a contradiction 
-        \[T \nodel{\Si} \phi \text{ and } T \nodel{\Si} \NOT \phi\]
-        Then there exist models of $T$
-        such that $\MM \nodel{\Si} \phi$ and $\NN \nodel{\Si} \NOT \phi$.
-        By assumption they are elementarily equivalent and so 
-        $\MM \model{\Si} \NOT \phi$ implies $\NN \model{\Si} \NOT \phi$,
-        a contradiction.
-    \end{backward}
-\end{proof}
-Note that if we have completeness and compactness,
-then for any $\Si$-sentence $\phi$,
-\emph{either} $T \model{\Si} \phi$ or 
-$T \model{\Si} \NOT \phi$.
-
-\begin{prop}[Not a consequence is consistent]
+\begin{lem}[Not a consequence is consistent]
     \link{not_consequence}
     Let $T$ be a $\Si$-theory
     and $\phi$ is a $\Si$-sentence
@@ -415,7 +378,7 @@ $T \model{\Si} \NOT \phi$.
     if and only if $T \cup \set{ \NOT \phi}$ is consistent.
     Furthermore, $T \nodel{\Si} \NOT \phi$
     if and only if $T \cup \set{\phi}$ is consistent.
-\end{prop}
+\end{lem}
 \begin{proof}
     For the first statement:
     \begin{forward}
@@ -442,15 +405,15 @@ $T \model{\Si} \NOT \phi$.
     not finitely modelled, and $\ka$-categorical 
     for some cardinal satisfying 
     $|\const{\Si}| + \aleph_0 \leq \ka$.
-    Then $T$ is complete.
+    Then $T$ is maximal (i.e. complete).
 \end{prop}
 \begin{proof}
-    Suppose not: If $T$ is not complete then there exists
+    Suppose not: If $T$ is not maximal then there exists
     $\Si$-formula $\phi$ such that $T \nodel{\Si} \phi$ and 
     $T \nodel{\Si} \NOT \phi$.
     These imply $T \cup \set{\NOT \phi}$
-    and $T \cup \set{\phi}$ are respectively consistent by the 
-    \linkto{not_consequence}{previous proposition.}
+    and $T \cup \set{\phi}$ are both
+    \linkto{not_consequence}{consistent}.
     Let $\MM_\NOT$ and $\MM$ be models of  
     $T \cup \set{\NOT \phi}$ and $T \cup \set{\phi}$
     respectively.
@@ -488,10 +451,6 @@ $T \model{\Si} \NOT \phi$.
             \quad \implies \quad 
             \forall c \in {\NN}, \NN \model{\Si} \phi(\io(a),c),\]
             which we call the Tarski-Vaught condition.
-            Note that if $i \in S$ then 
-            $a$ `fills in' all but one of the free variables of $\phi$, 
-            leaving only one free variable for substitution.
-            ($S$ can be empty, but then this doesn't say very much.)
         \item For any 
             $\phi \in \form{\Si}$ with free variables indexed by $S$,
             any $i \in S$ 
@@ -549,7 +508,10 @@ $T \model{\Si} \NOT \phi$.
     \end{backward}
 \end{proof}
 
-\begin{prop}[Moving Morphisms Down Signatures]
+Again we have a technical detail which is not really worth spending too much
+time one. 
+It is a sensible justification for arguments based on creating new signatures.
+\begin{lem}[Moving Morphisms Down Signatures]
     \link{move_down_morph}
     Suppose $\Si \leq \Si(*)$.
     If $\io : \MM \to \NN$ is a $\Si(*)$-morphism then 
@@ -558,7 +520,7 @@ $T \model{\Si} \NOT \phi$.
         \item If $\io$ is an embedding then it remains an embedding.
         \item If $\io$ is an elementary embedding then it remains elementary. 
     \end{enumerate}
-\end{prop}
+\end{lem}
 \begin{proof}
     \begin{enumerate}
         \item \linkto{move_down_mod}{
@@ -634,13 +596,13 @@ $T \model{\Si} \NOT \phi$.
     Let $A$ be a set and $\Si$ be a signature,
     enriching only the constant symbols of $\Si$ we can create a signature 
     $\Si(A)$ such that 
-    \[\const{\Si(A)} := 
-        \const{\Si} \cup \set{c_a \st a \in A}\]
-    In the case that $A = {\MM}$ for some model $\MM$ then we write
-    $\Si(\MM) := \Si(A)$.
+    \[
+        \const{\Si(A)} := 
+        \const{\Si} \cup \set{c_a \st a \in A}
+    \]
 \end{nttn}
 
-\begin{dfn}[$\Si(\MM)$, Diagram and the Elementary Diagram of a Structure]
+\begin{dfn}[Diagram and the Elementary Diagram of a Structure]
     Let $\MM$ be a $\Si$-structure,
     we move $\MM$ up to the signature $\Si(\MM)$
     by interpreting each new constant symbol $c_a$ as $a$.
@@ -656,23 +618,27 @@ $T \model{\Si} \NOT \phi$.
         \item[$\vert$] If $\phi \in \atdiag{\Si}{\MM}$ then 
         $\NOT \phi \in \atdiag{\Si}{\MM}$.
     \end{itemize}
-    We define the elementary diagram of $\MM$ over $\Si$:
-    \begin{itemize}
-        \item[$\vert$] If $\phi \in \form{\Si(\MM)}$ and 
-        $\phi$ is a $\Si(\MM)$-sentence and $\MM \model{\Si(\MM)} \phi$,
-        then $\phi \in \eldiag{\Si}{\MM}$.
-    \end{itemize}
+    We define the elementary diagram of $\MM$ over $\Si$ as 
+    \[
+        \eldiag{\Si}{\MM} := 
+        \set{\phi \in \Si(\MM)\text{-sentences } \st \MM \model{\Si(\MM)} \phi}
+    \]
+
+    The elementary diagram of $\MM$ is a maximal $\Si(\MM)$-theory 
+    with $\MM$ as a model of it.
+    It is not the same as the set of all $\Si$-sentences satisfied by $\MM$,
+    known as the theory of $\MM$ in $\Si$.
 \end{dfn}
 
 \begin{prop}[Models of the elementary diagram
-        correspond to elementary extensions]
+        are elementary extensions]
     \link{elem_ext_equiv_eldiag_model}
     Given $\MM$ a $\Si$-structure and 
     $\NN$ a $\Si(\MM)$-structure such that
     $\NN \model{\Si(\MM)} \atdiag{\Si}{\MM}$,
     we can make $\NN$ into a $\Si$-structure and find
     a $\Si$-embedding from $\MM$ to $\NN$.
-    Furthermore
+    Furthermore if
     $\NN \model{\Si(\MM)} \eldiag{\Si}{\MM}$ then 
     the embedding is elementary.
 
@@ -680,7 +646,6 @@ $T \model{\Si} \NOT \phi$.
     $\MM$ into a $\Si$-structure $\NN$, 
     we can move $\NN$ up to being a $\Si(\MM)$ structure such that 
     $\NN \model{\Si(\MM)} \eldiag{\Si}{\MM}$.
-    Note that we don't show the converse for the atomic case.%%%
 \end{prop}
 \begin{proof}
     \begin{forward}
@@ -694,7 +659,7 @@ $T \model{\Si} \NOT \phi$.
         This makes $\intp{\const{\Si(\MM)}}{\MM}$ surjective.
         Thus we write elements of ${\MM}$ as 
         $\subintp{\Si(\MM)}{\MM}{c}$, 
-        for some $c \in \const{\Si(\MM)}$
+        for some $c \in \const{\Si(\MM)}$.
         
         Next we define the $\Si(\MM)$-morphism 
         $\io : \MM \to \NN$ such that 
@@ -724,7 +689,7 @@ $T \model{\Si} \NOT \phi$.
         Let $f \in \func{\Si(\MM)} = \func{\Si}$ and 
         $c \in (\const{\Si(\MM)})^{n_f}$.
         $\intp{\const{\Si(\MM)}}{\MM}$ is surjective thus we can find 
-        $d \in \const{\Si{\MM}}$ such that $\MM \model{\Si(\MM)} f(c) = d$.
+        $d \in \const{\Si\brkt{\MM}}$ such that $\MM \model{\Si(\MM)} f(c) = d$.
         Hence $f(c) = d \in \atdiag{\Si}{\MM}$.
         Hence $\NN \model{\Si(\MM)} f(c) = d$.
         \begin{align*}
@@ -757,7 +722,7 @@ $T \model{\Si} \NOT \phi$.
             \subintp{\Si(\MM)}{\NN}{c} \notin \subintp{\Si(\NN)}{\NN}{r} 
         \end{align*}
         Assume furthermore that $\NN \model{\Si(\MM)} \eldiag{\Si}{\MM}$.
-        We show that this embedding is elementary.
+        We show that the embedding is elementary.
         Let $\phi$ be a $\Si(\MM)$-formula
         with variables indexed by $S$
         and $a \in ({\MM})^S$.
@@ -771,9 +736,9 @@ $T \model{\Si} \NOT \phi$.
         \end{align*}
         Similarly,
         \begin{align*}
-            \MM \nodel{\Si(\MM)} \phi(a) &\implies \phi(c) 
-                \notin \eldiag{\Si}{\MM}\\
-            &\implies \NN \nodel{\Si(\MM)} \phi(c)\\
+            \MM \nodel{\Si(\MM)} \phi(a) &\implies \NOT \phi(c) 
+                \in \eldiag{\Si}{\MM}\\
+            &\implies \NN \model{\Si(\MM)} \NOT \phi(c)\\
             &\implies \NN \nodel{\Si(\MM)} \phi(\io(a))
         \end{align*}
         Hence $\io$ is an elementary embedding.
@@ -781,9 +746,10 @@ $T \model{\Si} \NOT \phi$.
         down} to being a $\Si$-morphism of $\Si$-structures
         completes the proof.
     \end{forward}
+
     \begin{backward}
         Sketch: Suppose $\io : \MM \to \NN$ is an elementary embedding.
-        Make both $\MM$ and $\NN$ $\Si(\MM)$-structures by 
+        Make $\MM$ and $\NN$ into $\Si(\MM)$-structures by 
         $\intp{\Si(\MM)}{\MM}: c_a \to a$ and 
         $\intp{\Si(\MM)}{\NN}: c_a \to \io(a)$,
         where $a \in {\MM}$.
@@ -797,52 +763,47 @@ $T \model{\Si} \NOT \phi$.
 \end{proof}
 
 \subsection{Universal axiomatization}
-\begin{dfn}[Axiomatization]
+\begin{dfn}[Axiomatization, universal theory, universal axiomatization]
     A $\Si$-theory $A$ is an axiomatization of a 
     $\Si$-theory $T$ if for all $\Si$-structures $\MM$,
     \[\MM \model{\Si} T \iff \MM \model{\Si} A\]
-\end{dfn}
 
-\begin{dfn}[Universal Theory, Universal Axiomatization]
-    If $A$ is a subset of 
-    \linkto{universal_formula_def}{$\unisen{\Si}$} 
-    then it is called a universal theory.
-    
-    A $\Si$-theory $A$ is a universal axiomatization of a 
-    $\Si$-theory $T$ if it is a universal theory that is an 
-    axiomatization of $T$.
+    If $A$ is a set of universal $\Si$-sentences 
+    is called a universal $\Si$-theory.
+    We are interested in universal axiomatizations of theories.
 \end{dfn}
 
 \begin{lem}[Lemma on constants]
     \link{lemma_on_const}
     Suppose $\const{\Si} \subs \const{\Si(*)}$, 
     $T \in \theory{\Si}$, $\phi \in \form{\Si}$
-    with variables indexed by $S$.
+    with variables indexed by $n \in \N$.
     Suppose there exists a list of constant symbols not from $\Si$, 
-    i.e. $c \in (\const{\Si(*)}\setminus \const{\Si})^S$ 
+    i.e. $c \in (\const{\Si(*)}\setminus \const{\Si})^n$ 
     such that $T \model{\Si(*)} \phi(c)$.
     Then \[
         T \model{\Si} \forall v, \phi(v)
     \]
 \end{lem}
 \begin{proof}
+    If $n = 0$ then the result is clear as there are no quantifiers.
+    Suppose $n \ne 0$.
     We prove the contrapositive.
     Suppose $T \nodel{\Si} \forall v, \phi(v)$
     then there exists $\MM$ a $\Si$-model of $T$
     such that $\MM \nodel{\Si} \forall v, \phi(v)$.
-    Thus there exists $a \in \MM^S$ 
+    Thus there exists $a \in \MM^n$ 
     such that $\MM \nodel{\Si} \phi(a)$.
 
-    Let $b$ be the element of ${\MM}$.
     We \linkto{move_up_mod}{move $\MM$ up a signature} 
     by extending the interpretation 
-    to the new constant symbols.
-    Suppose $d \in \const{\Si(*)} \setminus \const{\Si}$,
+    to the new constant symbols:
+    if $d \in \const{\Si(*)} \setminus \const{\Si}$ then
     \[
-        \subintp{\Si(\MM)}{\MM}{d} = 
+        \subintp{\Si(\MM)}{\MM}{d} := 
         \begin{cases}
-            a_i &, \text{ if } \exists i \in S, d = c_i,\\
-            b &, \text{ otherwise} 
+            a_i &, \text{ if for some } 0 \leq i < n \text{ we have }d = c_i,\\
+            a_0 &, \text{ otherwise} 
         \end{cases}
     \]
     Then $\MM$ is a $\Si(*)$-model of $T$ such that 
@@ -853,14 +814,18 @@ $T \model{\Si} \NOT \phi$.
 
 \begin{nttn}{Universal consequences of $T$}
     Let $T$ be a $\Si$-theory, then 
-    \[T_\forall := \set{\phi \in \unisen{\Si} \st T \modelsi \phi}\]
+    \[
+        T_\forall := 
+        \set{\phi \text{ universal $\Si$-sentences} \st T \modelsi \phi}
+    \]
     is called the set of universal consequences of $T$.
 \end{nttn}
 
 \begin{prop}[Universal axiomatizations make substructures models]
     \link{universal_axiomatizations_make_subs_mods}
     $T$ a $\Si$-theory has a universal axiomatization if and only if
-    for any $\Si$-model $\NN$ of $T$ and any $\Si$-embedding $\MM \to \NN$,
+    for any $\Si$-model $\NN$ of $T$ and any $\Si$-embedding 
+    from some $\Si$-structure $\MM \to \NN$,
     $\MM$ is a $\Si$-model of $T$.
 \end{prop}
 \begin{proof}
@@ -868,12 +833,14 @@ $T \model{\Si} \NOT \phi$.
         Suppose $A$ is a universal axiomatization of $T$,
         $\NN$ is a $\Si$-model of $T$ and $\MM \to \NN$ is a 
         $\Si$-embedding.
-        $\NN \model{\Si} T$ if and only if $\NN \model{\Si} A$
+        Let $\phi \in T$. Then
+        $\NN \model{\Si} T$ implies $\NN \model{\Si} A$
         by definition of $A$.
-        $\NN \model{\Si} A$ if and only if $\MM \model{\Si} A$
-        since \linkto{emb_preserve_sat_of_quan_free}{
-            embeddings preserve the satisfaction of quantifier free formulas}
-        Finally $\MM \model{Si} A$ if and only if $\MM \model{\Si} T$
+        $\NN \model{\Si} A$ implies $\MM \model{\Si} A$
+        since \linkto{emb_preserve_sat_of_forall_down}{
+            embeddings preserve the satisfaction of quantifier free formulas
+            downwards}.
+        Finally $\MM \model{\Si} A$ implies $\MM \model{\Si} T$
         by definition of $A$.
     \end{forward}
 
@@ -903,28 +870,27 @@ $T \model{\Si} \NOT \phi$.
         Since $\De \subs \atdiag{\Si}{\MM}$ we have
         $\forall i, \MM \model{\Si} \psi_i$.
         Hence $\MM \modelsi \phi(c)$.
-        We can then show that $\MM \modelsi \exists v,  \phi(v)$ and so
+        Then $\MM \modelsi \exists v,  \phi(v)$ and so
         $\MM \nodel{\Si} \forall v,  \NOT \phi(v)$.
 
         Since each $\psi_i$ is from the the atomic diagram of $\MM$ 
         they are all quantifier free.
         Thus $\phi$ is a quantifier free $\Si$-formula and 
-        $\forall v,  \NOT \phi(v) \in \unisen{\Si}$.
+        $\forall v,  \NOT \phi(v)$ is universal.
         Hence $T \nodel{\Si} \forall v, \NOT \phi(v)$ 
         by the definition of $T_\forall$.
         By \linkto{lemma_on_const}{the lemma on constants}
-        this implies that $T \nodel{\Si(\MM)} \NOT \phi(a)$.
-        Hence there exists a $\Si(\MM)$-model of $T \cup \phi(a)$.
+        this implies that $T \nodel{\Si(\MM)} \NOT \phi(c)$.
+        Hence there exists a $\Si(\MM)$-model of $T \cup \phi(c)$.
         Then it follows that this is also a $\Si(\MM)$-model of $T \cup \De$.
         Thus $T \cup \De$ is consistent so
         $T \cup \atdiag{\Si}{\MM}$ is consistent.
 
-        Thus there exists a $\Si$-model $\NN$ of 
+        Thus there exists $\NN$ a $\Si$-model of 
         $T \cup \atdiag{\Si}{\MM}$.
         This is a model of $\atdiag{\Si}{\MM}$ thus by 
         \linkto{elem_ext_equiv_eldiag_model}{there 
-        is a $\Si(\MM)$-embedding $\MM \to \NN$}
-        there is a $\Si(\MM)$-embedding $\MM \to \NN$.
+        is a $\Si(\MM)$-embedding $\MM \to \NN$}.
         We \linkto{move_down_morph}{make this a $\Si$-embedding}, 
         hence using the theorem's hypothesis $\MM$ is a $\Si$-model of $T$.
     \end{backward}
@@ -941,13 +907,13 @@ It appears as an exercise in the second chapter of Marker's book \cite{marker}.
     elementary $\Si$-embeddings
     $\io_\MM : A \to \MM$ and 
     $\io_\NN : A \to \NN$, for $\nothing \ne A \subs \AA$.
-    Then there exists a common elementary extension $\LL$ of $\MM$ and $\NN$
+    Then there exists a common elementary extension $\PP$ of $\MM$ and $\NN$
     such that the following commutes:
     \begin{cd}
-        \MM \ar[r] &\LL \\
+        \MM \ar[r] &\PP \\
         A \ar[u, "\io_\MM"] \ar[r, "\io_\NN"] &\NN \ar[u]
     \end{cd}
-    $\LL$ is the `amalgamation' of $\MM$ and $\NN$.
+    $\PP$ is the `amalgamation' of $\MM$ and $\NN$.
 \end{cor}
 \begin{proof}
     We show first that the theory $\eldiag{\Si}{\MM} \cup \eldiag{\Si}{\NN}$
@@ -1010,15 +976,15 @@ It appears as an exercise in the second chapter of Marker's book \cite{marker}.
 
     Hence $\eldiag{\Si}{\MM} \cup \eldiag{\Si}{\NN}$
     is consistent as a $\Si(\MM,\NN)$-theory. 
-    Let $\LL$ be a $\Si(\MM,\NN)$-model of this
+    Let $\PP$ be a $\Si(\MM,\NN)$-model of this
     (and naturally a $\Si(\MM)$ or a $\Si(\NN)$ structure).
     Then \linkto{elem_ext_equiv_eldiag_model}{there exist elementary 
     $\Si(\MM)$ and $\Si(\NN)$-extensions}
-    $\la_\MM : \MM \to \LL$ and $\la_\NN : \NN \to \LL$ such that 
-    $\la_\MM(\subintp{\Si(\MM)}{\MM}{c_m}) = \subintp{\Si(\MM)}{\LL}{c_m}$ 
+    $\la_\MM : \MM \to \PP$ and $\la_\NN : \NN \to \PP$ such that 
+    $\la_\MM(\subintp{\Si(\MM)}{\MM}{c_m}) = \subintp{\Si(\MM)}{\PP}{c_m}$ 
     for each constant symbol $c_m$ for $m \in \MM \setminus \io_\MM(A)$ 
     and 
-    $\la_\MM(\subintp{\Si(\MM)}{\MM}{c_a}) = \subintp{\Si(\MM)}{\LL}{c_a}$ 
+    $\la_\MM(\subintp{\Si(\MM)}{\MM}{c_a}) = \subintp{\Si(\MM)}{\PP}{c_a}$ 
     for each constant symbol $c_a$ for $a \in A$
     (similarly with $\NN$).
 
@@ -1027,15 +993,15 @@ It appears as an exercise in the second chapter of Marker's book \cite{marker}.
     \[
         \la_\MM \circ \io_\MM(a) = \la_\MM (\subintp{\Si(A)}{\MM}{c_a})
         = \la_\MM (\subintp{\Si(\MM)}{\MM}{c_a}) = 
-        \subintp{\Si(\MM)}{\LL}{c_a} = \subintp{\Si(A)}{\LL}{c_a}
+        \subintp{\Si(\MM)}{\PP}{c_a} = \subintp{\Si(A)}{\PP}{c_a}
     \]
     By symmetry we have 
-    $\la_\MM \circ \io_\MM(a) = \subintp{\Si(A)}{\LL}{c_a} =
+    $\la_\MM \circ \io_\MM(a) = \subintp{\Si(A)}{\PP}{c_a} =
     \la_\NN \circ \io_\NN(a)$.
 \end{proof}
 
 \subsection{The L\"{o}wenheim-Skolem Theorems}
-The results in this subsection aren't used until much later.%? when?
+The results in this subsection aren't used until much later. %? when?
 It is worth skipping for now, 
 but the material can be covered with the foundations made so far.
 
@@ -1049,17 +1015,15 @@ but the material can be covered with the foundations made so far.
     $\Si$-embedding from $\MM$ to $\NN$.
 \end{prop}
 \begin{proof}
-    \linkto{move_up_sig}{Make $\MM$ a $\Si(\MM)$ 
-    structure as in the definition of $\Si(\MM)$},
-    then clearly $\MM \model{\Si(\MM)} \eldiag{\Si}{\MM}$.
+    \linkto{move_up_sig}{$\MM$ is naturally a $\Si(\MM)$-structure},
+    and $\MM \model{\Si(\MM)} \eldiag{\Si}{\MM}$.
     Thus $\eldiag{\Si}{\MM}$ is a 
     $\Si(\MM)$-theory with an infinite model $\MM$,
     \linkto{inf_mod_theory_has_inf_mod}{
-        hence there exists a $\Si(\MM)$-structure $\NN$ of cardinality $\ka$} 
-    such that $\NN \model{\Si(\MM)} \eldiag{\Si}{\MM}$.
-    \linkto{elem_ext_equiv_eldiag_model}{Hence}
-    we can make $\NN$ a $\Si$-structure and find a 
-    $\Si$-embedding from $\MM$ to $\NN$.
+        hence it has a $\Si(\MM)$-model $\NN$ of cardinality $\ka$}.
+    Making $\NN$ a $\Si$-structure, 
+    \linkto{elem_ext_equiv_eldiag_model}{
+        we obtain a $\Si$-embedding from $\MM$ to $\NN$}.
 \end{proof}
 
 \begin{dfn}[Skolem Functions]
@@ -1203,7 +1167,7 @@ but the material can be covered with the foundations made so far.
 \end{dfn}
 
 \begin{prop}[Downward L\"{o}wenheim-Skolem Theorem]
-    Let $\NN$ be a $\Si(0)$-structure and $M(0) \subs {\NN}$.
+    Let $\NN$ be an infinite $\Si(0)$-structure and $M(0) \subs {\NN}$.
     Then there exists a $\Si(0)$-structure $\MM$ such that 
     \begin{itemize}
         \item $M(0) \subs {\MM} \subs {\NN}$

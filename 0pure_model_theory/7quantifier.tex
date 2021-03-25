@@ -2,19 +2,11 @@
 Written whilst following section on algebraically closed fields.
 \subsection{Quantifier elimination}
 
-\begin{dfn}[Equivalence modulo a theory]
-    We say two $\Si$-formulas $\phi$ and $\psi$ with 
-    free variables indexed by $S$ are equivalent modulo a 
-    $\Si$-theory $T$ if 
-    \[T \model{\Si} \forall v, \brkt{\phi \iff \psi}\]
-    where $v = (v_i)_{i \in S}$.
-\end{dfn}
-
 \begin{dfn}[Quantifier elimination]
     Let $T$ be a $\Si$-theory and $\phi$ a $\Si$-formula.
     We say the quantifiers of $\phi$ can be eliminated if there exists a
     quantifier free $\Si$-formula $\psi$ that is equivalent to $\phi$ 
-    modulo $T$.
+    \linkto{dfn_modulo_theory}{modulo} $T$.
     We say $\phi$ is reduced to $\psi$.
 
     We say $T$ has quantifier elimination if the quantifiers of any 
@@ -938,3 +930,88 @@ We end this section with a nice example of all of this in action.
     \]
     Thus the extension is elementary.
 \end{rmk}
+
+\subsection{Quantifier free types}
+Quantifier free types become important when we start making 
+back and forth constructions.
+All the results carry through, 
+thus there isn't much to say until they are relevant.
+Thus this section is worth skipping for now.
+\begin{dfn}[$QFF(\Si,n)$ and formulas consistent with a theory]
+    We define $QFF(\Si,n)$ to be the subset of $F(\Si,n)$ 
+    of quantifier free formulas.
+
+    For subsets $p \subs QFF(\Si,n) \subs F(\Si,n)$ 
+    the definitions of consistency carry through and 
+    we can apply compactness for types on these subsets too.
+    The definition of maximality is the same but restricted to $QFF(\Si,n)$.
+
+    Let $T$ be a $\Si$-theory.
+    Any subset $p \subs QFF(\Si,n)$ that is consistent with $T$
+    is called a quantifier free $n$-type on $T$.
+    Note that any quantifier free $n$-type is an $n$-type.
+\end{dfn}
+
+\begin{dfn}[Quantifier free Stone space of a theory]
+    Let $T$ be a $\Si$-theory.
+    Let the stone space of $T$, 
+    $S_n^{\qf}(T)$ be the set of all maximal quantifier free $n$-types on $T$.
+    We give the same topology:
+    $U \subs S_n(T)$ is an element of the basis when there exists 
+    $\phi \in QFF(\Si,n)$ such that 
+    \[U = [\phi]_T^{\qf} := \set{p \in S_n^{\qf}(T) \st \phi \in p}\]
+\end{dfn}
+
+\begin{prop}[Extending to maximal quantifier free $n$-types]
+    Any quantifier free $n$-type on a theory 
+    can be extended to a maximal quantifier free 
+    $n$-type.
+\end{prop}
+\begin{proof}
+    Any quantifier free $n$-type is an $n$-type, 
+    hence \link{extend_to_maximal_type_zorn}{can be extended 
+        to a maximal $n$-type}.
+    The intersection of a maximal $n$-type with $QFF$ is a maximal 
+    quantifier free $n$-type. 
+    This intersection extends the quantifier free $n$-type and we are done.
+\end{proof}
+
+\begin{prop}[Properties of the Stone space]
+    Let $T$ be a $\Si$-theory, $\phi, \psi \in QFF(\Si,n)$.
+    Elementary properties:
+    \begin{itemize}
+        \item $(\NOT \phi) \in p$ if and only if $p \notin [\psi]_T^{\qf}$.
+        \item $[\phi]_T = [\psi]_T^{\qf}$ if and only if $\phi$ and $\psi$ are 
+            equivalent modulo $T$.
+        \item $[\top]_T^{\qf} = S_n^{\qf}(T)$
+        \item $[\NOT \phi]_T^{\qf} = S_n(T) \setminus [\phi]_T^{\qf}$
+        \item $[\phi \OR \psi]_T^{\qf} = [\phi]_T^{\qf} \cup [\psi]_T^{\qf}$
+        \item $[\bot]_T^{\qf} = \nothing$
+        \item $[\phi \AND \psi]_T^{\qf} = [\phi]_T^{\qf} \cap [\psi]_T^{\qf}$
+    \end{itemize}
+    Topological properties:
+    \begin{itemize}
+        \item Elements of the basis of $S_n^{\qf}(T)$ are clopen.
+        \item $S_n^{\qf}(T)$ is Hausdorff.
+        \item $S_n^{\qf}(T)$ is compact.
+    \end{itemize}
+\end{prop}
+\begin{proof}
+    The proofs of these are exactly the same as before, 
+    some of them can even be bypassed by using the previous results.
+\end{proof}
+
+\begin{dfn}[Quantifier free type of an element]
+    Let $\MM$ be a $\Si$-structure, 
+    $A \subs {\MM}$ and $a \in {\MM}^n$
+    Then 
+    \[\subintp{A,n}{\MM}{\qftp}(a) := 
+    \set{\phi \in QFF(\Si(A),n) \st \MM \model{\Si(A)} \phi(a)}\]
+    is the quantifier free type of $a$ in $\MM$ over $A$.
+    One can verify that this is a maximal quantifier free $n$-type on $T$
+    if $\MM$ is a model of $T$.
+    We will often drop parts of the subscripts and superscripts when it is
+    clear. 
+    In fact the $n$ can be deduced by the length of $a$ 
+    and serves only to explicitely spell things out.
+\end{dfn}
